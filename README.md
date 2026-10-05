@@ -25,7 +25,7 @@ The Landing Page is designed to provide visitors with a clear starting point for
 
 ## Users
 
-| User | Purpose |
+| User | What they do in this module |
 |---|---|
 | Visitors | View public information about IDSC |
 | Prospective Students | Explore programs, admission requirements, enrollment information, and payment instructions |
@@ -99,10 +99,10 @@ Integration between modules is handled through defined API or external-system bo
 
 ## Team
 
-| Role | Member | Responsibility |
+| Role | Member | Guthub |
 |---|---|---|
-| Backend | Edrei Purtogal | Express API, OpenAPI contract, mock data, backend services |
-| Frontend | Martin Matias | React/Vite implementation, Figma-based UI, frontend integration and responsive layout |
+| Backend | Edrei Purtogal |  |
+| Frontend | Martin Matias | @MartinMatias05 |
 | Documentation | Kimi Gaerlan | README, project documentation, documentation deliverables and handout |
 
 ### Additional Project Contribution
@@ -113,7 +113,7 @@ The primary responsibility of **Martin Matias** is frontend development. Backend
 
 ## Technology Stack
 
-| Area | Technology |
+| Part | Technology |
 |---|---|
 | Frontend | React + Vite |
 | Backend | Node.js + Express |
@@ -123,7 +123,7 @@ The primary responsibility of **Martin Matias** is frontend development. Backend
 | API Linting | Redocly CLI |
 | Icons | Lucide React |
 | Version Control | Git + GitHub |
-| Data | Mock/in-memory data |
+| Data | Mock/in-memory data. Planned: MongoDb Compass |
 
 No database is required for the Landing Page midterm implementation.
 
