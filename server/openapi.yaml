@@ -1,0 +1,1228 @@
+openapi: 3.1.0
+info:
+  title: IDSC Landing Page Module API
+  version: 1.0.0
+  summary: Public-facing content API for the College Management System landing page.
+  description: |
+    REST API of the **Landing Page** module of the IDSC College Management System.
+
+    * Serves public website content: site identity, navigation, news, enrollment messaging,
+      programs, admission information, payment instructions, about and facilities.
+    * **Midterm scope:** every endpoint returns mock, in-memory data. There is no database,
+      no authentication and no write operations.
+    * Errors use RFC 9457 Problem Details (`application/problem+json`).
+    * Values that belong to other modules (student and faculty counts) are temporary mock values;
+      see `docs/integration.md`.
+  license:
+    name: Academic use only
+    identifier: LicenseRef-Academic
+servers:
+  - url: /api/v1
+    description: Same origin as the documentation page (local development)
+security: []
+tags:
+  - name: Health
+    description: Service liveness.
+  - name: Site
+    description: Site identity, contact details and navigation shared by every page.
+  - name: Home
+    description: Content blocks shown on the home page.
+  - name: News
+    description: News and announcements.
+  - name: Programs
+    description: College programs and Senior High School tracks.
+  - name: Admission
+    description: Requirements, process, tuition and payment instructions.
+  - name: Institution
+    description: About the college and its facilities.
+
+paths:
+  /health:
+    get:
+      tags: [Health]
+      operationId: getHealth
+      summary: Service health check
+      description: Returns `{"status":"ok"}` when the API is running.
+      responses:
+        '200':
+          description: The service is healthy.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Health'
+              examples:
+                default:
+                  value:
+                    status: ok
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /site:
+    get:
+      tags: [Site]
+      operationId: getSite
+      summary: Site identity and contact information
+      description: Brand, tagline, header call-to-action, contact details, office hours and legal footer.
+      responses:
+        '200':
+          description: Site information.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Site'
+              examples:
+                default:
+                  $ref: '#/components/examples/Site'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /navigation:
+    get:
+      tags: [Site]
+      operationId: getNavigation
+      summary: Header and footer navigation
+      description: Primary menu (with dropdown children) and footer links.
+      responses:
+        '200':
+          description: Navigation structure.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Navigation'
+              examples:
+                default:
+                  $ref: '#/components/examples/Navigation'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /news:
+    get:
+      tags: [News]
+      operationId: listNews
+      summary: List news and announcements
+      description: Newest first. Exactly one item is marked featured and is used as the home-page hero.
+      responses:
+        '200':
+          description: News list.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NewsList'
+              examples:
+                default:
+                  $ref: '#/components/examples/NewsList'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /news/{id}:
+    get:
+      tags: [News]
+      operationId: getNews
+      summary: Get one news article
+      parameters:
+        - $ref: '#/components/parameters/NewsId'
+      responses:
+        '200':
+          description: The article, including its body paragraphs.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NewsArticle'
+              examples:
+                default:
+                  $ref: '#/components/examples/NewsArticle'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /enrollment:
+    get:
+      tags: [Home]
+      operationId: getEnrollment
+      summary: Enrollment messaging
+      description: Enrollment hero, final call-to-action and admissions support card.
+      responses:
+        '200':
+          description: Enrollment content.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Enrollment'
+              examples:
+                default:
+                  $ref: '#/components/examples/Enrollment'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /pulse:
+    get:
+      tags: [Home]
+      operationId: getPulse
+      summary: IDSC Pulse blog posts
+      responses:
+        '200':
+          description: Section heading and posts.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pulse'
+              examples:
+                default:
+                  $ref: '#/components/examples/Pulse'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /statistics:
+    get:
+      tags: [Home]
+      operationId: getStatistics
+      summary: Headline statistics
+      description: |
+        Enrolled students, full-time faculty and site visitors.
+        **Mock values** for the midterm. In production the student count comes from the Registrar
+        module and the faculty count from the Faculty module.
+      responses:
+        '200':
+          description: Statistics.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Statistics'
+              examples:
+                default:
+                  $ref: '#/components/examples/Statistics'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /programs:
+    get:
+      tags: [Programs]
+      operationId: listPrograms
+      summary: List programs
+      description: Returns college programs and Senior High School tracks, optionally filtered by level.
+      parameters:
+        - name: level
+          in: query
+          required: false
+          description: Restrict the list to one level.
+          schema:
+            $ref: '#/components/schemas/ProgramLevel'
+          example: college
+      responses:
+        '200':
+          description: Program list.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProgramList'
+              examples:
+                default:
+                  $ref: '#/components/examples/ProgramList'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /programs/{id}:
+    get:
+      tags: [Programs]
+      operationId: getProgram
+      summary: Get one program
+      parameters:
+        - $ref: '#/components/parameters/ProgramId'
+      responses:
+        '200':
+          description: The program.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Program'
+              examples:
+                default:
+                  $ref: '#/components/examples/Program'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /admission/requirements:
+    get:
+      tags: [Admission]
+      operationId: getAdmissionRequirements
+      summary: Admission requirements by applicant type
+      responses:
+        '200':
+          description: Requirement groups for Senior High School, College and Transferees.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdmissionRequirements'
+              examples:
+                default:
+                  $ref: '#/components/examples/AdmissionRequirements'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /admission/process:
+    get:
+      tags: [Admission]
+      operationId: getAdmissionProcess
+      summary: Admission process steps
+      responses:
+        '200':
+          description: Ordered admission steps.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdmissionProcess'
+              examples:
+                default:
+                  $ref: '#/components/examples/AdmissionProcess'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /admission/tuition:
+    get:
+      tags: [Admission]
+      operationId: getAdmissionTuition
+      summary: Estimated tuition fees
+      description: |
+        `estimatedFee` is `null` while official rates are unpublished. Clients display a dash.
+        Amounts, when present, are Philippine pesos as plain numbers.
+      responses:
+        '200':
+          description: Tuition tables for College and Senior High School.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tuition'
+              examples:
+                default:
+                  $ref: '#/components/examples/Tuition'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /admission/payment-instructions:
+    get:
+      tags: [Admission]
+      operationId: getPaymentInstructions
+      summary: Alternative payment instructions
+      description: |
+        Bank account panel, online banking steps, GCash steps and the important note.
+        Step text may contain `**bold**` markers for emphasis.
+      responses:
+        '200':
+          description: Payment instructions.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentInstructions'
+              examples:
+                default:
+                  $ref: '#/components/examples/PaymentInstructions'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /about:
+    get:
+      tags: [Institution]
+      operationId: getAbout
+      summary: About IDSC
+      description: |
+        Summary of the college and the list of About sub-pages. Pages whose content is not part of
+        the approved design are listed with `contentStatus: title-only`.
+      responses:
+        '200':
+          description: About content.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/About'
+              examples:
+                default:
+                  $ref: '#/components/examples/About'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /facilities:
+    get:
+      tags: [Institution]
+      operationId: listFacilities
+      summary: List facilities
+      description: Laboratories, academic spaces and the clinic information page.
+      responses:
+        '200':
+          description: Facilities.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FacilityList'
+              examples:
+                default:
+                  $ref: '#/components/examples/FacilityList'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+components:
+  parameters:
+    NewsId:
+      name: id
+      in: path
+      required: true
+      description: News article identifier.
+      schema:
+        type: string
+        pattern: '^[a-z0-9-]+$'
+      example: news-002
+    ProgramId:
+      name: id
+      in: path
+      required: true
+      description: Program identifier.
+      schema:
+        type: string
+        pattern: '^[a-z0-9-]+$'
+      example: program-001
+
+  responses:
+    BadRequest:
+      description: The request is malformed (invalid path id or query value).
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+          examples:
+            invalidLevel:
+              value:
+                type: https://idsc.example/problems/validation-error
+                title: Bad Request
+                status: 400
+                detail: "Query parameter 'level' must be one of: college, shs."
+                instance: /api/v1/programs?level=graduate
+                errors:
+                  - field: level
+                    message: "Must be one of: college, shs."
+    NotFound:
+      description: No resource exists with the given identifier.
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+          examples:
+            unknownId:
+              value:
+                type: https://idsc.example/problems/not-found
+                title: Not Found
+                status: 404
+                detail: "News article 'news-999' was not found."
+                instance: /api/v1/news/news-999
+    InternalServerError:
+      description: Unexpected server error.
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+          examples:
+            unexpected:
+              value:
+                type: https://idsc.example/problems/internal-error
+                title: Internal Server Error
+                status: 500
+                detail: An unexpected error occurred.
+                instance: /api/v1/site
+
+  schemas:
+    ProblemDetails:
+      type: object
+      description: RFC 9457 Problem Details.
+      required: [type, title, status, detail]
+      properties:
+        type:
+          type: string
+          format: uri-reference
+          description: Identifies the problem type.
+        title:
+          type: string
+          description: Short summary, the HTTP reason phrase.
+        status:
+          type: integer
+          minimum: 400
+          maximum: 599
+        detail:
+          type: string
+          description: Explanation specific to this occurrence.
+        instance:
+          type: string
+          description: Request path and query that caused the problem.
+        errors:
+          type: array
+          description: Field-level validation errors (400 only).
+          items:
+            type: object
+            required: [field, message]
+            properties:
+              field:
+                type: string
+              message:
+                type: string
+            additionalProperties: false
+
+    Health:
+      type: object
+      required: [status]
+      properties:
+        status:
+          type: string
+          enum: [ok]
+      additionalProperties: false
+
+    ImageAsset:
+      type: object
+      required: [url, alt]
+      properties:
+        url:
+          type: string
+          description: Path of an image served by the client (`client/public`).
+          examples: [/assets/news/clean-up-drive.jpg]
+        alt:
+          type: string
+          description: Text alternative. Empty string only for purely decorative images.
+      additionalProperties: false
+
+    ActionLink:
+      type: object
+      required: [label, href]
+      properties:
+        label:
+          type: string
+        href:
+          type: string
+          description: Client route.
+      additionalProperties: false
+
+    SectionHeading:
+      type: object
+      required: [label, title]
+      properties:
+        label:
+          type: string
+          description: Small pill above the title.
+        title:
+          type: string
+        description:
+          type: [string, 'null']
+      additionalProperties: false
+
+    IconName:
+      type: string
+      description: Lucide icon name.
+      pattern: '^[a-z0-9-]+$'
+      examples: [megaphone]
+
+    Site:
+      type: object
+      required: [name, abbreviation, city, tagline, logo, searchPlaceholder, headerCta, contact, legal]
+      properties:
+        name:
+          type: string
+        abbreviation:
+          type: string
+        city:
+          type: string
+        tagline:
+          type: string
+        logo:
+          $ref: '#/components/schemas/ImageAsset'
+        searchPlaceholder:
+          type: string
+        headerCta:
+          $ref: '#/components/schemas/ActionLink'
+        contact:
+          type: object
+          required: [email, phone, officeHours]
+          properties:
+            email:
+              type: string
+              format: email
+            phone:
+              type: string
+            officeHours:
+              type: string
+          additionalProperties: false
+        legal:
+          type: object
+          required: [copyright, links]
+          properties:
+            copyright:
+              type: string
+            links:
+              type: array
+              items:
+                $ref: '#/components/schemas/ActionLink'
+          additionalProperties: false
+      additionalProperties: false
+
+    NavigationItem:
+      type: object
+      required: [id, label, href, children]
+      properties:
+        id:
+          type: string
+        label:
+          type: string
+        href:
+          type: [string, 'null']
+          description: Route of the item itself. `null` for dropdown-only items.
+        children:
+          type: array
+          description: Dropdown entries. Empty when the item has no dropdown.
+          items:
+            $ref: '#/components/schemas/ActionLink'
+      additionalProperties: false
+
+    Navigation:
+      type: object
+      required: [primary, footer]
+      properties:
+        primary:
+          type: array
+          items:
+            $ref: '#/components/schemas/NavigationItem'
+        footer:
+          type: object
+          required: [heading, links]
+          properties:
+            heading:
+              type: string
+            links:
+              type: array
+              items:
+                $ref: '#/components/schemas/ActionLink'
+          additionalProperties: false
+      additionalProperties: false
+
+    NewsSummary:
+      type: object
+      required: [id, title, summary, category, publishedOn, image, featured]
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        summary:
+          type: string
+        category:
+          type: string
+          description: Badge label.
+          examples: [Event]
+        publishedOn:
+          type: string
+          format: date
+        image:
+          $ref: '#/components/schemas/ImageAsset'
+        featured:
+          type: boolean
+          description: True for the single home-page hero item.
+
+    NewsArticle:
+      allOf:
+        - $ref: '#/components/schemas/NewsSummary'
+        - type: object
+          required: [body]
+          properties:
+            body:
+              type: array
+              description: Paragraphs.
+              items:
+                type: string
+
+    NewsList:
+      type: object
+      required: [items, total]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/NewsSummary'
+        total:
+          type: integer
+          minimum: 0
+      additionalProperties: false
+
+    Enrollment:
+      type: object
+      required: [hero, callToAction, support]
+      properties:
+        hero:
+          type: object
+          required: [statusLabel, audience, headline, description, image]
+          properties:
+            statusLabel:
+              type: string
+            audience:
+              type: string
+            headline:
+              type: string
+            description:
+              type: string
+            image:
+              $ref: '#/components/schemas/ImageAsset'
+          additionalProperties: false
+        callToAction:
+          type: object
+          required: [label, headline, description, actions]
+          properties:
+            label:
+              type: string
+            headline:
+              type: string
+            description:
+              type: string
+            actions:
+              type: array
+              items:
+                $ref: '#/components/schemas/ActionLink'
+          additionalProperties: false
+        support:
+          type: object
+          required: [label, title, description, phone]
+          properties:
+            label:
+              type: string
+            title:
+              type: string
+            description:
+              type: string
+            phone:
+              type: string
+          additionalProperties: false
+      additionalProperties: false
+
+    PulsePost:
+      type: object
+      required: [id, title, summary, icon, postedOn, image]
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        summary:
+          type: string
+        icon:
+          $ref: '#/components/schemas/IconName'
+        postedOn:
+          type: string
+          format: date
+        image:
+          $ref: '#/components/schemas/ImageAsset'
+      additionalProperties: false
+
+    Pulse:
+      type: object
+      required: [heading, items, total]
+      properties:
+        heading:
+          $ref: '#/components/schemas/SectionHeading'
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/PulsePost'
+        total:
+          type: integer
+          minimum: 0
+      additionalProperties: false
+
+    Statistic:
+      type: object
+      required: [id, label, value, tone, provider]
+      properties:
+        id:
+          type: string
+        label:
+          type: string
+        value:
+          type: integer
+          minimum: 0
+        tone:
+          type: string
+          description: Ring color in the design.
+          enum: [green, dark-green, red]
+        provider:
+          type: object
+          description: Module that will own this value in production.
+          required: [module, isMock]
+          properties:
+            module:
+              type: string
+              enum: [registrar, faculty, landing-page]
+            isMock:
+              type: boolean
+          additionalProperties: false
+      additionalProperties: false
+
+    Statistics:
+      type: object
+      required: [items, asOf]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Statistic'
+        asOf:
+          type: string
+          format: date
+      additionalProperties: false
+
+    ProgramLevel:
+      type: string
+      enum: [college, shs]
+
+    Program:
+      type: object
+      required: [id, level, code, name, fullName, major, department, duration, icon]
+      properties:
+        id:
+          type: string
+        level:
+          $ref: '#/components/schemas/ProgramLevel'
+        code:
+          type: string
+          description: Official abbreviation.
+        name:
+          type: string
+          description: Short title shown on cards.
+        fullName:
+          type: string
+          description: Full name used in tables.
+        major:
+          type: [string, 'null']
+        department:
+          type: string
+          description: Card badge and accordion grouping.
+        duration:
+          type: [string, 'null']
+          description: Only set for non-standard durations (for example `2-year`).
+        icon:
+          $ref: '#/components/schemas/IconName'
+      additionalProperties: false
+
+    ProgramList:
+      type: object
+      required: [items, total]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Program'
+        total:
+          type: integer
+          minimum: 0
+      additionalProperties: false
+
+    RequirementGroup:
+      type: object
+      required: [id, badge, title, items]
+      properties:
+        id:
+          type: string
+          enum: [shs, college, transferees]
+        badge:
+          type: string
+        title:
+          type: string
+        items:
+          type: array
+          items:
+            type: string
+      additionalProperties: false
+
+    AdmissionRequirements:
+      type: object
+      required: [heading, groups, note]
+      properties:
+        heading:
+          $ref: '#/components/schemas/SectionHeading'
+        groups:
+          type: array
+          items:
+            $ref: '#/components/schemas/RequirementGroup'
+        note:
+          type: string
+      additionalProperties: false
+
+    ProcessStep:
+      type: object
+      required: [step, title, summary, icon]
+      properties:
+        step:
+          type: integer
+          minimum: 1
+        title:
+          type: string
+        summary:
+          type: string
+        icon:
+          $ref: '#/components/schemas/IconName'
+      additionalProperties: false
+
+    AdmissionProcess:
+      type: object
+      required: [heading, steps]
+      properties:
+        heading:
+          $ref: '#/components/schemas/SectionHeading'
+        steps:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProcessStep'
+      additionalProperties: false
+
+    TuitionRow:
+      type: object
+      required: [programId, program, estimatedFee]
+      properties:
+        programId:
+          type: [string, 'null']
+          description: Matches `Program.id`; `null` when the program is not listed under `/programs`.
+        program:
+          type: string
+        estimatedFee:
+          type: [number, 'null']
+          minimum: 0
+          description: Pesos, or `null` when unpublished.
+      additionalProperties: false
+
+    TuitionGroup:
+      type: object
+      required: [id, title, rows]
+      properties:
+        id:
+          $ref: '#/components/schemas/ProgramLevel'
+        title:
+          type: string
+        rows:
+          type: array
+          items:
+            $ref: '#/components/schemas/TuitionRow'
+      additionalProperties: false
+
+    Tuition:
+      type: object
+      required: [heading, currency, groups]
+      properties:
+        heading:
+          $ref: '#/components/schemas/SectionHeading'
+        currency:
+          type: string
+          enum: [PHP]
+        groups:
+          type: array
+          items:
+            $ref: '#/components/schemas/TuitionGroup'
+      additionalProperties: false
+
+    PaymentMethod:
+      type: object
+      required: [id, label, title, icon, steps]
+      properties:
+        id:
+          type: string
+          enum: [online-banking, gcash]
+        label:
+          type: string
+        title:
+          type: string
+        icon:
+          $ref: '#/components/schemas/IconName'
+        steps:
+          type: array
+          items:
+            type: string
+        reminder:
+          type: [string, 'null']
+      additionalProperties: false
+
+    PaymentInstructions:
+      type: object
+      required: [heading, account, methods, importantNote]
+      properties:
+        heading:
+          $ref: '#/components/schemas/SectionHeading'
+        account:
+          type: object
+          required: [bank, bankCode, accountName, accountNumber, proofOfPaymentEmail]
+          properties:
+            bank:
+              type: string
+            bankCode:
+              type: string
+            accountName:
+              type: string
+            accountNumber:
+              type: string
+            proofOfPaymentEmail:
+              type: string
+              format: email
+          additionalProperties: false
+        methods:
+          type: array
+          items:
+            $ref: '#/components/schemas/PaymentMethod'
+        importantNote:
+          type: object
+          required: [title, body]
+          properties:
+            title:
+              type: string
+            body:
+              type: string
+          additionalProperties: false
+      additionalProperties: false
+
+    ContentStatus:
+      type: string
+      description: |
+        `available` means the approved design contains page content.
+        `title-only` means the approved design defines the page title but no body content.
+      enum: [available, title-only]
+
+    PageLink:
+      type: object
+      required: [id, title, href, contentStatus]
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        href:
+          type: string
+        contentStatus:
+          $ref: '#/components/schemas/ContentStatus'
+      additionalProperties: false
+
+    About:
+      type: object
+      required: [title, summary, backgroundImage, pages]
+      properties:
+        title:
+          type: string
+        summary:
+          type: string
+        backgroundImage:
+          $ref: '#/components/schemas/ImageAsset'
+        pages:
+          type: array
+          items:
+            $ref: '#/components/schemas/PageLink'
+      additionalProperties: false
+
+    FacilityList:
+      type: object
+      required: [items, total]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/PageLink'
+        total:
+          type: integer
+          minimum: 0
+      additionalProperties: false
+
+  examples:
+    Site:
+      value:
+        name: Infotech Development System Colleges, Inc.
+        abbreviation: IDSC
+        city: Ligao City
+        tagline: Empowering Futures with Dedicated Service
+        logo: { url: /assets/brand/idsc-logo.png, alt: IDSC official logo }
+        searchPlaceholder: Search IDSC
+        headerCta: { label: Apply Now, href: /admission/requirements }
+        contact:
+          email: idscollegesinc@gmail.com
+          phone: '09178812683'
+          officeHours: 'For inquiries you can visit the school during office hours: Monday–Friday at 8am–4pm'
+        legal:
+          copyright: © 2009–2026 Infotech Development System Colleges, Inc.
+          links:
+            - { label: Privacy, href: /privacy }
+            - { label: Accessibility, href: /accessibility }
+    Navigation:
+      value:
+        primary:
+          - id: admission
+            label: Admission
+            href: null
+            children:
+              - { label: Admission Requirement, href: /admission/requirements }
+          - id: news
+            label: News
+            href: /news
+            children: []
+        footer:
+          heading: Explore
+          links:
+            - { label: Admission, href: /admission/requirements }
+            - { label: News, href: /news }
+    NewsList:
+      value:
+        items:
+          - id: news-002
+            title: IDSC Tourism Students Join Clean-up Drive in Celebration of World Tourism and Bamboo Days 2026
+            summary: Tourism students took part in a clean-up drive at the Ligao City Bambuseum in Tuburan.
+            category: Tourism
+            publishedOn: '2026-09-25'
+            image: { url: /assets/news/clean-up-drive.jpg, alt: Tourism students gathered at the Ligao City Bambuseum }
+            featured: true
+        total: 1
+    NewsArticle:
+      value:
+        id: news-002
+        title: IDSC Tourism Students Join Clean-up Drive in Celebration of World Tourism and Bamboo Days 2026
+        summary: Tourism students took part in a clean-up drive at the Ligao City Bambuseum in Tuburan.
+        category: Tourism
+        publishedOn: '2026-09-25'
+        image: { url: /assets/news/clean-up-drive.jpg, alt: Tourism students gathered at the Ligao City Bambuseum }
+        featured: true
+        body:
+          - To celebrate World Tourism Day and World Bamboo Day 2026, tourism students of IDSC participated in a clean-up drive on September 25, 2026.
+    Enrollment:
+      value:
+        hero:
+          statusLabel: Admissions Open
+          audience: Senior High School & College
+          headline: Enrollment is ongoing at IDSC
+          description: Begin your next chapter in Ligao City. Explore learning pathways, review admission information, and take the first step toward joining the IDSC community.
+          image: { url: /assets/enrollment/pre-registration-poster.jpg, alt: Pre-registration poster with a QR code }
+        callToAction:
+          label: Take the next step
+          headline: Planning to enroll at IDSC?
+          description: Start with the official admission information, then connect with the IDSC team for pre-registration guidance.
+          actions:
+            - { label: Apply Now, href: /admission/requirements }
+            - { label: Pre-registration Information, href: /pre-registration }
+        support:
+          label: Admissions Support
+          title: Questions before you apply?
+          description: Contact the school during office hours for verified requirements, tuition information, and enrollment support.
+          phone: '09178812683'
+    Pulse:
+      value:
+        heading: { label: IDSC Pulse, title: Latest IDSC Blog, description: null }
+        items:
+          - id: pulse-001
+            title: Enrollment Advisory for the Incoming School Year
+            summary: Please refer to the official advisory and admissions office for complete enrollment guidance.
+            icon: shield-alert
+            postedOn: '2026-09-22'
+            image: { url: /assets/pulse/enrollment-advisory.jpg, alt: Admissions office reception area }
+        total: 1
+    Statistics:
+      value:
+        asOf: '2026-10-05'
+        items:
+          - id: students-enrolled
+            label: Student Enrolled
+            value: 2120
+            tone: green
+            provider: { module: registrar, isMock: true }
+    Program:
+      value:
+        id: program-001
+        level: college
+        code: BSC
+        name: BS in Criminology
+        fullName: Bachelor of Science in Criminology (BSC)
+        major: null
+        department: College of Criminology
+        duration: null
+        icon: shield
+    ProgramList:
+      value:
+        items:
+          - id: program-001
+            level: college
+            code: BSC
+            name: BS in Criminology
+            fullName: Bachelor of Science in Criminology (BSC)
+            major: null
+            department: College of Criminology
+            duration: null
+            icon: shield
+        total: 1
+    AdmissionRequirements:
+      value:
+        heading:
+          label: Requirements
+          title: Prepare your application
+          description: Review the quick guidance below, then confirm exact requirements with the IDSC admissions office before you submit.
+        groups:
+          - id: transferees
+            badge: Transferees
+            title: Transferees
+            items: [Transcript of Records, Honorable Dismissal]
+        note: Exact requirements may vary by program. Confirm the latest documents, deadlines, and eligibility rules with the IDSC admissions office.
+    AdmissionProcess:
+      value:
+        heading:
+          label: Process
+          title: Simple admission steps
+          description: Follow these general steps, then connect with the admissions team for verified guidance and next steps.
+        steps:
+          - step: 1
+            title: Choose a program
+            summary: Explore Senior High School and College pathways to find the best fit for your next academic step.
+            icon: book-open
+    Tuition:
+      value:
+        heading:
+          label: Tuition
+          title: Estimated Tuition Fees
+          description: Review the programs available at IDSC and their corresponding tuition information. Fees will be updated once the official rates are available.
+        currency: PHP
+        groups:
+          - id: shs
+            title: Senior High School
+            rows:
+              - { programId: program-010, program: Academic Track, estimatedFee: null }
+    PaymentInstructions:
+      value:
+        heading:
+          label: Instructions
+          title: Payment Instructions
+          description: Follow the steps below when paying your tuition and school fees through online banking or GCash. Make sure to submit your proof of payment for verification.
+        account:
+          bank: Philippine National Bank (PNB)
+          bankCode: PNB
+          accountName: INFOTECH DEVELOPMENT SYSTEMS COLLEGES, INC.
+          accountNumber: '250570002777'
+          proofOfPaymentEmail: idscolleges@yahoo.com
+        methods:
+          - id: gcash
+            label: Mobile Payment
+            title: GCash
+            icon: smartphone
+            steps: ['Open GCash and tap **Transfer**.']
+            reminder: Use the same PNB account details shown in the panel above when transferring via GCash.
+        importantNote:
+          title: Important Note
+          body: Keep your payment receipt until payment verification is complete and your Official Receipt has been issued.
+    About:
+      value:
+        title: About IDSC
+        summary: Infotech Development System Colleges, Inc. (IDSC) is a higher education institution in Ligao City offering Senior High School and college programs.
+        backgroundImage: { url: /assets/about/campus.jpg, alt: IDSC campus building }
+        pages:
+          - { id: about, title: About IDSC, href: /about, contentStatus: available }
+          - { id: hymn, title: IDSC Hymn, href: /about/hymn, contentStatus: title-only }
+    FacilityList:
+      value:
+        items:
+          - { id: laboratories, title: Laboratories, href: /facilities/laboratories, contentStatus: title-only }
+        total: 1

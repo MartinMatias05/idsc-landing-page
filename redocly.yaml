@@ -1,0 +1,7 @@
+# Lint config for `npx @redocly/cli lint server/openapi.yaml`
+extends:
+  - recommended
+rules:
+  # Parameter-less collection endpoints (e.g. GET /site) have no client-error case to document.
+  # 400/404 are documented on every operation that takes input (path ids, query filters).
+  operation-4xx-response: off

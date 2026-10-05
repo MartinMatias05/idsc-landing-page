@@ -1,0 +1,18 @@
+{
+  "name": "idsc-landing-page-module",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Landing Page module of the College Management System (IDSC): client + mock REST API.",
+  "scripts": {
+    "install:all": "npm install && npm --prefix server install && npm --prefix client install",
+    "dev": "concurrently -n server,client -c green,cyan \"npm --prefix server run dev\" \"npm --prefix client run dev\"",
+    "dev:server": "npm --prefix server run dev",
+    "dev:client": "npm --prefix client run dev",
+    "lint:api": "redocly lint server/openapi.yaml",
+    "test": "npm --prefix server test"
+  },
+  "devDependencies": {
+    "@redocly/cli": "^1.25.0",
+    "concurrently": "^9.0.0"
+  }
+}
