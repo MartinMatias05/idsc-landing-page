@@ -80,16 +80,16 @@ The Landing Page is designed to provide visitors with a clear starting point for
 
 The Landing Page is one of the eight modules of the College Management System.
 
-| Module | Purpose |
+| Module | Repo |
 |---|---|
-| Landing Page | Public-facing institutional information and navigation |
-| Student | Student-related services and information |
-| Faculty | Faculty-related services and information |
-| Registrar | Student records and registrar services |
-| Finance | Financial and payment-related services |
-| Library | Library services and resources |
-| Clinic | Health and clinic-related services |
-| Inventory | Inventory and stock-related services |
+| Landing Page | idsc-landing-page |
+| Student | |
+| Faculty |  |
+| Registrar |  |
+| Finance |  |
+| Library |  |
+| Clinic |  |
+| Inventory |  |
 
 The Landing Page does **not** directly access another module's database or source code.
 
