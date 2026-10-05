@@ -99,11 +99,11 @@ Integration between modules is handled through defined API or external-system bo
 
 ## Team
 
-| Role | Member | Guthub |
+| Role | Member | Github |
 |---|---|---|
 | Backend | Edrei Purtogal |  |
 | Frontend | Martin Matias | @MartinMatias05 |
-| Documentation | Kimi Gaerlan | README, project documentation, documentation deliverables and handout |
+| Documentation | Kimi Gaerlan | |
 
 ### Additional Project Contribution
 
