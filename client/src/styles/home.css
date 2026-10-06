@@ -1,0 +1,156 @@
+/* ===== Hero: Figma "View Image" (54:203), 1920 x 892 ===== */
+.news-hero {
+  position: relative; isolation: isolate; overflow: hidden; display: flex; flex-direction: column;
+  min-height: max(420px, calc(892 * var(--u)));
+  padding: max(1.5rem, calc(128 * var(--u))) max(1rem, calc(127 * var(--u)));
+  color: #fff; background: var(--header-dark);
+}
+/* Figma crops the photo to 126.05% height starting at -13.02% */
+.news-hero__image { position: absolute; left: 0; top: -13.02%; z-index: -2; width: 100%; height: 126.05%; max-width: none; object-fit: cover; }
+.news-hero__scrim {
+  position: absolute; inset: 0; z-index: -1; mix-blend-mode: multiply;
+  background: linear-gradient(to bottom, rgba(46, 46, 46, .33) 13.498%, rgba(102, 102, 102, 0) 56.341%, rgba(13, 16, 20, .6) 63.921%);
+}
+.news-hero__text { display: flex; flex-direction: column; gap: max(16px, calc(39 * var(--u))); }
+.news-hero__title {
+  max-width: 1298px; font-weight: 700; letter-spacing: -.04em; line-height: normal;
+  font-size: max(1.9rem, calc(64 * var(--u)));
+}
+.news-hero__description { max-width: 905px; font-family: var(--font-hero); font-size: max(1.1rem, calc(24 * var(--u))); line-height: normal; }
+.news-hero .state { color: #fff; }
+
+/* ===== News: Figma "Announcements" (71:241) ===== */
+.news-section {
+  display: flex; flex-direction: column; gap: 13px; max-width: 1920px; margin: 0 auto;
+  padding: max(1.25rem, calc(30 * var(--u))) max(1rem, calc(96 * var(--u))) max(2.5rem, calc(228 * var(--u)));
+}
+.news-section__heading { display: flex; align-items: flex-end; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+.news-section__heading > div { display: flex; flex-direction: column; gap: 14px; }
+
+.notice-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+
+.notice-card {
+  display: flex; flex-direction: column; justify-content: flex-end; gap: 16px; overflow: hidden;
+  min-height: max(430px, calc(505 * var(--u))); padding: 26px;
+  border: 1px solid var(--card-border); border-radius: 8px; background: #fff; box-shadow: var(--shadow-news);
+}
+/* Image bleeds to the card edges and takes the height the text leaves free (Figma crops it per card) */
+.notice-card__image {
+  flex: 1 1 0; min-height: 180px; width: calc(100% + 52px); max-width: none; margin: -26px -26px 0; object-fit: cover;
+}
+.notice-card__header { display: flex; align-items: center; justify-content: space-between; color: var(--green); }
+.notice-card__title { font-family: var(--font-display); font-weight: 400; line-height: 1.22; color: var(--card-title); font-size: max(1.2rem, calc(26 * var(--u))); }
+.notice-card__summary { font-size: 14px; line-height: 1.55; color: var(--muted); }
+.notice-card__footer { display: flex; align-items: center; justify-content: space-between; gap: .5rem; }
+.notice-card__date { font-size: 12px; color: var(--muted); }
+
+.notice-card--accent { background: var(--accent-card); border-color: var(--ink); }
+.notice-card--accent .notice-card__header { color: #fff; }
+.notice-card--accent .notice-card__title { color: #fff; }
+.notice-card--accent .notice-card__summary { color: var(--mint); }
+.notice-card--accent .notice-card__date { color: var(--accent-date); }
+.notice-card--accent .text-link { color: #fff; }
+
+/* ===== Enrollment hero: Figma 65:210 ===== */
+.enrollment {
+  position: relative; overflow: hidden; display: flex; align-items: center; gap: max(1.5rem, calc(56 * var(--u)));
+  min-height: calc(642 * var(--u));
+  padding: max(2rem, calc(58 * var(--u))) max(1rem, calc(64 * var(--u))) max(2rem, calc(58 * var(--u))) max(1rem, calc(96 * var(--u)));
+  background: linear-gradient(to bottom, var(--enroll-top) 0%, var(--enroll-mid) 55%, var(--mint) 100%);
+}
+.enrollment__circle, .enrollment__ring { position: absolute; border-radius: 50%; pointer-events: none; }
+.enrollment__circle { right: calc(-90 * var(--u)); top: calc(-120 * var(--u)); width: calc(360 * var(--u)); height: calc(360 * var(--u)); background: var(--decor-circle); }
+.enrollment__ring { left: calc(610 * var(--u)); bottom: calc(-150 * var(--u)); width: calc(300 * var(--u)); height: calc(300 * var(--u)); border: 2px solid var(--decor-ring); }
+
+.enrollment__message { position: relative; flex: 0 1 912px; display: flex; flex-direction: column; gap: max(16px, calc(28.902 * var(--u))); }
+.enrollment__status { display: flex; align-items: center; flex-wrap: wrap; gap: calc(13.137 * var(--u)) 13px; }
+.enrollment__audience { font-size: max(.9rem, calc(17.079 * var(--u))); color: var(--green); }
+.enrollment__headline { font-family: var(--font-display); font-weight: 800; line-height: 1.04; color: var(--ink); font-size: max(2.25rem, calc(84.08 * var(--u))); }
+.enrollment__description { line-height: 1.55; color: var(--muted); font-size: max(1.05rem, calc(26.275 * var(--u))); }
+
+.enrollment__art { position: relative; flex: 0 0 calc(603.619 * var(--u)); display: flex; align-items: center; justify-content: center; }
+.enrollment__frame {
+  display: flex; width: calc(590 * var(--u)); aspect-ratio: 590 / 528; padding: 10px; overflow: hidden;
+  background: #fff; border-radius: 32px; box-shadow: var(--shadow-enroll); transform: rotate(1.5deg);
+}
+.enrollment__image { flex: 1; min-width: 0; height: 100%; border-radius: 24px; object-fit: cover; }
+
+/* ===== IDSC Pulse: Figma "Programs and admission" (83:353) ===== */
+.pulse { max-width: 1920px; margin: 0 auto; }
+.pulse__heading { display: flex; flex-direction: column; gap: 10px; padding: max(1.5rem, calc(39 * var(--u))) max(1rem, calc(130 * var(--u))) 0; }
+.pulse__grid {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: max(20px, calc(85.271 * var(--u)));
+  padding: max(1.5rem, calc(67 * var(--u))) max(1rem, calc(127.906 * var(--u)));
+}
+.pulse-card {
+  display: flex; flex-direction: column; justify-content: flex-end; gap: 18px; min-height: max(430px, calc(505 * var(--u)));
+  padding: 26px; border: 1px solid #fff; border-radius: 24px; background: #fff; box-shadow: var(--shadow-pulse); color: var(--green);
+}
+.pulse-card__image { flex: 1 1 0; min-height: 160px; width: 100%; border-radius: 8px; object-fit: cover; }
+.pulse-card__title { font-family: var(--font-display); font-weight: 400; line-height: 1.22; color: var(--ink); font-size: max(1.2rem, calc(26 * var(--u))); }
+.pulse-card__summary { font-size: 14px; line-height: 1.55; color: var(--muted); }
+.pulse-card__footer { display: flex; align-items: center; justify-content: space-between; }
+.pulse-card__date { font-size: 12px; color: var(--muted); }
+
+/* ===== Statistics: Figma "View" (2014:162): 431px rings, 43px thick, 98px apart ===== */
+.stats { display: flex; justify-content: center; padding: max(2rem, calc(110 * var(--u))) 1rem; }
+.stats__list { --ring: max(240px, calc(431 * var(--u))); display: flex; flex-wrap: wrap; justify-content: center; gap: max(24px, calc(98 * var(--u))); }
+.stat-ring { width: var(--ring); aspect-ratio: 1; border-radius: 50%; background: var(--ring-color); display: grid; place-items: center; }
+.stat-ring--green { --ring-color: var(--stat-green); }
+.stat-ring--dark-green { --ring-color: var(--stat-dark-green); }
+.stat-ring--red { --ring-color: var(--stat-red); }
+.stat-ring__inner {
+  display: flex; flex-direction: column; align-items: center; width: 80%; aspect-ratio: 1; border-radius: 50%; background: #fff;
+  padding-top: calc(var(--ring) * 0.188); text-align: center;
+}
+.stat-ring__label {
+  max-width: 55%; font-family: var(--font-display); font-weight: 600; text-transform: uppercase; color: var(--stat-label);
+  font-size: calc(var(--ring) * 0.0742); line-height: calc(var(--ring) * 0.0835);
+}
+.stat-ring__value {
+  font-family: var(--font-display); font-weight: 800; color: var(--ring-color);
+  font-size: calc(var(--ring) * 0.1763); line-height: calc(var(--ring) * 0.2111);
+}
+
+/* ===== Final CTA: Figma 83:450 ===== */
+.cta {
+  position: relative; overflow: hidden; display: flex; align-items: center; justify-content: space-between; gap: 2rem;
+  min-height: calc(615 * var(--u)); padding: max(2.5rem, calc(100 * var(--u))) max(1rem, calc(129.8 * var(--u)));
+  background: var(--cta-bg); color: #fff;
+}
+.cta__glow, .cta__ring { position: absolute; border-radius: 50%; pointer-events: none; }
+.cta__glow { left: calc(1426.667 * var(--u)); top: calc(-205.719 * var(--u)); width: calc(666.667 * var(--u)); height: calc(685.729 * var(--u)); background: radial-gradient(closest-side, var(--cta-glow), transparent); }
+.cta__ring { left: calc(706.667 * var(--u)); top: calc(327.152 * var(--u)); width: calc(586.667 * var(--u)); height: calc(603.442 * var(--u)); border: 2px solid var(--cta-ring); }
+
+.cta__content { position: relative; flex: 0 1 967px; display: flex; flex-direction: column; align-items: flex-start; gap: max(16px, calc(29.75 * var(--u))); }
+.cta__label { display: flex; align-items: center; gap: calc(12.17 * var(--u)); font-size: .8rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--cta-text); }
+.cta__accent { width: 32px; height: 4.114px; border-radius: 999px; background: var(--yellow); }
+.cta__headline { font-family: var(--font-display); font-weight: 400; line-height: 1.25; font-size: max(2rem, calc(64 * var(--u))); }
+.cta__description { max-width: 967px; line-height: 1.55; color: var(--cta-text); font-size: max(1.05rem, calc(25.2 * var(--u))); }
+.cta__actions { display: flex; flex-wrap: wrap; gap: max(12px, calc(16.23 * var(--u))); }
+
+.support-card {
+  position: relative; flex: 0 0 calc(606.715 * var(--u)); min-width: 300px; display: flex; flex-direction: column; gap: calc(20.4 * var(--u));
+  padding: max(20px, calc(40.568 * var(--u))); border-radius: 32px; background: #fff; color: var(--ink); box-shadow: var(--shadow-enroll);
+}
+.support-card__header { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: calc(8 * var(--u)); }
+.support-card__icon { display: grid; place-items: center; width: max(48px, calc(70.533 * var(--u))); aspect-ratio: 70.533 / 72.55; border-radius: 20px; background: var(--mint); color: var(--green); }
+.support-card__label { font-weight: 800; font-size: max(.75rem, calc(16.6 * var(--u))); letter-spacing: .06em; text-transform: uppercase; color: var(--green); text-align: right; }
+.support-card__title { font-family: var(--font-display); font-weight: 400; line-height: 1.36; font-size: max(1.35rem, calc(40 * var(--u))); }
+.support-card__description { line-height: 1.45; color: var(--muted); font-size: max(.95rem, calc(16 * var(--u))); }
+.support-card__divider { width: 100%; margin: 0; border: 0; border-top: 1px solid var(--line); }
+.support-card__phone { display: inline-flex; align-items: center; gap: calc(13 * var(--u)); font-weight: 600; color: var(--ink); font-size: max(1rem, calc(20 * var(--u))); }
+.support-card__phone svg { color: var(--green); }
+
+/* ===== Responsive (inferred: Figma only has 1920px frames) ===== */
+@media (max-width: 1100px) {
+  .notice-grid, .pulse__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .enrollment, .cta { flex-direction: column; align-items: stretch; }
+  .enrollment__art { flex-basis: auto; }
+  .enrollment__frame { width: min(100%, 590px); }
+  .support-card { flex-basis: auto; width: 100%; }
+}
+@media (max-width: 680px) {
+  .notice-grid, .pulse__grid { grid-template-columns: minmax(0, 1fr); }
+  .news-hero { padding-block: 2rem; }
+}

@@ -1,21 +1,26 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
-export function useApi(fetcher, deps = []) {
-  const [state, setState] = useState({ data: null, loading: true, error: null });
-  const fetcherRef = useRef(fetcher);
-  fetcherRef.current = fetcher;
+const LOADING = { status: 'loading', data: null, error: null };
 
-  const reload = useCallback(() => {
+/**
+ * Runs `fetcher(signal)` and tracks loading / success / error.
+ * `fetcher` must be stable (a module-level function or wrapped in useCallback).
+ */
+export function useApi(fetcher) {
+  const [state, setState] = useState(LOADING);
+  const [attempt, setAttempt] = useState(0);
+
+  useEffect(() => {
     const controller = new AbortController();
-    setState((current) => ({ ...current, loading: true, error: null }));
-    fetcherRef.current(controller.signal)
-      .then((data) => setState({ data, loading: false, error: null }))
+    setState(LOADING);
+    fetcher(controller.signal)
+      .then((data) => setState({ status: 'success', data, error: null }))
       .catch((error) => {
-        if (error.name !== 'AbortError') setState({ data: null, loading: false, error });
+        if (error.name !== 'AbortError') setState({ status: 'error', data: null, error });
       });
     return () => controller.abort();
-  }, deps);
+  }, [fetcher, attempt]);
 
-  useEffect(() => reload(), [reload]);
+  const reload = useCallback(() => setAttempt((count) => count + 1), []);
   return { ...state, reload };
 }

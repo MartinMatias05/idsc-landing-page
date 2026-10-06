@@ -1,0 +1,38 @@
+/* Footer: Figma 83:481. Columns are 506.67 / 106 / 440 wide with equal space between them. */
+.site-footer {
+  max-width: none; padding: max(2rem, calc(89.25 * var(--u))) max(1rem, calc(129.8 * var(--u))) max(1.5rem, calc(43.5 * var(--u)));
+  background: var(--footer-bg); color: var(--footer-text);
+}
+.site-footer__content { display: flex; justify-content: space-between; align-items: flex-start; gap: 2.5rem; flex-wrap: wrap; }
+
+.footer-identity { flex: 0 1 calc(506.667 * var(--u)); min-width: 260px; }
+.footer-brand { display: flex; align-items: center; gap: calc(19 * var(--u)); }
+.footer-brand__logo { width: max(52px, calc(77.333 * var(--u))); aspect-ratio: 77.333 / 79.545; border-radius: 50%; background: #fff; object-fit: cover; }
+.footer-brand__text { display: flex; flex-direction: column; gap: calc(4 * var(--u)); }
+.footer-brand__abbr { font-family: var(--font-display); font-weight: 800; line-height: 1.2; color: #fff; font-size: max(1.75rem, calc(36 * var(--u))); }
+.footer-brand__city { line-height: 1.25; font-size: max(.85rem, calc(16 * var(--u))); }
+.footer-identity__name { margin-top: calc(24.3 * var(--u)); font-weight: 600; line-height: 1.55; color: #fff; font-size: max(.95rem, calc(18 * var(--u))); }
+.footer-identity__tagline { margin-top: calc(24.3 * var(--u)); line-height: 1.5; font-size: max(.9rem, calc(17 * var(--u))); }
+
+.footer-heading { margin-bottom: calc(21.6 * var(--u)); font-size: 13px; line-height: 20px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--footer-heading); }
+
+.footer-nav { flex: 0 0 auto; }
+.footer-nav li + li { margin-top: calc(21.64 * var(--u)); }
+.footer-nav__link { font-weight: 600; line-height: 23px; color: #fff; font-size: max(.95rem, calc(17.98 * var(--u))); }
+.footer-nav__link:hover { text-decoration: underline; }
+
+.footer-contact { flex: 0 1 440px; }
+.footer-contact li { display: flex; align-items: flex-start; gap: 13.5px; font-size: max(.9rem, calc(17.98 * var(--u))); line-height: 1.6; }
+.footer-contact li + li { margin-top: calc(23 * var(--u)); }
+.footer-contact svg { flex: none; margin-top: 1px; color: var(--footer-heading); }
+.footer-contact a:hover { text-decoration: underline; }
+
+.site-footer__divider { margin: calc(73 * var(--u)) 0 0; border: 0; border-top: 1.37px solid var(--footer-line); }
+.site-footer__legal { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; margin-top: calc(73 * var(--u)); font-size: 14px; line-height: 20px; }
+.site-footer__legal ul { display: flex; gap: 32.45px; }
+.site-footer__legal a:hover { text-decoration: underline; }
+
+@media (max-width: 900px) {
+  .site-footer__content { flex-direction: column; }
+  .footer-identity, .footer-contact { flex-basis: auto; width: 100%; }
+}

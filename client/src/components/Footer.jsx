@@ -1,22 +1,77 @@
-import { Facebook, Mail, MapPin, Phone } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { getSystemUrl } from '../services/systems';
+import AppLink from './AppLink';
+import ImageWithFallback from './ImageWithFallback';
+import Icon from './Icon';
 
+/** Footer: identity, "Explore" links, contact details and the legal row (Figma "Footer"). */
 export default function Footer({ site, navigation }) {
-  const links = navigation?.footer?.links ?? [];
+  if (!site) return <footer className="site-footer" />;
+  const { contact, legal } = site;
+
   return (
     <footer className="site-footer">
-      <div className="container footer-main">
-        <div className="footer-brand">
-          <img src="/assets/brand/idsc-logo.svg" alt="IDSC" />
-          <h3>Infotech Development<br/>System Colleges, Inc.</h3>
-          <p>{site?.tagline || 'Empowering Futures with Dedicated Service'}</p>
-          <div className="socials"><a href="#" aria-label="Facebook"><Facebook size={18}/></a><a href={`mailto:${site?.contact?.email}`} aria-label="Email"><Mail size={18}/></a></div>
+      <div className="site-footer__content">
+        <div className="footer-identity">
+          <Link to="/" className="footer-brand" aria-label={`${site.name} home`}>
+            <ImageWithFallback
+              image={site.logo}
+              className="footer-brand__logo"
+              fallback={<span className="brand__monogram">{site.abbreviation}</span>}
+            />
+            <span className="footer-brand__text">
+              <span className="footer-brand__abbr">{site.abbreviation}</span>
+              <span className="footer-brand__city">{site.city}</span>
+            </span>
+          </Link>
+          <p className="footer-identity__name">{site.name}</p>
+          <p className="footer-identity__tagline">{site.tagline}</p>
         </div>
-        <div><h4>{navigation?.footer?.heading || 'Explore'}</h4><div className="footer-links">{links.map((link) => link.href === '/students' && !getSystemUrl('student-portal') ? <span className="disabled-link" key={link.href}>Students <small>not configured</small></span> : <Link key={link.href} to={link.href}>{link.label}</Link>)}</div></div>
-        <div><h4>Contact</h4><div className="contact-list"><span><MapPin size={17}/>{site?.city || 'Ligao City, Albay'}</span><a href={`tel:${site?.contact?.phone}`}><Phone size={17}/>{site?.contact?.phone}</a><a href={`mailto:${site?.contact?.email}`}><Mail size={17}/>{site?.contact?.email}</a></div><p className="office-hours">{site?.contact?.officeHours}</p></div>
+
+        {navigation && (
+          <nav className="footer-nav" aria-label="Explore">
+            <h2 className="footer-heading">{navigation.footer.heading}</h2>
+            <ul>
+              {navigation.footer.links.map((link) => (
+                <li key={link.label}>
+                  <AppLink href={link.href} className="footer-nav__link">
+                    {link.label}
+                  </AppLink>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        )}
+
+        <div className="footer-contact">
+          <h2 className="footer-heading">Contact</h2>
+          <ul>
+            <li>
+              <Icon name="mail" size={22} />
+              <a href={`mailto:${contact.email}`}>{contact.email}</a>
+            </li>
+            <li>
+              <Icon name="phone" size={22} />
+              <a href={`tel:${contact.phone}`}>{contact.phone}</a>
+            </li>
+            <li>
+              <Icon name="clock-3" size={22} />
+              <span>{contact.officeHours}</span>
+            </li>
+          </ul>
+        </div>
       </div>
-      <div className="footer-bottom"><div className="container"><span>{site?.legal?.copyright}</span><div>{(site?.legal?.links ?? []).map((link) => <Link key={link.href} to={link.href}>{link.label}</Link>)}</div></div></div>
+
+      <hr className="site-footer__divider" />
+      <div className="site-footer__legal">
+        <p>{legal.copyright}</p>
+        <ul>
+          {legal.links.map((link) => (
+            <li key={link.label}>
+              <Link to={link.href}>{link.label}</Link>
+            </li>
+          ))}
+        </ul>
+      </div>
     </footer>
   );
 }

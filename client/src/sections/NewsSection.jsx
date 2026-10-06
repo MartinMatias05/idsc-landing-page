@@ -1,9 +1,36 @@
-import { ArrowUpRight, CalendarDays } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import SectionHeading from '../components/SectionHeading';
-import { formatDate } from '../lib/format';
+import AsyncContent from '../components/AsyncContent';
+import NoticeCard from '../components/NoticeCard';
+import SectionLabel from '../components/SectionLabel';
+import TextLink from '../components/TextLink';
 
-export default function NewsSection({ articles = [] }) {
-  const cards = articles.filter((a) => !a.featured).slice(0, 3);
-  return <section className="section news-section"><div className="container"><div className="section-top"><SectionHeading label="What's happening" title="News & updates" description="Stay close to the latest stories, activities, and announcements from the IDSC community."/><Link className="text-link" to="/news">View all news <ArrowUpRight size={16}/></Link></div><div className="news-grid">{cards.map((article) => <article className="news-card" key={article.id}><div className="card-image" style={{backgroundImage:`url(${article.image?.url || '/assets/news/card.svg'})`}}><span>{article.category}</span></div><div className="card-body"><div className="card-date"><CalendarDays size={14}/>{formatDate(article.publishedOn)}</div><h3>{article.title}</h3><p>{article.summary}</p><Link to={`/news/${article.id}`}>Read story <ArrowUpRight size={15}/></Link></div></article>)}</div></div></section>;
+const CARDS_SHOWN = 3;
+
+/** "What's happening at IDSC:" heading row + notice grid (Figma "News" 71:240). */
+export default function NewsSection({ state }) {
+  return (
+    <section className="news-section" aria-labelledby="news-title">
+      <div className="news-section__heading">
+        <div>
+          <SectionLabel>News</SectionLabel>
+          <h2 id="news-title" className="section-title">
+            What’s happening at IDSC:
+          </h2>
+        </div>
+        <TextLink href="/news">View all notices</TextLink>
+      </div>
+      <AsyncContent
+        state={state}
+        isEmpty={(data) => data.items.length === 0}
+        emptyMessage="No news available."
+      >
+        {(data) => (
+          <div className="notice-grid">
+            {data.items.slice(0, CARDS_SHOWN).map((article, index) => (
+              <NoticeCard key={article.id} article={article} accent={index === 0} />
+            ))}
+          </div>
+        )}
+      </AsyncContent>
+    </section>
+  );
 }
