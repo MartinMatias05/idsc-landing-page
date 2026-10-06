@@ -1,8 +1,32 @@
-import { ArrowUpRight, CalendarDays } from 'lucide-react';
-import SectionHeading from '../components/SectionHeading';
-import { formatDate } from '../lib/format';
+import AsyncContent from '../components/AsyncContent';
+import PulseCard from '../components/PulseCard';
+import SectionLabel from '../components/SectionLabel';
 
-export default function PulseSection({ pulse }) {
-  const items = pulse?.items ?? [];
-  return <section className="section pulse-section"><div className="container"><SectionHeading label={pulse?.heading?.label || 'IDSC Pulse'} title={pulse?.heading?.title || 'Latest IDSC Blog'} description={pulse?.heading?.description || 'Stories, reminders, and community updates from IDSC.'}/><div className="pulse-grid">{items.map((item) => <article className="pulse-card" key={item.id}><div className="pulse-image" style={{backgroundImage:`url(${item.image?.url || '/assets/pulse/card.svg'})`}}/><div className="pulse-body"><div className="card-date"><CalendarDays size={14}/>{formatDate(item.postedOn)}</div><h3>{item.title}</h3><p>{item.summary}</p><a href="#pulse">Explore <ArrowUpRight size={15}/></a></div></article>)}</div></div></section>;
+/** IDSC Pulse heading band + three cards (Figma "Programs and admission" 83:353). */
+export default function PulseSection({ state }) {
+  return (
+    <section className="pulse" aria-labelledby="pulse-title">
+      <AsyncContent
+        state={state}
+        isEmpty={(data) => data.items.length === 0}
+        emptyMessage="No posts available."
+      >
+        {({ heading, items }) => (
+          <>
+            <div className="pulse__heading">
+              <SectionLabel>{heading.label}</SectionLabel>
+              <h2 id="pulse-title" className="section-title">
+                {heading.title}
+              </h2>
+            </div>
+            <div className="pulse__grid">
+              {items.map((post) => (
+                <PulseCard key={post.id} post={post} />
+              ))}
+            </div>
+          </>
+        )}
+      </AsyncContent>
+    </section>
+  );
 }

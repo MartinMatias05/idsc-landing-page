@@ -1,7 +1,46 @@
-import { ArrowUpRight, Clock3, MessageCircle } from 'lucide-react';
-import Button from '../components/Button';
+import AppLink from '../components/AppLink';
+import AsyncContent from '../components/AsyncContent';
+import Icon from '../components/Icon';
+import SupportCard from '../components/SupportCard';
 
-export default function CtaSection({ enrollment, site }) {
-  const support = enrollment?.support;
-  return <section className="cta-section"><div className="container cta-wrap"><div><div className="eyebrow"><span />Take the next step</div><h2>{enrollment?.callToAction?.headline || 'Planning to enroll at IDSC?'}</h2><p>{enrollment?.callToAction?.description}</p><div className="cta-actions"><Button href="/admission/requirements" variant="yellow">Apply now</Button><Button href="/admission/requirements" variant="ghost">View requirements</Button></div></div><aside className="support-card"><div className="support-icon"><MessageCircle/></div><span>{support?.label || 'Admissions Support'}</span><h3>{support?.title || 'Questions before you apply?'}</h3><p>{support?.description}</p><a href={`tel:${support?.phone || site?.contact?.phone}`}><ArrowUpRight size={16}/>{support?.phone || site?.contact?.phone}</a><small><Clock3 size={14}/>{site?.contact?.officeHours || 'Monday–Friday · 8:00 AM–4:00 PM'}</small></aside></div></section>;
+// The design pairs the primary button with an arrow and the secondary one with a clipboard icon.
+const ACTION_ICONS = ['arrow-right', 'clipboard-list'];
+
+/** Final enrollment call to action + admissions support card (Figma 83:450). */
+export default function CtaSection({ state }) {
+  return (
+    <section className="cta" aria-labelledby="cta-title">
+      <span className="cta__glow" aria-hidden="true" />
+      <span className="cta__ring" aria-hidden="true" />
+      <AsyncContent state={state} isEmpty={(data) => !data.callToAction} emptyMessage="No enrollment information available.">
+        {({ callToAction, support }) => (
+          <>
+            <div className="cta__content">
+              <p className="cta__label">
+                <span className="cta__accent" aria-hidden="true" />
+                {callToAction.label}
+              </p>
+              <h2 id="cta-title" className="cta__headline">
+                {callToAction.headline}
+              </h2>
+              <p className="cta__description">{callToAction.description}</p>
+              <div className="cta__actions">
+                {callToAction.actions.map((action, index) => (
+                  <AppLink
+                    key={action.href}
+                    href={action.href}
+                    className={`btn btn--large ${index === 0 ? 'btn--yellow' : 'btn--white'}`}
+                  >
+                    {action.label}
+                    <Icon name={ACTION_ICONS[index] ?? 'arrow-right'} size={23} />
+                  </AppLink>
+                ))}
+              </div>
+            </div>
+            <SupportCard support={support} />
+          </>
+        )}
+      </AsyncContent>
+    </section>
+  );
 }

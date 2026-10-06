@@ -1,0 +1,63 @@
+/*
+ * Design tokens for the IDSC Landing Page.
+ * Source: Figma file BpFsOPmNJjEHGxVgl1QuwN, frame "Landing Page" (43:15).
+ *
+ * --u is "1px of the 1920px Figma frame": it equals 1px at viewport widths of 1920px and above and
+ * shrinks proportionally below. Writing `calc(64 * var(--u))` therefore reproduces the Figma value
+ * exactly on desktop while letting the layout scale down.
+ */
+:root {
+  --u: calc(min(100vw, 1920px) / 1920);
+
+  /* Typography (Figma text styles) */
+  --font-display: 'Plus Jakarta Sans', system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+  --font-hero: 'Inria Sans', 'Inter', system-ui, sans-serif;
+
+  /* Colors: VERIFIED from Figma */
+  --ink: #0f2a1d;
+  --nav-ink: #13231a;
+  --muted: #5e6e63;
+  --green: #228b22;
+  --yellow: #f4c64e;
+  --tagline: #ddcb0d;
+  --mint: #ddf4c9;
+  --accent-card: #0f5723;
+  --card-title: #1c351b;
+  --accent-date: #bfd8b8;
+  --line: #d8e4d8;
+  --header-dark: #0c2d0c;
+  --header-overlay: rgba(25, 83, 22, 0.7);
+  --card-border: rgba(15, 42, 29, 0.43);
+  --search-fill: rgba(255, 255, 255, 0.07);
+  --search-border: rgba(255, 255, 255, 0.17);
+  --enroll-top: #f6f9f3;
+  --enroll-mid: #eaf5e4;
+  --shadow-news: 0 12px 32px 0 rgba(15, 42, 29, 0.08);
+  --shadow-pulse: 0 12px 32px 3px rgba(15, 42, 29, 0.33);
+  --shadow-enroll: 0 18px 48px 0 rgba(15, 42, 29, 0.15);
+
+  /*
+   * NOT VERIFIED: the Figma MCP call limit was reached before these nodes could be inspected.
+   * Geometry for these sections IS exact; only the values below are read from the screenshot.
+   * Replace them with the real Figma values in this one block.
+   *   Statistics 2014:162 · Final CTA 83:450 · Footer 83:481 · nav dropdown panel 2017:298-301
+   *   · decorative shapes 65:211 / 65:212 / 83:451 / 83:452 (SVG assets, drawn here with CSS)
+   */
+  --stat-green: #22cc2c;
+  --stat-dark-green: #1f7a35;
+  --stat-red: #b32d2d;
+  --stat-label: #3d4f43;
+  --cta-bg: #0f3d1c;
+  --cta-text: #ddf4c9;
+  --cta-glow: rgba(34, 139, 34, 0.35);
+  --cta-ring: rgba(221, 244, 201, 0.18);
+  --footer-bg: #0b2415;
+  --footer-heading: #5fd35f;
+  --footer-text: #ddf4c9;
+  --footer-line: rgba(255, 255, 255, 0.15);
+  --dropdown-bg: #ffffff;
+  --dropdown-text: #5e6e63;
+  --decor-circle: rgba(34, 139, 34, 0.08);
+  --decor-ring: rgba(34, 139, 34, 0.25);
+}

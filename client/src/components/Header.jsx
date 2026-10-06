@@ -1,141 +1,62 @@
-import { Menu, Search, X, MapPin, ChevronDown } from 'lucide-react';
-import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import Button from './Button';
+import { useState } from 'react';
+import AppLink from './AppLink';
+import Brand from './Brand';
+import Icon from './Icon';
+import MainNav from './MainNav';
 
+/**
+ * Two stacked bars as in Figma "Home Page and Header": a photographic green top bar
+ * (brand, search, Apply Now) and a white navigation bar with the city on the right.
+ * `site` / `navigation` may be null while loading or if the API fails; the header still renders.
+ */
 export default function Header({ site, navigation }) {
-  const [open, setOpen] = useState(false);
-  const [active, setActive] = useState(null);
-
-  useEffect(() => {
-    document.body.style.overflow = open ? 'hidden' : '';
-
-    return () => {
-      document.body.style.overflow = '';
-    };
-  }, [open]);
-
-  const items = navigation?.primary ?? [];
-
-  const closeMobileMenu = () => {
-    setOpen(false);
-    setActive(null);
-  };
-
-  const toggleDropdown = (id) => {
-    setActive((current) => (current === id ? null : id));
-  };
+  const [menuOpen, setMenuOpen] = useState(false);
 
   return (
     <header className="site-header">
-      {/* TOP BAR */}
       <div className="topbar">
-        <div className="container topbar-inner">
-          <Link
-            className="brand"
-            to="/"
-            aria-label="IDSC home"
-            onClick={closeMobileMenu}
-          >
-            <img
-              src="/assets/brand/idsc-logo.svg"
-              alt="Infotech Development System Colleges"
+        <Brand site={site} />
+        <div className="topbar__actions">
+          {/* The API contract has no search endpoint, so the field is shown but not interactive. */}
+          <div className="search" role="search">
+            <Icon name="search" size={19} />
+            <input
+              type="search"
+              className="search__input"
+              placeholder={site?.searchPlaceholder ?? 'Search IDSC'}
+              aria-label={site?.searchPlaceholder ?? 'Search IDSC'}
+              disabled
             />
-
-            <span className="brand-copy">
-              <b>IDSC</b>
-              <small>{site?.city || 'Ligao City'}</small>
-            </span>
-          </Link>
-
-          <div className="top-actions">
-            <label className="search-box">
-              <Search size={17} aria-hidden="true" />
-
-              <input
-                aria-label="Search IDSC"
-                placeholder={site?.searchPlaceholder || 'Search IDSC'}
-              />
-
-              <kbd>⌘ K</kbd>
-            </label>
-
-            <Button
-              href={site?.headerCta?.href || '/admission/requirements'}
-              variant="yellow"
-            >
-              {site?.headerCta?.label || 'Apply Now'}
-            </Button>
           </div>
+          {site?.headerCta && (
+            <AppLink href={site.headerCta.href} className="btn btn--yellow">
+              {site.headerCta.label}
+              <Icon name="arrow-right" size={19} />
+            </AppLink>
+          )}
         </div>
       </div>
 
-      {/* MAIN NAVIGATION */}
-      <div className="nav-row">
-        <div className="container nav-inner">
-          <nav
-            className={`main-nav ${open ? 'open' : ''}`}
-            aria-label="Main navigation"
-          >
-            {items.map((item) =>
-              item.children?.length ? (
-                <div className="nav-dropdown" key={item.id}>
-                  <button
-                    type="button"
-                    className={`nav-link ${
-                      active === item.id ? 'active' : ''
-                    }`}
-                    onClick={() => toggleDropdown(item.id)}
-                    aria-expanded={active === item.id}
-                  >
-                    <span>{item.label}</span>
-                    <ChevronDown size={15} aria-hidden="true" />
-                  </button>
-
-                  <div
-                    className={`dropdown-menu ${
-                      active === item.id ? 'show' : ''
-                    }`}
-                  >
-                    {item.children.map((child) => (
-                      <Link
-                        key={child.href}
-                        to={child.href}
-                        onClick={closeMobileMenu}
-                      >
-                        {child.label}
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-              ) : (
-                <Link
-                  className="nav-link"
-                  key={item.id}
-                  to={item.href}
-                  onClick={closeMobileMenu}
-                >
-                  {item.label}
-                </Link>
-              )
-            )}
-          </nav>
-
-          <div className="location-tag">
-            <MapPin size={15} aria-hidden="true" />
-            <span>{site?.city || 'Ligao City'}</span>
-          </div>
-
-          <button
-            type="button"
-            className="mobile-toggle"
-            aria-label={open ? 'Close navigation' : 'Open navigation'}
-            aria-expanded={open}
-            onClick={() => setOpen((current) => !current)}
-          >
-            {open ? <X size={23} /> : <Menu size={23} />}
-          </button>
-        </div>
+      <div className="navbar">
+        <button
+          type="button"
+          className="navbar__toggle"
+          aria-expanded={menuOpen}
+          aria-controls="main-nav"
+          onClick={() => setMenuOpen((open) => !open)}
+        >
+          <Icon name={menuOpen ? 'x' : 'menu'} size={22} />
+          <span>Menu</span>
+        </button>
+        <nav id="main-nav" className={`main-nav${menuOpen ? ' is-open' : ''}`} aria-label="Main">
+          {navigation && <MainNav items={navigation.primary} onNavigate={() => setMenuOpen(false)} />}
+        </nav>
+        {site && (
+          <p className="navbar__location">
+            <Icon name="map-pin" size={22} />
+            {site.city}
+          </p>
+        )}
       </div>
     </header>
   );
