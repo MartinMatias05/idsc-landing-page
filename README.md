@@ -103,7 +103,7 @@ Integration between modules is handled through defined API or external-system bo
 |---|---|---|
 | Backend | Edrei Purtogal |  |
 | Frontend | Martin Matias | @MartinMatias05 |
-| Documentation | Kimi Gaerlan | |
+| Documentation | Kimi Gaerlan | @EdPortugal05 |
 
 ### Additional Project Contribution
 
