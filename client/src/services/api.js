@@ -36,7 +36,6 @@ export const api = {
   getSite: (signal) => request('/site', signal),
   getNavigation: (signal) => request('/navigation', signal),
   getNews: (signal) => request('/news', signal),
-  getNewsArticle: (id, signal) => request(`/news/${encodeURIComponent(id)}`, signal),
   getEnrollment: (signal) => request('/enrollment', signal),
   getPulse: (signal) => request('/pulse', signal),
   getStatistics: (signal) => request('/statistics', signal),

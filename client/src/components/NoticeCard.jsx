@@ -5,6 +5,7 @@ import TextLink from './TextLink';
 
 /**
  * News notice card (Figma "Notice card" 71:255). `accent` is the dark-green variant used by the first card.
+ * "Read update" leaves the Landing Page for the existing News System; the whole card is clickable.
  * The image is flexible: it takes whatever height the text above/below leaves inside the fixed-height card.
  */
 export default function NoticeCard({ article, accent = false }) {
@@ -19,7 +20,9 @@ export default function NoticeCard({ article, accent = false }) {
       {article.summary && <p className="notice-card__summary">{article.summary}</p>}
       <div className="notice-card__footer">
         <span className="notice-card__date">{formatPosted(article.publishedOn)}</span>
-        <TextLink href={`/news/${article.id}`}>Read update</TextLink>
+        <TextLink systemId="news" itemId={article.id} className="stretched-link">
+          Read update
+        </TextLink>
       </div>
     </article>
   );
