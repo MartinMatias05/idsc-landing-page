@@ -95,7 +95,7 @@
 /* ===== Statistics: Figma "View" (2014:162): 431px rings, 43px thick, 98px apart ===== */
 .stats { display: flex; justify-content: center; padding: max(2rem, calc(110 * var(--u))) 1rem; }
 .stats__list { --ring: max(240px, calc(431 * var(--u))); display: flex; flex-wrap: wrap; justify-content: center; gap: max(24px, calc(98 * var(--u))); }
-.stat-ring { width: var(--ring); aspect-ratio: 1; border-radius: 50%; background: var(--ring-color); display: grid; place-items: center; }
+.stat-ring { position: relative; width: var(--ring); aspect-ratio: 1; border-radius: 50%; background: var(--ring-color); display: grid; place-items: center; }
 .stat-ring--green { --ring-color: var(--stat-green); }
 .stat-ring--dark-green { --ring-color: var(--stat-dark-green); }
 .stat-ring--red { --ring-color: var(--stat-red); }
@@ -110,6 +110,19 @@
 .stat-ring__value {
   font-family: var(--font-display); font-weight: 800; color: var(--ring-color);
   font-size: calc(var(--ring) * 0.1763); line-height: calc(var(--ring) * 0.2111);
+}
+
+/* Linked statistic (Faculty): same circle, plus a small arrow and a subtle hover / focus state */
+.stat-ring--link { transition: transform .18s ease, box-shadow .18s ease; }
+.stat-ring--link:hover { transform: translateY(var(--stat-link-lift)); box-shadow: var(--stat-link-shadow); }
+.stat-ring--link:has(.stat-ring__link:focus-visible) { outline: 3px solid var(--yellow); outline-offset: 4px; }
+.stat-ring__link { color: var(--stat-link-icon); }
+.stat-ring__link:focus-visible { outline: none; }
+.stat-ring__link::after { border-radius: 50%; }
+.stat-ring__link-icon { position: absolute; top: calc(var(--ring) * 0.13); left: 50%; transform: translateX(-50%); }
+@media (prefers-reduced-motion: reduce) {
+  .stat-ring--link { transition: none; }
+  .stat-ring--link:hover { transform: none; }
 }
 
 /* ===== Final CTA: Figma 83:450 ===== */

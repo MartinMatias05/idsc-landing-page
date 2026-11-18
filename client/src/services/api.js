@@ -10,11 +10,11 @@ export class ApiError extends Error {
   }
 }
 
-/** GET a JSON resource. Problem Details bodies (RFC 9457) become ApiError messages. */
-async function request(path, signal) {
+/** Request a JSON resource (GET unless `init.method` says otherwise). Problem Details bodies (RFC 9457) become ApiError messages. */
+async function request(path, signal, init = {}) {
   let response;
   try {
-    response = await fetch(`${API_BASE_URL}${path}`, { signal, headers: { Accept: 'application/json' } });
+    response = await fetch(`${API_BASE_URL}${path}`, { signal, headers: { Accept: 'application/json' }, ...init });
   } catch (cause) {
     if (cause.name === 'AbortError') throw cause;
     throw new ApiError('The Landing Page API could not be reached.', { kind: 'network' });
@@ -39,4 +39,5 @@ export const api = {
   getEnrollment: (signal) => request('/enrollment', signal),
   getPulse: (signal) => request('/pulse', signal),
   getStatistics: (signal) => request('/statistics', signal),
+  recordVisit: (signal) => request('/visits', signal, { method: 'POST' }),
 };

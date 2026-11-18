@@ -24,9 +24,17 @@ export const SYSTEMS = [
 
 /**
  * Landing Page routes that hand the visitor off to another system instead of rendering a page.
- * The API's "News" menu item (/news) and footer link "Students" (/students) leave the Landing Page.
+ * The API's "News" menu item (/news) leaves the Landing Page for the News System.
  */
 export const ROUTE_TO_SYSTEM = {
   '/news': 'news',
-  '/students': 'student-portal',
+};
+
+/**
+ * Statistics whose circle is also a link to the system that owns the number.
+ * Keys are statistic ids from GET /statistics; values are ids from SYSTEMS above.
+ * "Student Enrolled" and "Site Visitor" are deliberately absent: they are not links.
+ */
+export const STATISTIC_TO_SYSTEM = {
+  'faculty-fulltime': 'faculty',
 };
