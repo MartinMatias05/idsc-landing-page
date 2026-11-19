@@ -89,8 +89,8 @@ test('a handler exists for every documented operationId', () => {
 });
 
 for (const [p, method, op] of operations()) {
-  test(`service output for ${method.toUpperCase()} ${p} matches schema ${responseSchemaName(op)}`, () => {
-    const body = handlers[op.operationId]();
+  test(`service output for ${method.toUpperCase()} ${p} matches schema ${responseSchemaName(op)}`, async () => {
+  const body = await handlers[op.operationId]();
     const { valid, errors } = schemaValidator(responseSchemaName(op))(body);
     assert.ok(valid, errors.join('\n'));
   });
@@ -147,8 +147,9 @@ test('business rules: one featured news item, newest first, tuition ids resolve'
   }
 });
 
-test('statistics typo from Figma is corrected and values are flagged as mock', () => {
-  const { items } = home.getStatistics();
+test('statistics typo from Figma is corrected and values are flagged as mock', async () => {
+  const { items } = await home.getStatistics();
+
   assert.ok(items.some((s) => s.label === 'Full-time Faculty'));
   assert.ok(!JSON.stringify(items).toUpperCase().includes('FACULTU'));
   assert.ok(items.every((s) => s.provider.isMock === true));
@@ -182,17 +183,32 @@ test('footer navigation no longer contains a Students entry', () => {
   assert.deepEqual(labels, ['Admission', 'Programs', 'Facilities', 'News', 'About IDSC']);
 });
 
-test('recording a visit increases the Site Visitor statistic by one', () => {
-  const visitors = () => home.getStatistics().items.find((item) => item.id === 'site-visitors').value;
-  const before = visitors();
+test('recording a visit increases the Site Visitor statistic by one', async () => {
+  const visitors = async () => {
+    const statistics = await home.getStatistics();
+    return statistics.items.find(
+      (item) => item.id === 'site-visitors'
+    ).value;
+  };
+
+  const before = await visitors();
+
   assert.equal(visit.recordVisit().count, before + 1);
-  assert.equal(visitors(), before + 1);
-  assert.ok(Number.isInteger(visitors()));
+  assert.equal(await visitors(), before + 1);
+  assert.ok(Number.isInteger(await visitors()));
 });
 
-test('the visitor counter is the only mutable state and statistics reads never change it', () => {
-  const before = home.getStatistics().items.find((item) => item.id === 'site-visitors').value;
-  home.getStatistics();
-  home.getStatistics();
-  assert.equal(home.getStatistics().items.find((item) => item.id === 'site-visitors').value, before);
+test('the visitor counter is the only mutable state and statistics reads never change it', async () => {
+  const before = (await home.getStatistics()).items.find(
+    (item) => item.id === 'site-visitors'
+  ).value;
+
+  await home.getStatistics();
+  await home.getStatistics();
+
+  const after = (await home.getStatistics()).items.find(
+    (item) => item.id === 'site-visitors'
+  ).value;
+
+  assert.equal(after, before);
 });
