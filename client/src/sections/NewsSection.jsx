@@ -5,7 +5,10 @@ import TextLink from '../components/TextLink';
 
 const CARDS_SHOWN = 3;
 
-/** "What's happening at IDSC:" heading row + notice grid (Figma "News" 71:240). */
+/**
+ * "What's happening at IDSC:" heading row + notice grid (Figma "News" 71:240).
+ * A preview only: full articles live in the existing News System, reached through the links.
+ */
 export default function NewsSection({ state }) {
   return (
     <section className="news-section" aria-labelledby="news-title">
@@ -16,7 +19,7 @@ export default function NewsSection({ state }) {
             What’s happening at IDSC:
           </h2>
         </div>
-        <TextLink href="/news">View all notices</TextLink>
+        <TextLink systemId="news">View all notices</TextLink>
       </div>
       <AsyncContent
         state={state}

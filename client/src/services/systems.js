@@ -11,17 +11,31 @@ function parseUrl(value) {
   }
 }
 
+/** An item path template must be an absolute path containing `{id}`, for example `/articles/{id}`. */
+const parseItemPath = (value) => (value && value.startsWith('/') && value.includes('{id}') ? value : null);
+
 const registry = new Map(
-  SYSTEMS.map(({ id, name, envKey }) => {
+  SYSTEMS.map(({ id, name, envKey, itemPathKey }) => {
     const url = parseUrl(import.meta.env[envKey]);
-    return [id, { id, name, url, enabled: url !== null }];
+    const itemPath = itemPathKey ? parseItemPath(import.meta.env[itemPathKey]) : null;
+    return [id, { id, name, url, itemPath, enabled: url !== null }];
   }),
 );
 
-/** @returns {{id: string, name: string, url: string|null, enabled: boolean}|null} */
+/** @returns {{id: string, name: string, url: string|null, itemPath: string|null, enabled: boolean}|null} */
 export const getSystem = (id) => registry.get(id) ?? null;
 
 export const systemIdForRoute = (href) => ROUTE_TO_SYSTEM[href] ?? null;
+
+/**
+ * Destination for a link to `system`. With an `itemId` and a configured item path the link goes to that
+ * item; otherwise to the system's landing URL. Returns null when the system has no URL yet.
+ */
+export function getSystemUrl(system, itemId) {
+  if (!system?.enabled) return null;
+  if (itemId === undefined || !system.itemPath) return system.url;
+  return new URL(system.itemPath.replace('{id}', encodeURIComponent(itemId)), system.url).href;
+}
 
 /**
  * Best-effort reachability probe. A no-cors request resolves for any server that answers

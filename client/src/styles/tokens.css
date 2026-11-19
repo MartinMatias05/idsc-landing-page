@@ -48,6 +48,11 @@
   --stat-dark-green: #1f7a35;
   --stat-red: #b32d2d;
   --stat-label: #3d4f43;
+  /* Hover / focus of the linked statistic (Faculty). The updated Figma frames could not be read, so these
+     are proposals to compare with the design: ring lift, soft shadow, yellow focus outline. */
+  --stat-link-shadow: 0 14px 32px rgba(15, 42, 29, 0.22);
+  --stat-link-lift: -4px;
+  --stat-link-icon: #1f7a35;
   --cta-bg: #0f3d1c;
   --cta-text: #ddf4c9;
   --cta-glow: rgba(34, 139, 34, 0.35);

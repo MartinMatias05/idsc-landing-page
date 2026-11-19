@@ -1,5 +1,6 @@
 import { api } from '../services/api';
 import { useApi } from '../hooks/useApi';
+import { useVisitCounter } from '../hooks/useVisitCounter';
 import CtaSection from '../sections/CtaSection';
 import EnrollmentSection from '../sections/EnrollmentSection';
 import NewsHero from '../sections/NewsHero';
@@ -10,12 +11,14 @@ import StatisticsSection from '../sections/StatisticsSection';
 /**
  * Landing page. Each endpoint is requested once and shared by the sections that need it:
  * /news feeds the hero and the notice grid, /enrollment feeds the enrollment hero and the final CTA.
+ * Viewing this page counts as one Site Visitor, after which the statistics are fetched again.
  */
 export default function HomePage() {
   const news = useApi(api.getNews);
   const enrollment = useApi(api.getEnrollment);
   const pulse = useApi(api.getPulse);
   const statistics = useApi(api.getStatistics);
+  useVisitCounter(statistics.reload);
 
   return (
     <>

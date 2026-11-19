@@ -1,16 +1,18 @@
 import { useState } from 'react';
-import { getSystem, isReachable } from '../services/systems';
+import { getSystem, getSystemUrl, isReachable } from '../services/systems';
 
 /**
  * Link to another system of the College Management System.
  * - No URL configured yet: renders as a disabled item (no broken link).
+ * - `itemId` links to one item of the system when an item path is configured (see systems.config.js).
  * - URL configured but the host is down: shows a notice instead of a browser error page.
  */
-export default function SystemLink({ systemId, className = '', children }) {
+export default function SystemLink({ systemId, itemId, className = '', children }) {
   const system = getSystem(systemId);
+  const target = getSystemUrl(system, itemId);
   const [status, setStatus] = useState('idle');
 
-  if (!system || !system.enabled) {
+  if (!target) {
     return (
       <span
         className={`${className} is-unavailable`}
@@ -25,8 +27,8 @@ export default function SystemLink({ systemId, className = '', children }) {
   async function handleClick(event) {
     event.preventDefault();
     setStatus('checking');
-    if (await isReachable(system.url)) {
-      window.location.assign(system.url);
+    if (await isReachable(target)) {
+      window.location.assign(target);
     } else {
       setStatus('unavailable');
     }
@@ -34,7 +36,7 @@ export default function SystemLink({ systemId, className = '', children }) {
 
   return (
     <>
-      <a href={system.url} className={className} onClick={handleClick}>
+      <a href={target} className={className} onClick={handleClick}>
         {children}
       </a>
       {status === 'unavailable' && (
