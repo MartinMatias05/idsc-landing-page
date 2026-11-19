@@ -26,7 +26,14 @@ router.get('/news/:id', (req, res) => res.json(news.getNews(req.params.id)));
 
 router.get('/enrollment', (req, res) => res.json(home.getEnrollment()));
 router.get('/pulse', (req, res) => res.json(home.getPulse()));
-router.get('/statistics', (req, res) => res.json(home.getStatistics()));
+router.get('/statistics', async (req, res, next) => {
+  try {
+    const statistics = await home.getStatistics();
+    res.json(statistics);
+  } catch (error) {
+    next(error);
+  }
+});
 router.post('/visits', (req, res) => res.status(201).json(visits.recordVisit()));
 
 router.get('/programs', (req, res) => res.json(programs.listPrograms(req.query.level)));
