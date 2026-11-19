@@ -24,9 +24,14 @@ function schemaValidator(name) {
   });
 }
 
-/** Schema name referenced by an operation's 200 JSON response. */
+/** The documented success response of an operation: 200 for reads, 201 for POST /visits. */
+function successResponse(operation) {
+  return operation.responses['200'] ?? operation.responses['201'];
+}
+
+/** Schema name referenced by an operation's success JSON response. */
 function responseSchemaName(operation) {
-  const ref = operation.responses['200'].content['application/json'].schema.$ref;
+  const ref = successResponse(operation).content['application/json'].schema.$ref;
   return ref.split('/').pop();
 }
 
@@ -37,4 +42,4 @@ function operations() {
   );
 }
 
-module.exports = { spec, schemaValidator, responseSchemaName, operations };
+module.exports = { spec, schemaValidator, responseSchemaName, successResponse, operations };
