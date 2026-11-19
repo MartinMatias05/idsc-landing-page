@@ -74,8 +74,6 @@ const navigation = {
     links: [
       { label: 'Admission', href: '/admission/requirements' },
       { label: 'Programs', href: '/programs/college' },
-      // "Students" is expected to hand off to the Student Portal module (see docs/integration.md).
-      { label: 'Students', href: '/students' },
       { label: 'Facilities', href: '/facilities/laboratories' },
       { label: 'News', href: '/news' },
       { label: 'About IDSC', href: '/about' },

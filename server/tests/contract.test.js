@@ -12,7 +12,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 
-const { spec, schemaValidator, responseSchemaName, operations } = require('./helpers');
+const { spec, schemaValidator, responseSchemaName, successResponse, operations } = require('./helpers');
 const { toProblemBody, ProblemError } = require('../errors');
 const site = require('../services/site.service');
 const news = require('../services/news.service');
@@ -20,6 +20,7 @@ const home = require('../services/home.service');
 const programs = require('../services/program.service');
 const admission = require('../services/admission.service');
 const institution = require('../services/institution.service');
+const visit = require('../services/visit.service');
 
 // operationId -> function that produces the response body for the documented example input.
 const handlers = {
@@ -39,6 +40,7 @@ const handlers = {
   getPaymentInstructions: () => admission.getPaymentInstructions(),
   getAbout: () => institution.getAbout(),
   listFacilities: () => institution.listFacilities(),
+  recordVisit: () => visit.recordVisit(),
 };
 
 test('OpenAPI document is 3.x with required metadata', () => {
@@ -49,23 +51,25 @@ test('OpenAPI document is 3.x with required metadata', () => {
   for (const [, , op] of operations()) {
     assert.ok(op.operationId, 'operationId missing');
     assert.ok(op.tags.every((t) => tagNames.includes(t)), `unknown tag on ${op.operationId}`);
-    assert.ok(op.responses['200'], `${op.operationId} lacks a 200 response`);
+    assert.ok(successResponse(op), `${op.operationId} lacks a success response`);
     assert.ok(op.responses['500'], `${op.operationId} lacks a 500 response`);
   }
   const ids = operations().map(([, , op]) => op.operationId);
   assert.equal(new Set(ids).size, ids.length, 'operationIds must be unique');
 });
 
-test('only GET operations exist (read-only module, no auth)', () => {
-  for (const [p, method] of operations()) assert.equal(method, 'get', `${method} ${p}`);
+test('read-only module: GET everywhere except POST /visits (no auth)', () => {
+  for (const [p, method] of operations()) {
+    assert.ok(method === 'get' || (method === 'post' && p === '/visits'), `${method} ${p}`);
+  }
 });
 
 test('routes/index.js and openapi.yaml describe exactly the same endpoints', () => {
   const source = fs.readFileSync(path.join(__dirname, '..', 'routes', 'index.js'), 'utf8');
-  const implemented = [...source.matchAll(/router\.get\(\s*'([^']+)'/g)]
-    .map((m) => m[1].replace(/:(\w+)/g, '{$1}'))
+  const implemented = [...source.matchAll(/router\.(get|post)\(\s*'([^']+)'/g)]
+    .map((m) => `${m[1]} ${m[2].replace(/:(\w+)/g, '{$1}')}`)
     .sort();
-  const documented = Object.keys(spec.paths).sort();
+  const documented = operations().map(([p, method]) => `${method} ${p}`).sort();
   assert.deepEqual(implemented, documented);
 });
 
@@ -84,8 +88,8 @@ test('a handler exists for every documented operationId', () => {
   assert.deepEqual(Object.keys(handlers).sort(), ids);
 });
 
-for (const [p, , op] of operations()) {
-  test(`service output for GET ${p} matches schema ${responseSchemaName(op)}`, () => {
+for (const [p, method, op] of operations()) {
+  test(`service output for ${method.toUpperCase()} ${p} matches schema ${responseSchemaName(op)}`, () => {
     const body = handlers[op.operationId]();
     const { valid, errors } = schemaValidator(responseSchemaName(op))(body);
     assert.ok(valid, errors.join('\n'));
@@ -94,7 +98,7 @@ for (const [p, , op] of operations()) {
 
 test('documented examples validate against their schemas', () => {
   for (const [p, , op] of operations()) {
-    const entry = op.responses['200'].content['application/json'].examples.default;
+    const entry = successResponse(op).content['application/json'].examples.default;
     const example = entry.$ref ? spec.components.examples[entry.$ref.split('/').pop()].value : entry.value;
     const { valid, errors } = schemaValidator(responseSchemaName(op))(example);
     assert.ok(valid, `${p}: ${errors.join('; ')}`);
@@ -170,4 +174,25 @@ test('mock data and contract contain no placeholder text', () => {
   for (const file of files) {
     assert.ok(!banned.test(fs.readFileSync(file, 'utf8')), `placeholder text in ${file}`);
   }
+});
+
+test('footer navigation no longer contains a Students entry', () => {
+  const labels = site.getNavigation().footer.links.map((link) => link.label);
+  assert.ok(!labels.includes('Students'));
+  assert.deepEqual(labels, ['Admission', 'Programs', 'Facilities', 'News', 'About IDSC']);
+});
+
+test('recording a visit increases the Site Visitor statistic by one', () => {
+  const visitors = () => home.getStatistics().items.find((item) => item.id === 'site-visitors').value;
+  const before = visitors();
+  assert.equal(visit.recordVisit().count, before + 1);
+  assert.equal(visitors(), before + 1);
+  assert.ok(Number.isInteger(visitors()));
+});
+
+test('the visitor counter is the only mutable state and statistics reads never change it', () => {
+  const before = home.getStatistics().items.find((item) => item.id === 'site-visitors').value;
+  home.getStatistics();
+  home.getStatistics();
+  assert.equal(home.getStatistics().items.find((item) => item.id === 'site-visitors').value, before);
 });

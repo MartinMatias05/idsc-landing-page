@@ -33,7 +33,7 @@ function concretePath(openapiPath, operation) {
   });
 }
 
-for (const [p, , op] of operations()) {
+for (const [p, , op] of operations().filter(([, method]) => method === 'get')) {
   test(`GET ${p} -> 200 and matches the contract`, async () => {
     const res = await get(concretePath(p, op));
     assert.equal(res.status, 200);
@@ -95,4 +95,20 @@ test('Swagger UI is served at /docs', async () => {
   const res = await fetch(`${base}/docs/`);
   assert.equal(res.status, 200);
   assert.match(await res.text(), /swagger-ui/i);
+});
+
+test('POST /visits -> 201, matches the contract and is reflected by GET /statistics', async () => {
+  const before = (await (await get('/statistics')).json()).items.find((i) => i.id === 'site-visitors').value;
+  const res = await get('/visits', { method: 'POST' });
+  assert.equal(res.status, 201);
+  const body = await res.json();
+  const { valid, errors } = schemaValidator('VisitRecorded')(body);
+  assert.ok(valid, errors.join('\n'));
+  assert.equal(body.count, before + 1);
+  const after = (await (await get('/statistics')).json()).items.find((i) => i.id === 'site-visitors').value;
+  assert.equal(after, body.count);
+});
+
+test('GET /visits is not routed (the endpoint is POST only)', async () => {
+  await expectProblem(await get('/visits'), 404);
 });

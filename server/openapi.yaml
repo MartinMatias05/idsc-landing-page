@@ -182,8 +182,9 @@ paths:
       summary: Headline statistics
       description: |
         Enrolled students, full-time faculty and site visitors.
-        **Mock values** for the midterm. In production the student count comes from the Registrar
-        module and the faculty count from the Faculty module.
+        The student and faculty counts are **mock values** for the midterm; in production they come from
+        the Registrar and Faculty modules. The site visitor count is the Landing Page's own counter and
+        grows with every `POST /visits` (in memory, so it resets when the server restarts).
       responses:
         '200':
           description: Statistics.
@@ -194,6 +195,27 @@ paths:
               examples:
                 default:
                   $ref: '#/components/examples/Statistics'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /visits:
+    post:
+      tags: [Home]
+      operationId: recordVisit
+      summary: Count one Landing Page view
+      description: |
+        Called once when a visitor views the home page. Increases the Site Visitor statistic by one and
+        returns the new total. Takes no request body. The counter lives in memory.
+      responses:
+        '201':
+          description: The view was counted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VisitRecorded'
+              examples:
+                default:
+                  $ref: '#/components/examples/VisitRecorded'
         '500':
           $ref: '#/components/responses/InternalServerError'
 
@@ -778,6 +800,16 @@ components:
           format: date
       additionalProperties: false
 
+    VisitRecorded:
+      type: object
+      required: [count]
+      properties:
+        count:
+          type: integer
+          minimum: 1
+          description: Site Visitor total after this view was counted.
+      additionalProperties: false
+
     ProgramLevel:
       type: string
       enum: [college, shs]
@@ -1132,6 +1164,9 @@ components:
             value: 2120
             tone: green
             provider: { module: registrar, isMock: true }
+    VisitRecorded:
+      value:
+        count: 20001
     Program:
       value:
         id: program-001

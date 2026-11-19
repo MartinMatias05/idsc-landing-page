@@ -4,6 +4,7 @@ const { Router } = require('express');
 const site = require('../services/site.service');
 const news = require('../services/news.service');
 const home = require('../services/home.service');
+const visits = require('../services/visit.service');
 const programs = require('../services/program.service');
 const admission = require('../services/admission.service');
 const institution = require('../services/institution.service');
@@ -11,6 +12,7 @@ const institution = require('../services/institution.service');
 /**
  * Thin HTTP layer: map a path to one service call. No business logic here.
  * Services throw ProblemError; Express forwards synchronous throws to the error middleware.
+ * Read-only except POST /visits, which counts one Landing Page view in memory.
  * Every route below must be documented in openapi.yaml (enforced by tests/contract.test.js).
  */
 const router = Router();
@@ -25,6 +27,7 @@ router.get('/news/:id', (req, res) => res.json(news.getNews(req.params.id)));
 router.get('/enrollment', (req, res) => res.json(home.getEnrollment()));
 router.get('/pulse', (req, res) => res.json(home.getPulse()));
 router.get('/statistics', (req, res) => res.json(home.getStatistics()));
+router.post('/visits', (req, res) => res.status(201).json(visits.recordVisit()));
 
 router.get('/programs', (req, res) => res.json(programs.listPrograms(req.query.level)));
 router.get('/programs/:id', (req, res) => res.json(programs.getProgram(req.params.id)));

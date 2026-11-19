@@ -23,7 +23,7 @@ function createApp({ frontendUrl = 'http://localhost:5173' } = {}) {
 
   // Read-only API: allow only the known dev origins and GET/HEAD/OPTIONS (no wildcard).
   const allowedOrigins = [frontendUrl, frontendUrl.replace('localhost', '127.0.0.1')];
-  app.use(cors({ origin: allowedOrigins, methods: ['GET', 'HEAD', 'OPTIONS'] }));
+  app.use(cors({ origin: allowedOrigins, methods: ['GET', 'HEAD', 'POST', 'OPTIONS'] }));
 
   // Swagger UI renders the very same file that is the API contract.
   const openapiDocument = yaml.load(fs.readFileSync(OPENAPI_PATH, 'utf8'));
