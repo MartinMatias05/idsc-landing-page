@@ -1,0 +1,290 @@
+/*
+  IDSC Home Page — Figma PNG alignment v3
+  Targets: News Hero, What's Happening, IDSC Pulse, Footer faculty link.
+  Import this LAST in src/main.jsx, after other Home Page CSS patches.
+  Ref: user-supplied full-length Landing Page Figma export (1920px design).
+*/
+
+/* SHARED EDITORIAL ALIGNMENT */
+.news-section,
+.pulse__heading,
+.pulse__grid {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 1920px;
+  margin-inline: auto;
+}
+
+/* 1. NEWS HERO: evenly shaded photography, text at top-left.
+   Preserve the center/right of the real photo, unlike the previous dark left panel. */
+.news-hero {
+  justify-content: flex-start;
+  min-height: clamp(520px, 46.45vw, 892px);
+  padding: clamp(74px, 5.9vw, 114px) clamp(24px, 6.7vw, 129px);
+  background: #122f23;
+}
+.news-hero__image {
+  inset: 0;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  object-fit: cover;
+  object-position: center 50%;
+}
+.news-hero__scrim {
+  mix-blend-mode: normal;
+  background: linear-gradient(to bottom,
+    rgba(3, 22, 21, .52) 0%,
+    rgba(3, 22, 21, .44) 44%,
+    rgba(2, 18, 13, .70) 100%);
+}
+.news-hero__text {
+  position: relative;
+  width: min(100%, 950px);
+  max-width: 950px;
+  gap: clamp(18px, 1.8vw, 34px);
+}
+.news-hero__meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 28px;
+  font-size: clamp(12px, .78vw, 15px);
+  line-height: 1.4;
+  color: #f0f8ee;
+}
+.news-hero__category {
+  display: inline-block;
+  flex: 0 0 auto;
+  width: clamp(54px, 4.2vw, 80px);
+  height: clamp(8px, .65vw, 12px);
+  border-radius: 2px;
+  background: #228b22;
+}
+.news-hero__meta time { border: 0; padding: 0; }
+.news-hero__title {
+  max-width: 950px;
+  font-size: clamp(34px, 3.25vw, 63px);
+  line-height: 1.15;
+  letter-spacing: -.035em;
+  font-weight: 750;
+  text-wrap: balance;
+}
+.news-hero__description {
+  max-width: 905px;
+  font-family: var(--font-hero);
+  font-size: clamp(16px, 1.25vw, 24px);
+  line-height: 1.46;
+  color: #f5f8f4;
+}
+/* The Figma hero has no extra CTA button; article navigation stays in the News cards. */
+.news-hero__read { display: none; }
+
+/* 2. WHAT'S HAPPENING: compact title row, equal-height 3-column cards. */
+.news-section {
+  gap: clamp(26px, 2.35vw, 45px);
+  padding: clamp(42px, 3vw, 58px) clamp(22px, 6.7vw, 129px)
+    clamp(60px, 4.7vw, 90px);
+}
+.news-section__heading { align-items: end; }
+.news-section__heading > div { gap: clamp(12px, 1.3vw, 23px); }
+.news-section .section-label {
+  height: clamp(28px, 2vw, 36px);
+  padding-inline: 17px;
+  font-size: clamp(12px, .7vw, 14px);
+}
+.news-section .section-title {
+  font-size: clamp(30px, 2.3vw, 44px);
+  font-weight: 500;
+  line-height: 1.17;
+  letter-spacing: -.035em;
+}
+.news-section__heading > .text-link { margin-bottom: 5px; }
+.notice-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(18px, 1.45vw, 28px);
+  align-items: stretch;
+}
+.notice-card {
+  min-width: 0;
+  min-height: clamp(520px, 32vw, 615px);
+  padding: 0;
+  gap: clamp(12px, .92vw, 18px);
+  justify-content: flex-start;
+  border: 1px solid #dde6dc;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 10px 25px rgba(12, 42, 24, .085);
+  overflow: hidden;
+  transition: box-shadow .18s ease, transform .18s ease;
+}
+.notice-card:hover { transform: translateY(-2px); box-shadow: 0 14px 28px rgba(12,42,24,.13); }
+.notice-card__image {
+  display: block;
+  flex: 0 0 clamp(195px, 14vw, 269px);
+  height: clamp(195px, 14vw, 269px);
+  width: 100%;
+  min-height: 0;
+  max-width: none;
+  margin: 0;
+  border-radius: 0;
+  object-fit: cover;
+}
+.notice-card__header,
+.notice-card__title,
+.notice-card__summary,
+.notice-card__footer { margin-inline: clamp(18px, 1.56vw, 30px); }
+.notice-card__header { margin-top: 3px; }
+.notice-card__title {
+  font-family: var(--font-display);
+  font-size: clamp(19px, 1.4vw, 27px);
+  line-height: 1.22;
+  letter-spacing: -.025em;
+  font-weight: 500;
+}
+.notice-card__summary { font-size: clamp(13px, .79vw, 15px); line-height: 1.58; }
+.notice-card__footer {
+  margin-top: auto;
+  margin-bottom: clamp(19px, 1.45vw, 28px);
+  padding-top: clamp(14px, 1vw, 19px);
+  border-top: 1px solid #dfe9df;
+}
+.notice-card .pill { font-size: clamp(10px, .68vw, 13px); }
+.notice-card--accent { background: #0f5723; border-color: #0f5723; }
+.notice-card--accent .notice-card__footer { border-top-color: rgba(255,255,255,.28); }
+.notice-card--accent .notice-card__title { color: #fff; }
+.notice-card--accent .notice-card__summary { color: #e5f5e2; }
+.notice-card--accent .notice-card__date { color: #c7e0c2; }
+
+/* 3. IDSC PULSE: smaller gaps, calmer shadows, matching 3-card grid. */
+.pulse {
+  max-width: none;
+  background: #f6f9f3;
+  padding-block: clamp(45px, 3.1vw, 60px) clamp(54px, 3.7vw, 72px);
+}
+.pulse__heading { gap: clamp(12px, 1.3vw, 24px); padding: 0 clamp(22px, 6.7vw, 129px); }
+.pulse__heading .section-label {
+  height: clamp(28px, 2vw, 36px);
+  padding-inline: 17px;
+  font-size: clamp(12px, .7vw, 14px);
+}
+.pulse__heading .section-title {
+  font-size: clamp(30px, 2.3vw, 44px);
+  font-weight: 500;
+  line-height: 1.17;
+  letter-spacing: -.035em;
+}
+.pulse__grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(18px, 1.45vw, 28px);
+  padding: clamp(30px, 2.5vw, 48px) clamp(22px, 6.7vw, 129px) 0;
+  align-items: stretch;
+}
+.pulse-card {
+  min-width: 0;
+  min-height: clamp(440px, 28vw, 540px);
+  padding: clamp(16px, 1.35vw, 26px);
+  gap: clamp(12px, .9vw, 17px);
+  justify-content: flex-start;
+  border: 1px solid #e5ebe3;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 9px 24px rgba(15,42,29,.075);
+  overflow: hidden;
+  transition: box-shadow .18s ease, transform .18s ease;
+}
+.pulse-card:hover { transform: translateY(-2px); box-shadow: 0 13px 27px rgba(15,42,29,.11); }
+.pulse-card__image {
+  flex: 0 0 clamp(185px, 12vw, 230px);
+  width: 100%;
+  height: clamp(185px, 12vw, 230px);
+  min-height: 0;
+  border-radius: 9px;
+  object-fit: cover;
+}
+.pulse-card__title {
+  font-size: clamp(19px, 1.33vw, 25px);
+  line-height: 1.23;
+  letter-spacing: -.02em;
+  font-weight: 500;
+}
+.pulse-card__summary { font-size: clamp(13px, .79vw, 15px); line-height: 1.56; }
+.pulse-card__footer {
+  margin-top: auto;
+  padding-top: 15px;
+  border-top: 1px solid #e5ebe3;
+}
+
+@media (max-width: 1100px) {
+  .news-section, .pulse__heading, .pulse__grid { padding-inline: clamp(20px, 4vw, 48px); }
+  .notice-grid, .pulse__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .news-hero { padding-inline: clamp(24px, 5vw, 60px); }
+  .notice-card { min-height: 530px; }
+  .pulse-card { min-height: 485px; }
+}
+@media (max-width: 680px) {
+  .news-hero { min-height: 540px; padding: 55px 22px; }
+  .news-hero__title { font-size: clamp(31px, 7.5vw, 44px); }
+  .news-hero__description { font-size: 16px; }
+  .news-hero__meta { gap: 16px; }
+  .news-section { padding: 45px 20px 65px; gap: 27px; }
+  .news-section .section-title, .pulse__heading .section-title { font-size: 30px; }
+  .notice-grid, .pulse__grid { grid-template-columns: minmax(0, 1fr); }
+  .notice-card { min-height: 505px; }
+  .notice-card__image { flex-basis: 215px; height: 215px; }
+  .pulse { padding-block: 50px 60px; }
+  .pulse__heading, .pulse__grid { padding-inline: 20px; }
+  .pulse__grid { padding-top: 30px; gap: 22px; }
+  .pulse-card { min-height: 465px; }
+  .pulse-card__image { flex-basis: 200px; height: 200px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .notice-card, .pulse-card { transition: none; }
+  .notice-card:hover, .pulse-card:hover { transform: none; }
+}
+
+/* V3 — precise editorial refinement based on supplied 746×2048 full-page Figma PNG. */
+.news-section { background: #fff; padding-bottom: clamp(52px, 3.3vw, 64px); }
+.news-section__heading { gap: 24px; }
+.news-section .section-title { font-weight: 650; font-size: clamp(29px, 2.25vw, 43px); }
+.notice-grid { gap: clamp(16px, 1.2vw, 24px); }
+.notice-card { min-height: clamp(480px, 31.5vw, 610px); border-radius: 12px; }
+.notice-card__image { flex-basis: clamp(196px, 13.5vw, 260px); height: clamp(196px, 13.5vw, 260px); }
+.notice-card__header { margin-top: 0; }
+.notice-card__title { font-weight: 600; font-size: clamp(18px, 1.28vw, 25px); }
+.notice-card__summary { line-height: 1.5; }
+.notice-card__footer { font-size: clamp(11px, .68vw, 13px); }
+.notice-card .pill { border-radius: 999px; }
+
+.pulse { background: #f6f9f3; padding-top: clamp(42px, 2.6vw, 50px); padding-bottom: clamp(58px, 3.7vw, 72px); }
+.pulse__heading { gap: 14px; }
+.pulse__heading .section-title { font-weight: 650; font-size: clamp(29px, 2.25vw, 43px); }
+.pulse__grid { gap: clamp(18px, 1.2vw, 24px); padding-top: clamp(27px, 1.85vw, 36px); }
+.pulse-card { min-height: clamp(410px, 27.5vw, 528px); padding: clamp(14px, 1.3vw, 25px); gap: clamp(10px, .75vw, 15px); border-radius: 14px; box-shadow: 0 7px 19px rgba(15,42,29,.08); }
+.pulse-card__image { flex-basis: clamp(170px, 12vw, 230px); height: clamp(170px, 12vw, 230px); border-radius: 9px; }
+.pulse-card__category { color: var(--green); font-size: clamp(10px, .64vw, 12px); line-height: 1.2; font-weight: 800; text-transform: uppercase; letter-spacing: .035em; }
+.pulse-card__title { font-size: clamp(18px, 1.15vw, 23px); font-weight: 650; line-height: 1.26; }
+.pulse-card__summary { font-size: clamp(13px, .78vw, 15px); line-height: 1.52; }
+.pulse-card__footer { color: #78857c; font-size: clamp(11px, .65vw, 13px); }
+.pulse-card__topic { color: var(--green); font-weight: 700; }
+.pulse-card__link.is-unavailable { pointer-events: none; }
+
+/* Footer link remains inactive until VITE_SYSTEM_FACULTY_URL is configured. */
+.footer-nav__link.is-unavailable { color: #a2b5a5; opacity: .7; cursor: not-allowed; }
+
+@media (max-width: 1100px) {
+  .news-hero__text, .news-hero__title { max-width: 860px; }
+  .news-section, .pulse__heading, .pulse__grid { padding-inline: clamp(20px, 4vw, 48px); }
+}
+@media (max-width: 680px) {
+  .news-hero__text, .news-hero__title { max-width: 100%; }
+  .notice-grid, .pulse__grid { grid-template-columns: minmax(0, 1fr); }
+  .notice-card, .pulse-card { min-height: auto; }
+  .notice-card { padding-bottom: 18px; }
+  .notice-card__footer { margin-top: 16px; }
+  .pulse-card { padding: 18px; }
+  .pulse-card__image { height: 200px; flex-basis: 200px; }
+  .pulse-card__footer { margin-top: 22px; }
+}

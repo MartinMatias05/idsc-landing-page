@@ -6,6 +6,7 @@ import './styles/base.css';
 import './styles/header.css';
 import './styles/home.css';
 import './styles/footer.css';
+import './styles/figma-home-three-sections-v2.css';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
