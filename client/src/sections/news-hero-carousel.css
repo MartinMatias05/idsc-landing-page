@@ -1,0 +1,22 @@
+/* Figma-sized Hero: drag reveals the neighboring full slide, then snaps. No cross-fade. */
+.news-hero { position: relative; overflow: hidden; touch-action: pan-y; user-select: none; cursor: grab; }
+.news-hero:active { cursor: grabbing; }
+.news-hero__carousel-controls { display: none !important; }
+.news-hero__slide {
+  position: absolute; top: 0; bottom: 0; right: auto; width: 100%; height: 100%;
+  box-sizing: border-box; z-index: 0; isolation: isolate;
+  display: flex; flex-direction: column; padding: inherit;
+  overflow: hidden; pointer-events: none;
+  transition: none; will-change: transform;
+}
+.news-hero__slide[aria-hidden="false"] { pointer-events: auto; }
+.news-hero__slide--settling { transition: transform 390ms cubic-bezier(.22,.84,.26,1); }
+.news-hero__image { pointer-events: none; user-select: none; -webkit-user-drag: none; }
+.news-hero__title-link { color: inherit; text-decoration: none; cursor: pointer; }
+.news-hero__title-link:hover { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 6px; }
+.news-hero__title-link:focus-visible { outline: 2px solid #f4c94d; outline-offset: 4px; }
+.news-hero__sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
+.news-hero:focus { outline: none; }
+.news-hero:focus-visible { outline: 3px solid #f4c94d; outline-offset: -3px; }
+.news-hero__empty { position: relative; color: #fff; }
+@media (prefers-reduced-motion: reduce) { .news-hero__slide--settling { transition-duration: 1ms; } }

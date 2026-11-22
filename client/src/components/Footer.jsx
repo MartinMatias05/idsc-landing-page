@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import AppLink from './AppLink';
 import ImageWithFallback from './ImageWithFallback';
 import Icon from './Icon';
+import SystemLink from './SystemLink';
 
 /** Footer: identity, "Explore" links, contact details and the legal row (Figma "Footer"). */
 export default function Footer({ site, navigation }) {
@@ -31,13 +32,23 @@ export default function Footer({ site, navigation }) {
           <nav className="footer-nav" aria-label="Explore">
             <h2 className="footer-heading">{navigation.footer.heading}</h2>
             <ul>
-              {navigation.footer.links.map((link) => (
+              {navigation.footer.links.flatMap((link) => [
                 <li key={link.label}>
                   <AppLink href={link.href} className="footer-nav__link">
                     {link.label}
                   </AppLink>
-                </li>
-              ))}
+                </li>,
+                ...(/^admission$/i.test(link.label) &&
+                !navigation.footer.links.some((item) => /faculty/i.test(item.label))
+                  ? [
+                      <li key="faculty-and-staff">
+                        <SystemLink systemId="faculty" className="footer-nav__link">
+                          Faculty and Staff
+                        </SystemLink>
+                      </li>,
+                    ]
+                  : []),
+              ])}
             </ul>
           </nav>
         )}

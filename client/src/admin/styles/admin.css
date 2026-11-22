@@ -1,0 +1,279 @@
+/* ===== admin.css (preserved cascade order) ===== */
+/* Scoped admin prototype styling. Public Landing Page styles remain untouched. */
+.adm-app,.adm-login,.adm-public-view{--a-forest:#0e5724;--a-dark:#153b29;--a-green:#196d2b;--a-soft:#edf6e9;--a-page:#f5f7f6;--a-line:#e5eae5;--a-subtle:#728177;color:var(--a-dark);font:14px/1.5 'Inter',Arial,sans-serif}
+.adm-app *,.adm-login *,.adm-public-view *{box-sizing:border-box}
+.adm-app{min-height:100vh;display:flex;background:#f5f7f6}.adm-app a{text-decoration:none}.adm-side{width:232px;flex:0 0 232px;display:flex;flex-direction:column;padding:26px 16px;background:#0c5523;color:#fff;min-height:100vh;position:sticky;top:0;height:100vh;z-index:20;transition:width .18s ease,flex-basis .18s ease}.adm-compact .adm-side{width:78px;flex-basis:78px;padding:22px 12px}.adm-brand{display:flex;align-items:center;gap:10px;color:#fff;margin:0 8px 38px;white-space:nowrap}.adm-brand b{display:block;font-size:23px;line-height:1}.adm-brand small{font-size:10px;color:#d8edda}.adm-mark{height:38px;width:38px;border:2px solid #d1f0c8;border-radius:50%;display:grid;place-items:center;font-size:10px;font-weight:800;letter-spacing:-.5px;color:#fff;flex:none}.adm-side-label{font-size:10px;font-weight:700;color:#c4ddc7;margin:0 10px 8px}.adm-expand{border:0;background:transparent;color:#c8e1d0;display:flex;align-items:center;gap:10px;padding:8px 12px;margin-bottom:9px;font-size:11px}.adm-compact .adm-expand{justify-content:center;padding:8px}.adm-side nav{display:grid;gap:8px}.adm-side-link{display:flex;align-items:center;gap:13px;border:0;background:transparent;color:#fff;padding:12px 14px;font-size:13px;border-radius:8px;text-align:left;min-height:43px;white-space:nowrap}.adm-side-link:hover,.adm-expand:hover{background:rgba(255,255,255,.1)}.adm-side-link.active{background:#eaf5e9;color:#17642d;font-weight:700}.adm-compact .adm-side-link{justify-content:center;padding:12px}.adm-side-bottom{margin-top:auto;display:grid;gap:20px}.adm-help{padding:16px;background:#f3f6f0;color:#193b29;border-radius:10px;font-size:11px}.adm-help p{font-size:11px;color:#708275;margin-top:5px}.adm-main{flex:1;min-width:0}.adm-top{height:68px;background:#fff;display:flex;justify-content:space-between;align-items:center;padding:0 36px;border-bottom:1px solid #edf0ec;gap:16px}.adm-breadcrumb{color:#66776c;font-size:13px}.adm-user{display:flex;align-items:center;gap:18px}.adm-user>div{display:grid;gap:0;text-align:right}.adm-user b{font-size:12px}.adm-user small{color:#738077;font-size:11px}.adm-user>a{color:#52685a;position:relative}.adm-bell-dot{position:absolute;right:-2px;top:-2px;background:#24a345;width:7px;height:7px;border-radius:50%}.adm-demo-chip{background:#fff6d9;border-radius:5px;padding:7px 11px;color:#966911;font-size:11px}.adm-workspace{padding:34px 38px 50px;max-width:1740px;margin:auto}.adm-pageheading{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:28px}.adm-pageheading h1{font-size:30px;line-height:1.2;font-weight:750;letter-spacing:-.7px}.adm-pageheading p{color:#78867d;margin-top:7px}.adm-banner{background:linear-gradient(102deg,#075822,#076529 65%,#124827);color:white;padding:23px 26px;border-radius:13px;min-height:130px;margin-bottom:27px;position:relative;overflow:hidden}.adm-banner:after{content:'IDSC';position:absolute;font-weight:900;font-size:145px;color:rgba(255,255,255,.05);right:8%;top:-50px;pointer-events:none}.adm-banner small{font-size:10px;color:#f3d74f;font-weight:800}.adm-banner h2{font-size:26px;line-height:1.2;margin:9px 0 5px}.adm-banner p{color:#d4eadd}.adm-dashboard-top{display:grid;grid-template-columns:minmax(0,1fr) 275px;gap:24px;margin-bottom:25px}.adm-kpis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}.adm-kpi{background:#fff;border-radius:13px;padding:21px 23px;min-height:151px}.adm-kpi-head{display:flex;align-items:center;gap:14px;color:#142a1b;font-weight:600}.adm-kpi-head svg{color:#165c2b}.adm-kpi strong{display:block;font-size:42px;line-height:1.2;margin-top:16px;font-weight:800}.adm-kpi small{display:block;font-size:11px;color:#889389;margin-top:3px}.adm-view-buttons{display:grid;grid-template-rows:1fr 1fr;gap:12px}.adm-view-buttons a{display:flex;align-items:center;justify-content:center;gap:10px;border-radius:11px;color:#fff;font-weight:750;background:#0cbc1b;text-align:center;padding:15px}.adm-view-buttons a+ a{background:#12380d}.adm-dashboard-lower{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(300px,1fr);gap:24px}.adm-panel{background:#fff;border-radius:13px;padding:24px 26px;min-width:0}.adm-panel+.adm-panel{margin-top:16px}.adm-dashboard-lower .adm-panel+.adm-panel{margin-top:0}.adm-panel-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:17px}.adm-panel-head h2{font-size:21px;letter-spacing:-.3px;line-height:1.3}.adm-select-mock{border:1px solid #dce4de;border-radius:5px;font-size:11px;padding:6px 10px}.adm-overview-chart{height:270px;padding:8px 8px 0 8px}.adm-chart-grid{height:100%;border-left:1px solid #a5b1a7;border-bottom:1px solid #a5b1a7;background:repeating-linear-gradient(0deg,transparent 0,transparent calc(25% - 1px),#edf0ed calc(25% - 1px),#edf0ed 25%);display:flex;align-items:center;justify-content:center;position:relative}.adm-chart-grid>span{position:absolute;top:8px;left:12px;color:#8a9a8b;font-size:10px}.adm-chart-zero{text-align:center;font-size:13px;color:#829286;padding:20px}.adm-chart-legend{display:flex;flex-wrap:wrap;gap:16px;margin-top:15px;font-size:11px}.adm-dot{display:inline-block;width:10px;height:10px;border-radius:100%;margin-right:5px}.adm-dot.one{background:#b52e30}.adm-dot.two{background:#27bd42}.adm-dot.three{background:#165e2e}.adm-green-link{color:#17722d;font-weight:700;font-size:12px;display:inline-flex;align-items:center;gap:6px}.adm-history-list{min-height:260px}.adm-history-row{display:flex;gap:12px;align-items:center;padding:13px 0;border-bottom:1px solid #e9eeea}.adm-history-icon{display:grid;place-items:center;width:38px;height:38px;border-radius:8px;background:#e4f4e5;color:#16722d;flex:none}.adm-history-icon.deleted{background:#fbe7e7;color:#be292b}.adm-history-text{display:grid;gap:3px;flex:1;min-width:0}.adm-history-text b{font-size:12px;white-space:normal}.adm-history-text small{font-size:10px;color:#75857a}.adm-empty{min-height:260px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:#87958a;gap:10px;padding:18px}.adm-empty strong{color:#355c43}.adm-empty p{max-width:270px;font-size:12px}.adm-note{background:#eef3ef;padding:15px 18px;border-radius:10px;color:#667b6e;font-size:11px;margin-top:19px}.adm-note p{margin-top:5px}.adm-note-green{background:#eaf5e9;color:#217037}.adm-note-yellow{background:#fff6df;color:#85671b;margin:0 0 22px}.adm-status{display:inline-flex;white-space:nowrap;font-size:11px;border-radius:6px;padding:5px 9px;color:#23733a;background:#e9f7e7;font-weight:650}.adm-status.draft,.adm-status.planned{background:#fff4d9;color:#8a6617}.adm-status.deleted{background:#fde7e8;color:#b92d30}.adm-status.unconfigured{color:#8b6a18;background:#fff4dc}.adm-button{border:0;display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 16px;border-radius:6px;font-weight:700;font-size:12px;text-decoration:none;min-height:38px}.adm-button--primary{background:#176e2c;color:#fff}.adm-button--secondary{background:#fff;color:#1e432d;border:1px solid #dce7de}.adm-button--danger{color:#b32d2e;background:#ffe8e9}.adm-button:hover,.adm-mini-button:hover{filter:brightness(.96)}.adm-tabbar{display:flex;gap:12px;margin-bottom:24px}.adm-tabbar button{padding:11px 18px;border:1px solid #e2e9e2;border-radius:6px;font-size:12px;color:#2d4d33;background:white}.adm-tabbar button.selected{background:#196f2d;color:white;border-color:#196f2d}.adm-table-panel .adm-panel-head:empty{display:none}.adm-filters{display:flex;justify-content:space-between;gap:20px;margin:0 0 20px}.adm-filters label{display:grid;gap:7px;font-weight:600;font-size:11px;min-width:160px}.adm-filters label:first-child{width:48%}.adm-form input,.adm-form textarea,.adm-form select,.adm-filters input,.adm-filters select,.adm-system-row input,.adm-login input{display:block;width:100%;border:1px solid #d8e1da;border-radius:6px;padding:11px 12px;color:#153b28;background:#fff;font:inherit;outline-offset:2px}.adm-scroll{width:100%;overflow:auto}.adm-table{border-collapse:collapse;width:100%;min-width:690px;font-size:12px}.adm-table thead{background:#f0f5ef;color:#6e8071}.adm-table th{text-align:left;padding:13px;font-weight:600;font-size:11px}.adm-table td{padding:15px 13px;border-bottom:1px solid #edf0ed;color:#738278}.adm-table td:first-child{color:#193e2a}.adm-title-cell{display:flex;gap:13px;align-items:center;max-width:490px}.adm-title-cell span{display:grid;gap:9px}.adm-title-cell b{font-weight:700;font-size:12px}.adm-title-cell small{color:#92a095;font-size:10px}.adm-thumb{width:62px;height:48px;border-radius:7px;background:#e3f0e2;color:#7ea284;display:grid;place-items:center;overflow:hidden;flex:none}.adm-thumb img{height:100%;width:100%;object-fit:cover}.adm-row-actions{display:flex;align-items:center;gap:9px;flex-wrap:wrap}.adm-mini-button{background:#e9f5e7;color:#24753d;border:0;padding:9px 14px;border-radius:6px;font-size:11px;font-weight:700}.adm-mini-button.danger{background:#fff0f0;color:#bf3437}.adm-mini-button.neutral{background:#fff;border:1px solid #e0eae1}.adm-count{color:#8c9b8f;font-size:11px;margin-top:18px}.adm-empty-inline{padding:25px;text-align:center;color:#859389}.adm-editor-grid{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(290px,1fr);gap:24px;align-items:start}.adm-form{display:grid;gap:16px}.adm-form label{display:grid;gap:7px;font-size:12px;font-weight:650}.adm-form textarea{resize:vertical}.adm-hint{font-size:11px;color:#829184}.adm-form-actions{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap}.adm-file-label{display:flex!important;align-items:center;gap:9px;color:#25763d;border:1px dashed #bacfbe;padding:12px;border-radius:7px}.adm-file-label input{font-size:11px;max-width:100%}.adm-error{font-size:12px;color:#b6282d;background:#fff1f1;padding:12px;border-radius:6px}.adm-success{font-size:12px;color:#187331;background:#edf8ed;padding:12px;border-radius:6px}.adm-post-preview{border:1px solid #e2e9e2;border-radius:10px;overflow:hidden}.adm-post-preview-img{width:100%;height:210px;object-fit:cover}.adm-post-preview-empty,.adm-image-empty{display:flex;flex-direction:column;gap:9px;align-items:center;justify-content:center;background:linear-gradient(130deg,#0d5c24,#1c8528);color:white}.adm-post-preview-body{padding:18px}.adm-preview-category{font-size:11px;color:#17822d;font-weight:800}.adm-post-preview-body h3{font-size:17px;line-height:1.35;margin:8px 0 10px}.adm-post-preview-body p{font-size:12px;color:#738476;min-height:42px}.adm-card-meta{display:flex;justify-content:space-between;border-top:1px solid #e6ebe6;margin-top:15px;padding-top:12px;font-size:11px;color:#8c978e}.adm-preview-panel>.adm-green-link{margin-top:15px}.adm-pagecell{display:flex;align-items:center;gap:10px}.adm-page-preview{padding:15px;border:1px solid #e5eee4;border-radius:9px;margin-bottom:15px}.adm-page-preview h2{font-size:22px;margin:10px 0}.adm-page-preview p{color:#728276;font-size:13px}.adm-page-preview img{width:100%;height:200px;object-fit:cover;margin-top:15px}.adm-image-empty{height:150px;margin-top:15px;border-radius:7px}.adm-system-row{display:grid;grid-template-columns:160px minmax(0,1fr) 110px;align-items:center;gap:15px;border-bottom:1px solid #e9eee9;padding:15px 0}.adm-system-row>div{display:grid;gap:3px}.adm-system-row>div small{color:#8b998d;font-size:10px}.adm-settings-grid{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(250px,1fr);gap:24px;align-items:start}.adm-settings-grid .adm-panel+.adm-panel{margin-top:16px}.adm-settings-main>.adm-note{margin-top:16px}.adm-form-copy{font-size:13px;color:#738276;line-height:1.7;margin-bottom:18px}.adm-modal-backdrop{position:fixed;inset:0;background:rgba(7,26,13,.55);display:grid;place-items:center;z-index:99;padding:20px}.adm-modal{width:min(520px,100%);background:white;padding:28px;border-radius:12px;box-shadow:0 22px 50px rgba(0,0,0,.2)}.adm-modal h2{font-size:23px}.adm-modal h3{font-size:14px;margin-top:22px}.adm-modal p{color:#7d8c81;font-size:13px;line-height:1.7;margin:10px 0 24px}.adm-modal-actions{display:flex;justify-content:space-between}.adm-login{display:grid;grid-template-columns:42% 58%;min-height:100vh}.adm-login-art{background:linear-gradient(135deg,rgba(3,38,58,.94),rgba(6,34,22,.81)),linear-gradient(35deg,#2a6a5d,#c5bf88);color:#fff;display:flex;flex-direction:column;padding:43px}.adm-login-brand{display:flex;align-items:center;gap:12px}.adm-login-brand b{font-size:26px;display:block}.adm-login-brand small{font-size:11px;color:#c8e6de}.adm-login-message{margin:auto 0}.adm-login-message h1{font-size:clamp(27px,3vw,43px);line-height:1.3}.adm-login-message p{font-size:15px;margin-top:23px;max-width:460px;color:#cbdbd5}.adm-login-footer{color:#f7d959;font-size:13px;font-weight:700}.adm-login-footer i{height:4px;width:45px;background:#5fd850;display:block;margin-bottom:23px}.adm-login-pane{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:50px 25px}.adm-login-pane form{width:min(440px,100%);display:grid;gap:19px}.adm-eyebrow{font-size:11px;color:#18712f;font-weight:800}.adm-login-pane h1{font-size:32px}.adm-login-pane p{color:#7b8e7f;margin-top:-15px;margin-bottom:18px}.adm-login-pane label{display:grid;gap:8px;font-size:12px;font-weight:700}.adm-login-pane form>.adm-button{width:100%;height:44px}.adm-login-pane form>small{font-size:11px;color:#809184}.adm-login-note{font-size:11px;color:#809184;margin-top:90px}.adm-public-view{background:#fff}.adm-preview-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 5%;background:#0e5324;color:#fff;position:sticky;top:0;z-index:100;box-shadow:0 3px 12px rgba(0,0,0,.2)}.adm-preview-toolbar>a{display:inline-flex;gap:6px;align-items:center;color:#fff;font-size:12px}.adm-preview-toolbar strong{font-size:13px}.adm-edit-region{position:relative}.adm-overlay-tools{position:absolute;right:3%;top:16px;display:flex;align-items:center;gap:8px;background:rgba(11,63,26,.96);padding:7px 9px;border-radius:8px;color:white;z-index:15;box-shadow:0 2px 8px rgba(0,0,0,.15)}.adm-overlay-tools span{font-size:11px;font-weight:700}.adm-overlay-tools button{border:0;background:white;color:#136a2b;display:grid;place-items:center;width:29px;height:29px;border-radius:5px}.adm-preview-footnote{background:#e9f5e9;color:#2a6c34;padding:16px;text-align:center;font-size:12px}
+@media(max-width:1100px){.adm-dashboard-top{grid-template-columns:1fr}.adm-view-buttons{grid-template-columns:1fr 1fr;grid-template-rows:auto}.adm-kpis{gap:12px}.adm-dashboard-lower{grid-template-columns:1fr}.adm-workspace{padding:26px}.adm-top{padding:0 23px}.adm-editor-grid,.adm-settings-grid{grid-template-columns:1fr}}
+@media(max-width:730px){.adm-side{width:70px;flex-basis:70px;padding:16px 8px}.adm-side .adm-brand span:not(.adm-mark),.adm-side-label,.adm-side-link span,.adm-expand span,.adm-help{display:none}.adm-side-link{justify-content:center;padding:10px}.adm-side .adm-brand{margin:0 auto 24px}.adm-expand{justify-content:center}.adm-top{height:60px;padding:0 14px}.adm-demo-chip,.adm-breadcrumb{display:none}.adm-user{margin-left:auto;gap:10px}.adm-workspace{padding:20px 14px}.adm-pageheading h1{font-size:24px}.adm-pageheading{flex-wrap:wrap}.adm-kpis{grid-template-columns:1fr}.adm-view-buttons{grid-template-columns:1fr}.adm-banner h2{font-size:22px}.adm-panel{padding:19px}.adm-filters{flex-wrap:wrap}.adm-filters label:first-child{width:100%}.adm-system-row{grid-template-columns:1fr;gap:9px}.adm-login{grid-template-columns:1fr}.adm-login-art{min-height:220px;padding:25px}.adm-login-message{margin:30px 0 0}.adm-login-message h1{font-size:26px}.adm-login-message p,.adm-login-footer{display:none}.adm-login-pane{padding:50px 20px}.adm-overlay-tools span{display:none}}
+/* Inline Admin tools float over public Figma cards without shifting their layout. */
+.adm-card-edit{position:relative;min-width:0;height:100%}.adm-card-edit>.notice-card,.adm-card-edit>.pulse-card{height:100%}.adm-card-tools{position:absolute;top:12px;right:12px;display:flex;gap:5px;z-index:21}.adm-card-tools button{border:1px solid #d6e8d7;background:rgba(255,255,255,.96);border-radius:6px;width:30px;height:30px;display:grid;place-items:center;color:#176a2c;box-shadow:0 1px 4px rgba(0,0,0,.1)}.adm-card-tools button:last-child{color:#b73136}.adm-card-tools button:hover{background:#e9f8e9}
+/* V2: Inline admin editing. Keeps the public sections in their original positions. */
+.adm-inline-modal{max-height:min(90vh,900px);overflow:auto;width:min(650px,100%)}
+.adm-inline-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:22px}
+.adm-inline-heading small{display:block;color:#27823c;font-size:10px;font-weight:800;margin-bottom:6px}
+.adm-inline-heading h2{margin:0}
+.adm-inline-close{border:1px solid #e0e8e1;border-radius:8px;background:white;padding:8px;cursor:pointer}
+.adm-image-fallback{border:1px solid #d9e7da;border-radius:8px;padding:13px}
+.adm-image-fallback summary{cursor:pointer;color:#266e3c;font-size:12px;font-weight:700}
+.adm-image-fallback .adm-file-label{margin-top:13px}
+.adm-image-fallback .adm-hint{margin-top:10px}
+.adm-inline-cover{max-width:100%;height:120px;object-fit:cover;border-radius:8px;margin-top:9px}
+.adm-inline-disclaimer{margin:20px 0 0!important;font-size:11px!important}
+.adm-original-link{position:absolute;bottom:8px;right:12px;z-index:22;color:#126f30;background:white;border:1px solid #d8e5d7;border-radius:5px;padding:3px 7px;font-size:10px;text-decoration:none}
+.adm-card-edit .adm-card-tools button{cursor:pointer}
+
+/* V3 — compact, optional image controls (Admin Posts + inline editor). */
+.adm-image-fields{display:grid;gap:11px;padding:15px;border:1px solid #dce9dd;border-radius:12px;background:#f9fcf9}
+.adm-image-fields--compact{padding:12px}
+.adm-image-fields__head{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.adm-image-fields__label{display:inline-flex;align-items:center;gap:8px;color:#174b2c;font-weight:750;font-size:13px}
+.adm-image-fields__label svg{color:#23783b}
+.adm-image-fields__label small{font-size:10px;font-weight:600;color:#7a9180;background:#e8f1e8;border-radius:20px;padding:3px 8px}
+.adm-image-clear{border:0;background:transparent;color:#a34242;font-size:11px;display:inline-flex;align-items:center;gap:4px;cursor:pointer;padding:6px}
+.adm-image-tabs{display:flex;gap:5px;padding:4px;background:#edf3ed;border-radius:9px}
+.adm-image-tabs button{flex:1;display:inline-flex;align-items:center;justify-content:center;gap:7px;border:0;border-radius:7px;background:transparent;padding:9px 8px;color:#5c7361;font-size:12px;font-weight:700;cursor:pointer}
+.adm-image-tabs button.is-active{color:#125c2a;background:#fff;box-shadow:0 1px 5px rgba(15,55,25,.1)}
+.adm-image-fields .adm-image-url-label{display:grid;gap:6px;color:#314d3a;font-size:12px;font-weight:650}
+.adm-image-fields .adm-image-url-label input{width:100%;min-width:0;background:#fff;border:1px solid #d0dfd2;border-radius:8px;padding:11px 12px;font:inherit;color:#173b29}
+.adm-image-upload-label{display:flex!important;align-items:center;flex-wrap:wrap;gap:11px;border:1px dashed #9fbda5;border-radius:9px;padding:13px;color:#186b34;background:white;cursor:pointer;font-size:12px;font-weight:700}
+.adm-image-upload-label small{display:block;color:#7b8f80;font-size:10px;font-weight:500;margin-top:2px}
+.adm-image-upload-label input{flex:1 1 150px;min-width:150px;max-width:100%;font-size:11px}
+.adm-image-current{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid #e3ebe3;border-radius:9px;padding:7px;color:#6d8272;font-size:11px}
+.adm-image-current img{display:block;width:100px;height:60px;object-fit:cover;border-radius:6px;background:#e4eee5}
+.adm-image-fields__note{margin:0!important;color:#788b7d!important;font-size:11px!important;line-height:1.5!important}
+/* V3 — polished but unobtrusive editing tools; no changes to public layout. */
+.adm-public-view .adm-preview-toolbar{background:linear-gradient(100deg,#0a4b21,#16733a);padding:12px 4%;}
+.adm-mode-label{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:750;background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.17);padding:7px 12px;border-radius:25px}
+.adm-mode-switch{border:1px solid rgba(255,255,255,.4);border-radius:8px;padding:8px 12px;font-weight:700}
+.adm-mode-switch:hover{background:rgba(255,255,255,.12)}
+.adm-edit-region:has(.adm-overlay-tools){outline:1px solid transparent;outline-offset:-1px}
+.adm-edit-region:hover:has(.adm-overlay-tools){outline-color:rgba(24,122,48,.18)}
+.adm-public-view .adm-overlay-tools{right:3%;top:13px;border:1px solid rgba(255,255,255,.22);border-radius:10px;gap:6px;padding:6px 7px;background:rgba(7,64,30,.97);box-shadow:0 7px 22px rgba(12,43,21,.22)}
+.adm-overlay-title{display:flex;align-items:center;gap:6px;margin:0 6px 0 3px;font-size:11px!important;letter-spacing:.01em}
+.adm-public-view .adm-overlay-action{display:inline-flex;align-items:center;gap:5px;width:auto;height:31px;padding:0 10px;border-radius:7px;background:#fff;color:#145e2b;font-size:11px;font-weight:800;cursor:pointer;transition:background .14s ease,transform .14s ease}
+.adm-public-view .adm-overlay-add{background:#d8f5d9}
+.adm-public-view .adm-overlay-action:hover{background:#e7f6e9;transform:translateY(-1px)}
+.adm-card-edit .adm-card-tools{top:12px;right:11px;gap:5px}
+.adm-card-edit .adm-card-tools button{display:inline-flex;align-items:center;justify-content:center;gap:5px;min-width:33px;width:auto;height:31px;padding:0 8px;border:1px solid #d4e5d5;border-radius:7px;color:#1b7036;font-size:11px;font-weight:800;box-shadow:0 2px 7px rgba(0,0,0,.12);transition:background .14s ease,transform .14s ease}
+.adm-card-edit .adm-card-tools button span{display:none}
+.adm-card-edit .adm-card-tools button:hover{transform:translateY(-1px)}
+.adm-card-edit .adm-card-tools .adm-card-tool-delete{color:#a92e34}
+.adm-card-edit .adm-card-tools .adm-card-tool-delete:hover{background:#fff0f0}
+.adm-card-edit .adm-card-tools button:focus-visible,.adm-overlay-tools button:focus-visible{outline:3px solid #f4c94d;outline-offset:2px}
+@media(min-width:1100px){.adm-card-edit:hover .adm-card-tools button span,.adm-card-edit:focus-within .adm-card-tools button span{display:inline}}
+@media(max-width:730px){.adm-overlay-title{display:none!important}.adm-public-view .adm-overlay-action{padding:0 8px}.adm-public-view .adm-overlay-action span{display:none}.adm-mode-label{font-size:11px}.adm-mode-switch{font-size:11px;padding:7px}}
+
+/* V4 final: Enrollment inline editing; Statistics never has an editing toolbar. */
+.adm-public-view .adm-overlay-remove{background:#fff1f1;color:#a12932}
+.adm-public-view .adm-overlay-remove:hover{background:#ffe2e2}
+.adm-enrollment-removed{min-height:180px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:9px;background:#f0f7ec;border:2px dashed #a3c8a9;margin:16px 4%;padding:45px 20px;border-radius:12px;color:#225535}
+.adm-enrollment-removed p{font-size:12px;color:#688574;margin:0}
+
+/* V7 inline hero & CTA controls: preserve the public Figma composition. */
+.adm-public-view .news-hero__carousel-controls{bottom:22px}
+.adm-inline-subhead{font-weight:750;color:#13572c;border-top:1px solid #e2eae4;padding-top:13px;margin-top:9px}
+
+
+/* ===== admin-figma-fidelity.css (preserved cascade order) ===== */
+/* IDSC Admin visual fidelity — additive, scoped overrides.
+   Based on supplied 1440px Figma-exported Admin ZIP.
+   Campus photo is user supplied later: /assets/admin/idsc-campus.jpg
+   Keep all existing behavior in V4; no changes to public site or server. */
+.adm-app,.adm-login{--a-forest:#075724;--a-dark:#153e2a;--a-green:#176d2e;--a-soft:#ecf6ed;--a-page:#f5f7f8;--a-line:#e3e9e3;--a-subtle:#748279;color:#173b29;font-family:Arial,'Inter',sans-serif}
+.adm-app{background:#f6f7f8}
+.adm-side{background:#075523}
+.adm-compact .adm-side{width:76px;flex-basis:76px;padding:20px 10px}
+.adm-compact .adm-brand{justify-content:center;margin:0 0 28px}
+.adm-compact .adm-expand{margin-bottom:12px}
+.adm-compact .adm-side nav{gap:8px}
+.adm-side-link{border-radius:7px;font-size:13px;transition:background .15s ease}
+.adm-side-link.active{background:#edf7ef;color:#16662b}
+.adm-side-bottom .adm-side-link{margin-top:10px}
+.adm-top{height:65px;box-shadow:0 1px 0 #eef0ef; border-bottom:0}
+.adm-workspace{padding:34px 36px 40px;max-width:1480px}
+.adm-pageheading h1{font-size:29px;font-weight:760;color:#173e2c;letter-spacing:-.7px}
+.adm-pageheading p{color:#7c8980;font-size:13px}
+.adm-panel{border-radius:13px;border:1px solid #edf0ed;box-shadow:0 2px 12px rgba(12,48,28,.025)}
+.adm-panel-head h2{font-size:21px;color:#1b4330}
+.adm-banner{background-image:linear-gradient(90deg,#075423 0%,#08652c 55%,rgba(5,73,30,.38) 100%),url('/assets/admin/idsc-campus-login.jpg');background-position:center,right center;background-size:cover;min-height:128px;padding:24px 27px}
+.adm-banner:after{content:none}
+.adm-banner h2{font-size:26px;max-width:730px}
+.adm-kpi{border:1px solid #eef1ee;border-radius:13px;min-height:150px}
+.adm-kpi-head svg{color:#175d2e;stroke-width:1.8}
+.adm-kpi strong{color:#17442e}
+.adm-view-buttons a{background:#08b627;font-size:17px;border-radius:11px}
+.adm-view-buttons a+a{background:#133b0e}
+.adm-overview-chart{height:300px}
+.adm-chart-grid{border-color:#9baa9c}
+.adm-chart-legend{gap:22px}
+.adm-dot.one{background:#c22d34}.adm-dot.two{background:#0ccb3a}.adm-dot.three{background:#176a32}
+.adm-note{background:transparent;color:#7a8980;padding:0;margin:20px 0 0;font-size:11px}
+.adm-note-green{background:#eaf6e9;padding:17px 19px;color:#216934;border:1px solid #d8ebd6}
+.adm-note-yellow{background:#fff8dd;padding:15px 18px;color:#856a1e;border:1px solid #f6ecc9;margin-bottom:20px}
+.adm-status{padding:5px 10px;border-radius:6px}
+.adm-table th{font-size:11px;background:#f3f7f2;color:#67816e}
+.adm-table td{padding:13px 14px}
+.adm-table td:first-child{color:#1d442f}
+.adm-thumb{width:72px;height:52px}
+.adm-mini-button{padding:7px 14px}
+.adm-form input,.adm-form textarea,.adm-form select,.adm-system-row input,.adm-login input{border:1px solid #cfdfd2;border-radius:6px;box-shadow:none}
+.adm-form :is(input,textarea,select):focus-visible,.adm-login input:focus-visible,.adm-system-row input:focus-visible{outline:2px solid #5bc66b;outline-offset:1px}
+.adm-button{border-radius:6px}
+.adm-button--primary{background:#18702d}
+.adm-button--secondary{background:white}
+.adm-button--danger{color:#ba393c;background:#fff0f0}
+.adm-tabbar button{border-radius:5px}
+.adm-tabbar button.selected{background:#17682c}
+.adm-filters{margin-top:4px}
+.adm-filters label{font-weight:650}
+.adm-image-fields{background:#fbfdfb}
+.adm-system-row{grid-template-columns:185px minmax(0,1fr) 120px;padding:19px 0}
+.adm-system-row>div b{color:#244f33}
+.adm-modal{border-radius:12px;max-width:600px;padding:35px 36px;box-shadow:0 28px 60px rgba(13,48,29,.2)}
+.adm-modal h2{font-size:25px;line-height:1.2;color:#1c412e}
+.adm-modal h3{font-size:14px;color:#1c412e}
+.adm-modal p{font-size:13px;line-height:1.65}
+.adm-login{grid-template-columns:42% 58%;background:#fff}
+.adm-login-art{background-image:linear-gradient(180deg,rgba(0,31,49,.88) 0%,rgba(1,32,49,.64) 43%,rgba(3,24,24,.85) 100%),url('/assets/admin/idsc-campus-login.jpg');background-size:cover;background-position:center center;padding:44px}
+.adm-login-message{max-width:480px}
+.adm-login-message h1{font-size:clamp(31px,3.3vw,47px);font-weight:750;line-height:1.25}
+.adm-login-message p{max-width:440px;color:#d0dfdf}
+.adm-login-footer{font-size:13px}
+.adm-login-pane form{max-width:440px;gap:20px}
+.adm-login-pane h1{color:#163c29;font-size:33px;letter-spacing:-.6px}
+.adm-login-pane .adm-eyebrow{letter-spacing:.05em}
+.adm-login-pane label{font-size:12px}
+.adm-login-pane form>.adm-button{background:#17742d;color:#fff;min-height:45px}
+.adm-login-note{font-size:11px}
+/* Preserve approved public geometry in inline admin mode */
+.adm-public-view .adm-preview-toolbar{min-height:53px}
+.adm-public-view .adm-overlay-tools{max-width:95vw}
+.adm-card-tools button:focus-visible,.adm-overlay-tools button:focus-visible{outline:3px solid #ecc847;outline-offset:2px}
+@media(max-width:1100px){.adm-dashboard-top{grid-template-columns:1fr}.adm-workspace{padding:24px}.adm-system-row{grid-template-columns:130px minmax(0,1fr) 110px}}
+@media(max-width:750px){.adm-workspace{padding:18px 14px}.adm-banner{min-height:155px}.adm-login{grid-template-columns:1fr}.adm-login-art{min-height:290px;padding:26px}.adm-login-pane{padding:40px 22px}.adm-system-row{grid-template-columns:1fr;gap:9px}.adm-modal{padding:26px 20px}}
+
+
+/* ===== admin-original-assets.css (preserved cascade order) ===== */
+/* Original user-supplied IDSC images — loaded after admin-figma-fidelity.css. */
+.adm-login-art {
+  background-image:
+    linear-gradient(180deg, rgba(0,30,45,.90) 0%, rgba(1,31,41,.64) 43%, rgba(5,23,22,.86) 100%),
+    url('/assets/admin/idsc-campus-login.jpg');
+  background-size: cover;
+  background-position: 50% 58%;
+}
+.adm-banner {
+  background-image:
+    linear-gradient(90deg, #075423 0%, rgba(7,88,36,.97) 45%, rgba(6,81,35,.76) 67%, rgba(4,58,30,.28) 100%),
+    url('/assets/admin/idsc-campus-dashboard.jpg');
+  background-size: cover;
+  background-position: center, 50% 52%;
+}
+/* Replace the temporary IDSC lettermark with the official user-supplied seal. */
+.adm-login-brand .adm-mark, .adm-brand .adm-mark {
+  background: #fff url('/assets/admin/idsc-logo.png') center / cover no-repeat;
+  color: transparent;
+  font-size: 0;
+  border: 0;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+@media (max-width: 750px) {
+  .adm-login-art { background-position: 50% 59%; }
+  .adm-banner { background-position: center, 45% 40%; }
+}
+
+
+/* ===== admin-dashboard-visual-v5.css (preserved cascade order) ===== */
+/* IDSC Admin Dashboard visual alignment, V5.
+   Must load AFTER admin.css, admin-figma-fidelity.css and admin-original-assets.css.
+   This stylesheet changes only dashboard presentation; data and interactions stay unchanged. */
+.adm-app {
+  --a-forest: #075727;
+  --a-dark: #133d2a;
+  --a-green: #13722e;
+  --a-page: #f6f8f9;
+  background: var(--a-page);
+  color: var(--a-dark);
+}
+.adm-side { background: #075426; }
+.adm-top { background: #fff; border-bottom: 1px solid #edf1ee; }
+.adm-workspace { max-width: 1640px; }
+.adm-pageheading h1 { color: #103e2b; }
+.adm-pageheading p { color: #708179; }
+/* V6: Use a real photo layer with a soft edge instead of two backgrounds
+   with different intrinsic sizes (which produced the vertical seam). */
+.adm-banner {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: linear-gradient(104deg, #075426 0%, #076b33 55%, #0d7542 100%);
+  min-height: 148px;
+  border-radius: 14px;
+  padding: 26px 29px;
+}
+/* The photograph sits only behind the right of the banner, fading into green.
+   No visible rectangular edge, even when the viewport changes. */
+.adm-banner::before {
+  content: '';
+  position: absolute;
+  z-index: -2;
+  inset: 0 0 0 auto;
+  width: 68%;
+  background: url('/assets/admin/idsc-campus-dashboard.jpg') center 48% / cover no-repeat;
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,.18) 16%, #000 65%);
+  mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,.18) 16%, #000 65%);
+}
+.adm-banner::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background: linear-gradient(90deg,
+    rgba(2,70,30,.18) 0%,
+    rgba(4,83,35,.16) 42%,
+    rgba(4,89,40,.22) 72%,
+    rgba(2,47,32,.32) 100%);
+  pointer-events: none;
+}
+.adm-banner > * { position: relative; z-index: 1; }
+.adm-banner small { color: #f3d65b; letter-spacing: .02em; }
+.adm-banner h2 { color: #fff; font-size: clamp(24px, 2vw, 30px); font-weight: 760; line-height: 1.2; margin-top: 9px; }
+.adm-banner p { color: #dbecdf; font-size: 13px; }
+.adm-kpi, .adm-panel {
+  background: #fff;
+  border: 1px solid #ebf0ed;
+  box-shadow: 0 8px 25px rgba(12, 52, 27, .035);
+  border-radius: 14px;
+}
+.adm-kpi-head svg { color: #155e30; }
+.adm-kpi strong { color: #103d29; }
+.adm-view-buttons a { background: #04b92b; color: #fff; border-radius: 11px; }
+.adm-view-buttons a+a { background: #113b16; color: #fff; }
+.adm-panel-head h2 { color: #153e2b; }
+.adm-select-mock { color: #176b2f; border-color: #d8e5d9; }
+.adm-chart-legend { color: #254e36; }
+.adm-dot.one { background: #b93137; }
+.adm-dot.two { background: #13bf3b; }
+.adm-dot.three { background: #16713c; }
+.adm-note { color: #78887f; }
+
+
+@media (max-width: 750px) {
+  .adm-banner { min-height: 165px; padding: 23px 20px; }
+  .adm-banner::before { width: 75%; background-position: center 50%; opacity: .72; }
+  .adm-banner h2 { font-size: 23px; }
+}
+
+/* Keep Administrator profile aligned to the right */
+.adm-top {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.adm-top .adm-user {
+  margin-left: auto;
+}
+
