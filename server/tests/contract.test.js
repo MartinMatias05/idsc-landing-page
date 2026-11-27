@@ -27,6 +27,7 @@ const handlers = {
   getHealth: () => site.getHealth(),
   getSite: () => site.getSite(),
   getNavigation: () => site.getNavigation(),
+  listHero: () => news.listHero(),
   listNews: () => news.listNews(),
   getNews: () => news.getNews('news-002'),
   getEnrollment: () => home.getEnrollment(),

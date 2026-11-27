@@ -112,3 +112,14 @@ test('POST /visits -> 201, matches the contract and is reflected by GET /statist
 test('GET /visits is not routed (the endpoint is POST only)', async () => {
   await expectProblem(await get('/visits'), 404);
 });
+
+test('Clinic and Career are absent from public page inventories', async () => {
+  const nav = await (await get('/navigation')).json();
+  const about = await (await get('/about')).json();
+  const facilities = await (await get('/facilities')).json();
+  const paths = [...nav.primary.flatMap(item => item.children), ...about.pages, ...facilities.items].map(item => item.href);
+  assert.ok(!paths.includes('/facilities/clinic'));
+  assert.ok(!paths.includes('/about/career'));
+  assert.ok(paths.includes('/facilities/laboratories'));
+  assert.equal(facilities.total, facilities.items.length);
+});

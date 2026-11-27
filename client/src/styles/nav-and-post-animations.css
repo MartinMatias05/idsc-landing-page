@@ -1,0 +1,123 @@
+/* IDSC navigation opening and directional post-title underline.
+   No sticky, floating header, or scroll listeners. */
+@keyframes idsc-dropdown-enter {
+  from { opacity: 0; transform: translate3d(0, -7px, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+@keyframes idsc-mobile-nav-enter {
+  from { opacity: 0; transform: translate3d(0, -5px, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+.main-nav__item.is-open > .main-nav__dropdown {
+  animation: idsc-dropdown-enter 180ms cubic-bezier(.2,.7,.2,1) both;
+  transform-origin: top left;
+}
+@media (hover: hover) and (min-width: 1101px) {
+  .main-nav__item:hover > .main-nav__dropdown {
+    animation: idsc-dropdown-enter 180ms cubic-bezier(.2,.7,.2,1) both;
+    transform-origin: top left;
+  }
+}
+@media (max-width: 1100px) {
+  .main-nav.is-open { animation: idsc-mobile-nav-enter 210ms ease-out both; }
+}
+
+/* Title-only underline. The line grows from left to right and retracts
+   right to left; width:fit-content prevents drawing across empty card space.
+   Do not underline the small Pulse post selectors or section-level links. */
+a.news-hero__title-link,
+a.idsc-news-card .idsc-news-card__title,
+a.pulse-showcase__feature .pulse-showcase__feature-body h3 {
+  position: relative;
+  width: fit-content;
+  max-width: 100%;
+  text-decoration: none;
+}
+a.news-hero__title-link::after,
+a.idsc-news-card .idsc-news-card__title::after,
+a.pulse-showcase__feature .pulse-showcase__feature-body h3::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -4px;
+  height: 2px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 280ms cubic-bezier(.22, 1, .36, 1);
+  pointer-events: none;
+}
+a.news-hero__title-link:hover::after,
+a.news-hero__title-link:focus-visible::after,
+a.idsc-news-card:hover .idsc-news-card__title::after,
+a.idsc-news-card:focus-visible .idsc-news-card__title::after,
+a.pulse-showcase__feature:hover .pulse-showcase__feature-body h3::after,
+a.pulse-showcase__feature:focus-visible .pulse-showcase__feature-body h3::after {
+  transform: scaleX(1);
+}
+
+/* Explicitly undo the previous version's underline on small Pulse items. */
+.pulse-showcase__select h3 {
+  text-decoration: none;
+  text-decoration-color: currentColor;
+  transition: none;
+}
+.pulse-showcase__see-all {
+  text-decoration: none;
+  transition: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .main-nav__item.is-open > .main-nav__dropdown,
+  .main-nav__item:hover > .main-nav__dropdown,
+  .main-nav.is-open { animation: none !important; }
+  a.news-hero__title-link::after,
+  a.idsc-news-card .idsc-news-card__title::after,
+  a.pulse-showcase__feature .pulse-showcase__feature-body h3::after {
+    transition: none !important;
+  }
+}
+
+/* Hero title is an inline link; keep its underline sized to the headline. */
+a.news-hero__title-link { display: inline-block; }
+
+/* V4: prevent the legacy text-decoration underline from appearing alongside
+   the animated ::after line. Keep the ::after animation unchanged. */
+a.news-hero__title-link,
+a.news-hero__title-link:hover,
+a.news-hero__title-link:focus-visible,
+a.idsc-news-card .idsc-news-card__title,
+a.idsc-news-card:hover .idsc-news-card__title,
+a.idsc-news-card:focus-visible .idsc-news-card__title,
+a.pulse-showcase__feature .pulse-showcase__feature-body h3,
+a.pulse-showcase__feature:hover .pulse-showcase__feature-body h3,
+a.pulse-showcase__feature:focus-visible .pulse-showcase__feature-body h3 {
+  text-decoration: none !important;
+  text-decoration-line: none !important;
+}
+
+/* V5: line-by-line animated hero underline — follows wrapped text, not title box. */
+a.news-hero__title-link {
+  display: inline !important;
+  width: auto;
+  max-width: none;
+  position: static;
+  text-decoration: none !important;
+  background-image: linear-gradient(currentColor, currentColor);
+  background-repeat: no-repeat;
+  background-position: left bottom;
+  background-size: 0% 2px;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  transition: background-size 300ms cubic-bezier(.22, 1, .36, 1);
+}
+a.news-hero__title-link::after { content: none !important; display: none !important; }
+a.news-hero__title-link:hover,
+a.news-hero__title-link:focus-visible {
+  text-decoration: none !important;
+  background-size: 100% 2px;
+}
+@media (prefers-reduced-motion: reduce) {
+  a.news-hero__title-link { transition: none !important; }
+}

@@ -1,0 +1,57 @@
+/* Estimated Tuition Fee page, semester tables and optional slide-out fee calculator. */
+.idsc-tuition-section { background: #fff; }
+.idsc-tuition-page-heading { display: flex; align-items: center; justify-content: space-between; gap: 28px; }
+.idsc-tuition-page-heading .idsc-info-heading { margin-bottom: 0; }
+.idsc-tuition-launch { display: inline-flex; align-items: center; justify-content: center; gap: 10px; flex: none; border: 0; border-radius: 12px; padding: 15px 20px; background: #138234; color: #fff; font: inherit; font-size: 14px; font-weight: 750; cursor: pointer; box-shadow: 0 5px 14px rgba(19, 91, 42, .13); }
+.idsc-tuition-launch:hover { background: #0d6428; }
+.idsc-tuition-launch > span:first-child { font-size: 20px; line-height: 1; }
+.idsc-tuition-launch > span:last-child { font-size: 21px; line-height: 1; }
+.idsc-tuition-launch:focus-visible, .idsc-tuition-close:focus-visible, .idsc-tuition-picker-fields select:focus-visible { outline: 3px solid #efc145; outline-offset: 3px; }
+.idsc-tuition-table-section { margin-top: 42px; }
+.idsc-tuition-first-table { margin-top: 34px; }
+.idsc-tuition-section-header { display: flex; justify-content: space-between; align-items: end; gap: 16px; margin-bottom: 17px; }
+.idsc-tuition-section-header h3 { font-size: clamp(20px, 2.3vw, 28px); font-weight: 550; margin: 10px 0 5px; }
+.idsc-tuition-section-header p { font-size: 13px; color: #728476; margin: 0; }
+.idsc-tuition-all-table, .idsc-tuition-misc-table { border: 1px solid #cddbcf; border-radius: 12px; overflow-x: auto; background: #fff; }
+.idsc-tuition-all-table table, .idsc-tuition-misc-table table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.idsc-tuition-all-table th, .idsc-tuition-misc-table th { background: #f1f6f0; font-size: 11px; text-align: left; color: #607667; }
+.idsc-tuition-all-table th, .idsc-tuition-all-table td, .idsc-tuition-misc-table th, .idsc-tuition-misc-table td { padding: 12px 14px; border-bottom: 1px solid #e5eee5; }
+.idsc-tuition-all-table td:first-child { min-width: 245px; }
+.idsc-tuition-all-table td:not(:first-child) { white-space: nowrap; font-variant-numeric: tabular-nums; }
+.idsc-tuition-strong { font-weight: 800; color: #11572a; }
+.idsc-tuition-misc-table td:last-child, .idsc-tuition-misc-table tfoot td { text-align: right; font-variant-numeric: tabular-nums; }
+.idsc-tuition-misc-table tfoot th, .idsc-tuition-misc-table tfoot td { background: #133b25; color: #fff; font-size: 13px; font-weight: 800; }
+.idsc-tuition-info-note { margin-top: 28px; border: 1px solid #e4d3a2; border-radius: 11px; padding: 16px 19px; background: #fff9e9; color: #6b6348; font-size: 12px; line-height: 1.65; }
+
+/* Portal drawer is attached to <body> so admin preview containers cannot clip it. */
+.idsc-tuition-drawer-layer { position: fixed; inset: 0; z-index: 2147483000; display: flex; justify-content: flex-end; }
+.idsc-tuition-drawer-backdrop { position: absolute; inset: 0; background: rgba(5, 23, 14, .54); animation: idsc-drawer-shade .25s ease both; }
+.idsc-tuition-drawer { position: relative; width: min(430px, 100%); height: 100%; height: 100dvh; display: flex; flex-direction: column; background: #fff; box-shadow: -14px 0 44px rgba(5, 26, 14, .19); color: #153626; animation: idsc-drawer-enter .28s cubic-bezier(.21,.76,.29,1) both; overflow: hidden; }
+.idsc-tuition-drawer-header { display: flex; align-items: center; gap: 12px; padding: 25px 23px 19px; border-bottom: 1px solid #e4ece5; flex-shrink: 0; }
+.idsc-tuition-drawer-symbol { display: grid; place-items: center; width: 44px; height: 44px; background: #e7f4e9; color: #148436; font-weight: 800; font-size: 24px; border-radius: 12px; flex: none; }
+.idsc-tuition-drawer-heading { flex: 1; min-width: 0; }
+.idsc-tuition-drawer-heading h2 { margin: 0 0 4px; font-size: 21px; line-height: 1.3; color: #173526; }
+.idsc-tuition-drawer-heading p { margin: 0; color: #65786b; font-size: 12px; }
+.idsc-tuition-close { background: transparent; color: #3e5947; border: 1px solid #dce8dd; border-radius: 10px; width: 38px; height: 38px; flex: none; font-size: 26px; line-height: 1; cursor: pointer; }
+.idsc-tuition-close:hover { background: #eef5ef; }
+.idsc-tuition-drawer-content { overflow-y: auto; overscroll-behavior: contain; padding: 23px; flex: 1; }
+.idsc-tuition-drawer-intro { margin: 0 0 20px; font-size: 13px; line-height: 1.6; color: #647566; }
+.idsc-tuition-picker-fields { display: grid; gap: 18px; }
+.idsc-tuition-picker-fields label { display: grid; gap: 9px; color: #264332; font-size: 13px; font-weight: 750; }
+.idsc-tuition-picker-fields select { appearance: auto; width: 100%; min-width: 0; padding: 13px; border: 1px solid #c8d9c9; border-radius: 9px; background: #f9fbf7; color: #123328; font: inherit; font-size: 13px; }
+.idsc-tuition-result { display: grid; gap: 8px; margin-top: 23px; padding: 23px; border-radius: 13px; background: #103723; color: #fff; }
+.idsc-tuition-eyebrow { font-size: 11px; letter-spacing: .08em; font-weight: 750; color: #b5dfbd; }
+.idsc-tuition-amount { font-size: clamp(28px, 4vw, 36px); line-height: 1.1; letter-spacing: -.025em; }
+.idsc-tuition-result small { color: #e2eee4; font-size: 12px; }
+.idsc-tuition-breakdown { margin-top: 21px; }
+.idsc-tuition-breakdown h3 { font-size: 16px; margin: 0 0 12px; }
+.idsc-tuition-breakdown-row, .idsc-tuition-total { display: flex; justify-content: space-between; gap: 12px; padding: 11px 0; font-size: 13px; }
+.idsc-tuition-breakdown-row { color: #586c5e; border-bottom: 1px solid #e9efe8; }
+.idsc-tuition-breakdown-row strong { color: #1d3d2b; font-variant-numeric: tabular-nums; }
+.idsc-tuition-total { align-items: center; margin-top: 7px; color: #123b24; font-weight: 750; }
+.idsc-tuition-total strong { font-size: 18px; font-variant-numeric: tabular-nums; }
+.idsc-tuition-drawer-note { margin: 21px 0 0; padding: 14px; background: #f2f7f2; border-radius: 9px; color: #657568; font-size: 12px; line-height: 1.6; }
+@keyframes idsc-drawer-enter { from { transform: translateX(100%); } to { transform: translateX(0); } }
+@keyframes idsc-drawer-shade { from { opacity: 0; } to { opacity: 1; } }
+@media(max-width: 700px) { .idsc-tuition-page-heading { flex-direction: column; align-items: stretch; gap: 16px; } .idsc-tuition-launch { width: 100%; } .idsc-tuition-section-header { align-items: start; flex-direction: column; } .idsc-tuition-drawer { width: 100%; } .idsc-tuition-drawer-header { padding: 18px; } .idsc-tuition-drawer-content { padding: 18px; } }
+@media(prefers-reduced-motion: reduce) { .idsc-tuition-drawer, .idsc-tuition-drawer-backdrop { animation: none; } }

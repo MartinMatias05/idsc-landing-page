@@ -1,0 +1,100 @@
+/* Header compact mode: normal at top, momentarily hidden then returns as a slim row. */
+.site-header.is-compact .navbar {
+  min-height: 43px;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.site-header.is-compact .main-nav__trigger {
+  padding-top: 9px;
+  padding-bottom: 9px;
+  font-size: clamp(13px, 0.9vw, 15px);
+}
+.site-header.is-compact .navbar__location {
+  font-size: 13px;
+}
+.site-header.is-nav-entering .navbar {
+  opacity: 0;
+  transform: translateY(-12px);
+  pointer-events: none;
+}
+.site-header .navbar {
+  transition: min-height .18s ease, padding .18s ease, box-shadow .18s ease,
+              opacity .17s ease, transform .17s ease;
+}
+
+/* Make the existing search control genuinely usable, without a server search endpoint. */
+.idsc-site-search {
+  position: relative;
+  min-width: 170px;
+  width: clamp(170px, 15vw, 240px);
+}
+.idsc-site-search:focus-within {
+  border-color: rgba(255,255,255,.75);
+  box-shadow: 0 0 0 2px rgba(255,255,255,.16);
+}
+.idsc-site-search .search__input { width: 100%; outline: none; }
+.idsc-site-search__results {
+  position: absolute;
+  z-index: 200;
+  top: calc(100% + 9px);
+  right: 0;
+  width: min(340px, 88vw);
+  max-height: 310px;
+  overflow-y: auto;
+  background: #fff;
+  border: 1px solid #dce9de;
+  border-radius: 12px;
+  box-shadow: 0 14px 36px rgba(6,37,22,.20);
+  padding: 6px;
+  color: #153c26;
+}
+.idsc-site-search__result {
+  display: block;
+  padding: 11px 13px;
+  border-radius: 7px;
+  font-size: 14px;
+  color: #163c29;
+  text-decoration: none;
+}
+.idsc-site-search__result:hover,
+.idsc-site-search__result:focus-visible {
+  background: #ebf6eb;
+  color: #12692e;
+}
+.idsc-site-search__empty { margin: 0; padding: 12px; font-size: 13px; color: #64766a; }
+@media (max-width: 1100px) {
+  .site-header.is-compact .main-nav__trigger { font-size: 15px; padding: 11px 4px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .site-header .navbar { transition: none !important; }
+  .site-header.is-nav-entering .navbar { opacity: 1; transform: none; pointer-events: auto; }
+}
+
+/* V3: the compact navigation remains visible even if an ancestor inhibits sticky layout. */
+.site-header.is-compact {
+  position: fixed !important;
+  inset: 0 0 auto 0;
+  width: 100%;
+  z-index: 1000;
+  background: #fff;
+}
+.idsc-header-spacer { display: block; pointer-events: none; }
+.site-header:not(.is-compact) .topbar { overflow: visible; }
+.site-header.is-compact .topbar { overflow: hidden; }
+.site-header.is-compact .navbar { min-height: 42px; box-shadow: 0 5px 18px rgba(8, 43, 25, .12); }
+/* Search results must sit above the header and never become a large blank panel. */
+.idsc-site-search { flex: none; z-index: 1100; }
+.idsc-site-search__results {
+  top: calc(100% + 10px);
+  min-height: 0;
+  height: auto;
+  max-height: min(300px, 45vh);
+  overflow: auto;
+  background: #fff;
+  color: #163c29;
+}
+.idsc-site-search__results:empty { display: none; }
+.idsc-site-search__empty { display: block; color: #536759; background: #fff; }
+@media (prefers-reduced-motion: reduce) {
+  .site-header.is-nav-entering .navbar { opacity: 1; transform: none; pointer-events: auto; }
+}

@@ -96,3 +96,33 @@
   .search { display: none; }
   .brand__tagline { display: none; }
 }
+
+/* idsc-navigation-ribbon-compact-v1 */
+/* Refine only the desktop white navigation ribbon. Leave brand header and mobile menu unchanged. */
+@media (min-width: 1101px) {
+  .site-header .navbar {
+    min-height: 52px;
+    padding-block: 0;
+    padding-inline: clamp(28px, 6.5vw, 104px);
+  }
+  .site-header .main-nav__list {
+    gap: clamp(2px, .35vw, 7px);
+  }
+  .site-header .main-nav__trigger {
+    padding: 11px clamp(9px, 1vw, 16px);
+    font-size: clamp(14px, .94vw, 16px);
+    line-height: 1.2;
+  }
+  .site-header .main-nav__trigger svg {
+    width: 15px;
+    height: 15px;
+  }
+  .site-header .navbar__location {
+    gap: 6px;
+    font-size: clamp(13px, .9vw, 15px);
+  }
+  .site-header .navbar__location svg {
+    width: 19px;
+    height: 19px;
+  }
+}

@@ -22,7 +22,7 @@
 | Registrar | Enrolled-student count | **Temporary mock value** (`2,120`) in `GET /statistics`, flagged `provider.isMock: true`. Production must call the Registrar REST API. |
 | Faculty | Full-time faculty count | **Temporary mock value** (`34`), same flag. Production must call the Faculty REST API. |
 | Student Portal | Destination of the footer "Students" link | Link only; no data exchanged |
-| Clinic | None. The Facilities → Clinic page is public information; clinic operations stay in the Clinic module | — |
+| Clinic | None. Floating Clinic icon links to the external system; general wellness reminders run in the browser. Clinic operations stay in the Clinic module | — |
 
 The Landing Page never reads another module's database, imports its code or shares a data model.
 

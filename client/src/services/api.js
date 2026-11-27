@@ -35,6 +35,7 @@ async function request(path, signal, init = {}) {
 export const api = {
   getSite: (signal) => request('/site', signal),
   getNavigation: (signal) => request('/navigation', signal),
+  getHero: (signal) => request('/hero', signal),
   getNews: (signal) => request('/news', signal),
   getEnrollment: (signal) => request('/enrollment', signal),
   getPulse: (signal) => request('/pulse', signal),

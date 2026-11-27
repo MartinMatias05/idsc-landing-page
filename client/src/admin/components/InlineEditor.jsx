@@ -2,11 +2,13 @@ import { useEffect, useState, useRef } from 'react';
 import { X, ExternalLink } from 'lucide-react';
 import ImageSourceFields from './ImageSourceFields';
 import { useAdmin } from '../state/AdminStore';
+import { pulseArticleUrl } from '../../lib/pulseArticleUrl';
 
-function validArticle(url, kind) {
+function validArticle(url,kind) {
+  if (kind === 'pulse') return Boolean(pulseArticleUrl(url));
   try {
     const u = new URL(url);
-    return u.protocol === 'https:' && (kind === 'hero' ? (u.pathname !== '/' || Boolean(u.search)) : (u.hostname === (kind === 'news' ? 'voxtemplari.idsc.edu.ph' : 'idscpulse.netlify.app') && u.pathname !== '/'));
+    return u.protocol === 'https:' && (kind === 'hero' ? (u.pathname !== '/' || Boolean(u.search)) : u.hostname === 'voxtemplari.idsc.edu.ph' && u.pathname !== '/');
   } catch { return false; }
 }
 
@@ -45,24 +47,24 @@ export default function InlineEditor({ kind, record, onClose }) {
       setMessage('Enrollment changes saved for this prototype session.');
       return;
     }
-    if (!draft.title?.trim()) { setError('Enter a title.'); return; }
+    if (!pageMode && !draft.title?.trim()) { setError('Enter a title.'); return; }
     if (pageMode) {
-      savePage(record.name, { ...pages[record.name], ...draft });
+      savePage(record.name, { description: draft.description });
       setMessage('Page changes saved in this prototype session.'); return;
     }
-    if (!draft.description?.trim() || !draft.category?.trim() || !draft.date || (mode === 'publish' || kind !== 'hero' ? !validArticle(draft.url, kind) : Boolean(draft.url?.trim()) && !validArticle(draft.url, kind))) {
+    if (!draft.description?.trim() || !draft.category?.trim() || !draft.date || ((mode === 'publish' || kind !== 'hero') && !validArticle(draft.url, kind))) {
       setError(kind === 'hero' ? 'Enter a valid HTTPS article URL, title, description, category and date before publishing the Hero story.' : 'Enter a title, description, category, date, and a direct HTTPS article URL from the selected site.'); return;
     }
-    if (mode === 'publish' && (kind === 'news' || kind === 'pulse') && !draft.image?.startsWith('data:image/')) {
-      // API-seeded items with existing cover assets can still be edited.
-      if (!record?.id || !draft.image || draft.image !== record.image) { setError('Upload a JPG, PNG, or WebP cover image before publishing.'); return; }
+    if (mode === 'publish' && kind === 'news' && !(/^https:\/\//i.test(draft.image || '') || (draft.image || '').startsWith('data:image/'))) {
+      setError('Provide a direct HTTPS cover image URL or upload a JPG, PNG, or WebP image before publishing.'); return;
     }
+    if (mode === 'publish' && kind === 'pulse' && !(/^https:\/\//i.test(draft.image || '') || (draft.image || '').startsWith('data:image/'))) { setError('Enter an HTTPS cover image URL or upload a file for IDSC Pulse.'); return; }
     if (kind === 'hero' && mode === 'publish' && posts.filter(p => p.kind === 'hero' && p.status === 'Published' && p.id !== draft.id).length >= 4) {
       setError('Homepage allows up to 4 published featured posts. Remove or unpublish one before adding another.'); return;
     }
     if (publishLock.current) return;
     publishLock.current = true;
-    const savedId = savePost({ ...draft, id: postIdRef.current }, mode);
+    const savedId = savePost({ ...draft, prototypeOnly: false, id: postIdRef.current }, mode);
     if (savedId === null) { publishLock.current = false; setError('Unable to publish. Check the Homepage four-story limit.'); return; }
     setDraft(prev => ({ ...prev, id: savedId }));
     setMessage(mode === 'publish' ? 'Preview published once in this prototype session.' : 'Draft saved in this prototype session.');
@@ -73,8 +75,8 @@ export default function InlineEditor({ kind, record, onClose }) {
       <div className="adm-inline-heading"><div><small>LANDING PAGE · ADMIN MODE</small><h2 id="adm-inline-title">{enrollmentMode ? 'Edit enrollment section' : ctaMode ? 'Edit enrollment CTA' : pageMode ? `Edit ${record.name}` : record?.id ? `Edit ${kind === 'hero' ? 'Homepage' : kind === 'news' ? 'News' : 'IDSC Pulse'} preview` : `Add ${kind === 'hero' ? 'Homepage' : kind === 'news' ? 'News' : 'IDSC Pulse'} preview`}</h2></div><button type="button" className="adm-inline-close" aria-label="Close editor" onClick={onClose}><X size={19}/></button></div>
       <div className="adm-form">
         {!pageMode && !enrollmentMode && <>
-          <label>{kind === 'hero' ? 'Published article URL (required to publish)' : 'Published article URL'}<input type="url" value={draft.url} onChange={e=>update('url',e.target.value)} placeholder={kind==='hero' ? 'https://publisher.example/article' : kind==='news' ? 'https://voxtemplari.idsc.edu.ph/article...' : 'https://idscpulse.netlify.app/post...'}/></label>
-          <p className="adm-hint">{kind === 'hero' ? 'Use the exact published article URL from any HTTPS website. An image URL or upload remains optional.' : 'Paste the exact article URL, then upload a JPG/PNG/WebP cover image. Article URL alone does not include its photograph.'}</p>
+          <label>{kind === 'hero' ? 'Published article URL (required to publish)' : 'Published article URL'}<input type="url" value={draft.url} onChange={e=>update('url',e.target.value)} placeholder={kind==='hero' ? 'https://publisher.example/article' : kind==='news' ? 'https://voxtemplari.idsc.edu.ph/article...' : 'https://idscpulse.netlify.app/'}/></label>
+          <p className="adm-hint">{kind === 'hero' ? 'Use the exact published article URL from any HTTPS website. An image URL or upload remains optional.' : 'Paste the IDSC Pulse deployed HTTPS site or article link, then use an HTTPS cover image URL or upload a JPG/PNG/WebP image. Article URL alone does not include its photograph.'}</p>
         </>}
         {ctaMode ? <>
           <label>CTA eyebrow<input value={draft.label} onChange={e=>update('label', e.target.value)}/></label>
@@ -94,16 +96,16 @@ export default function InlineEditor({ kind, record, onClose }) {
           <label>Enrollment headline<input value={draft.headline} onChange={e=>update('headline',e.target.value)}/></label>
           <label>Enrollment status<input value={draft.statusLabel} onChange={e=>update('statusLabel',e.target.value)} placeholder="Admissions Open"/></label>
           <label>Audience<input value={draft.audience} onChange={e=>update('audience',e.target.value)} placeholder="Senior High School & College"/></label>
-          <label>Description<textarea rows={3} value={draft.description} onChange={e=>update('description',e.target.value)}/></label>
+          <label>{pageMode ? 'Page description' : 'Description'}<textarea rows={3} value={draft.description} onChange={e=>update('description',e.target.value)}/></label>
           <ImageSourceFields compact image={draft.image} onChange={value=>update('image',value)}/>
         </> : <>
-          <label>{pageMode ? 'Section heading' : 'Title'}<input value={draft.title} onChange={e=>update('title',e.target.value)}/></label>
+          {!pageMode && <label>Title<input value={draft.title} onChange={e=>update('title',e.target.value)}/></label>}
           {!pageMode && <>
             <label>Category<input value={draft.category} onChange={e=>update('category',e.target.value)}/></label>
             <label>Publication date<input type="date" value={draft.date} onChange={e=>update('date',e.target.value)}/></label>
           </>}
-          <label>Description<textarea rows={3} value={draft.description} onChange={e=>update('description',e.target.value)}/></label>
-          {!pageMode && <ImageSourceFields compact uploadOnly={kind === 'news' || kind === 'pulse'} required={kind === 'news' || kind === 'pulse'} image={draft.image} onChange={value=>update('image',value)}/>}
+          <label>{pageMode ? 'Page description' : 'Description'}<textarea rows={3} value={draft.description} onChange={e=>update('description',e.target.value)}/></label>
+          {!pageMode && <ImageSourceFields compact uploadOnly={false} required={kind === 'news' || kind === 'pulse'} image={draft.image} onChange={value=>update('image',value)}/>}
         </>}
         {error && <p className="adm-error" role="alert">{error}</p>}
         {message && <p className="adm-success" role="status">{message}</p>}

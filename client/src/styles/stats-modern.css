@@ -1,0 +1,160 @@
+/* IDSC Statistics V7 — Figma reference geometry and color fidelity.
+   Only affects the public Home statistics module. */
+.stats.idsc-stats-modern {
+  position: relative;
+  display: block;
+  isolation: isolate;
+  overflow: hidden;
+  background: #fff !important;
+  background-image: none !important;
+  padding: clamp(78px, 8.23vw, 158px) 16px clamp(80px, 5.2vw, 100px);
+}
+.stats.idsc-stats-modern::before,
+.stats.idsc-stats-modern::after { content: none !important; display: none !important; }
+.idsc-stats-modern__content { max-width: 1410px; margin: 0 auto; }
+.stats.idsc-stats-modern .stats__list {
+  --ring: clamp(244px, 20.47vw, 393px);
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  gap: clamp(20px, 3.6vw, 69px);
+  list-style: none;
+  padding: 0;
+  margin: 0 auto;
+}
+.stats.idsc-stats-modern .stat-ring.idsc-stat-ring {
+  position: relative;
+  flex: 0 0 var(--ring);
+  width: var(--ring);
+  height: var(--ring);
+  aspect-ratio: 1;
+  border: 0;
+  border-radius: 50%;
+  padding: 0;
+  margin: 0;
+  overflow: visible;
+  background: transparent !important;
+  box-shadow: none !important;
+  transform: none !important;
+  transition: none !important;
+}
+.stats.idsc-stats-modern .stat-ring.idsc-stat-ring::before,
+.stats.idsc-stats-modern .stat-ring.idsc-stat-ring::after { display: none !important; content: none !important; }
+.stats.idsc-stats-modern .idsc-stat-ring__svg {
+  position: absolute;
+  display: block;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+  transform: none;
+}
+.stats.idsc-stats-modern .idsc-stat-ring__progress {
+  fill: none;
+  stroke: var(--idsc-ring);
+  stroke-width: 15;
+  stroke-linecap: butt;
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  /* Independent ring timing: quick start with a gradual, visible finish. */
+  transition: stroke-dashoffset 3200ms cubic-bezier(.22,.65,.35,1);
+}
+.stats.idsc-stats-modern .idsc-stat-visible .idsc-stat-ring__progress { stroke-dashoffset: 0; }
+/* The bridge behind the circular badge must disappear into the page's white canvas. */
+.stats.idsc-stats-modern .idsc-stat-ring__support {
+  position: absolute;
+  z-index: 0;
+  top: -10%;
+  left: 20%;
+  width: 60%;
+  height: 43%;
+  border-radius: 0 0 12% 12%;
+  background: #fff !important;
+  pointer-events: none;
+}
+.stats.idsc-stats-modern .stat-ring__inner {
+  position: absolute;
+  z-index: 1;
+  inset: 14.7%;
+  width: auto;
+  height: auto;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0;
+  padding: 0;
+  border-radius: 50%;
+  background: #fff !important;
+  color: var(--idsc-ring);
+  text-align: center;
+  box-shadow: 0 9px 16px 2px rgba(0, 0, 0, .48) !important;
+  transform: none !important;
+}
+.stats.idsc-stats-modern .stat-ring__value {
+  display: block;
+  color: var(--idsc-number) !important;
+  position: absolute;
+  top: 34%;
+  margin: 0;
+  font-family: var(--font-display, Arial), Arial, sans-serif;
+  font-size: clamp(48px, 4.2vw, 80px);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+.stats.idsc-stats-modern .stat-ring__label {
+  display: block;
+  max-width: 90%;
+  margin: 0;
+  color: var(--idsc-label) !important;
+  position: absolute;
+  top: 80%;
+  transform: translateY(-50%);
+  width: 56%;
+  font-family: var(--font-display, Arial), Arial, sans-serif;
+  font-size: clamp(17px, 1.3vw, 25px);
+  font-weight: 600;
+  line-height: 1.23;
+  text-transform: none;
+  text-wrap: balance;
+}
+.stats.idsc-stats-modern .idsc-stat-ring__badge {
+  position: absolute;
+  z-index: 3;
+  left: 50%;
+  top: -8.2%;
+  width: 39.2%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  transform: translateX(-50%);
+  background: var(--idsc-badge) !important;
+  color: var(--idsc-icon) !important;
+  box-shadow: none !important;
+}
+.stats.idsc-stats-modern .idsc-stat-ring__badge svg {
+  display: block;
+  width: 52%;
+  height: 52%;
+  color: inherit;
+}
+.stats.idsc-stats-modern .stat-ring__link { z-index: 4; }
+.stats.idsc-stats-modern .stat-ring--link:focus-within { outline: 3px solid var(--idsc-ring); outline-offset: 5px; }
+@media (max-width: 1090px) {
+  .stats.idsc-stats-modern .stats__list { --ring: clamp(230px, 26.5vw, 310px); gap: clamp(14px, 2.2vw, 28px); }
+}
+@media (max-width: 780px) {
+  .stats.idsc-stats-modern { padding: 75px 14px 65px; }
+  .stats.idsc-stats-modern .stats__list { --ring: min(75vw, 330px); flex-wrap: wrap; gap: 72px 28px; }
+  .stats.idsc-stats-modern .stat-ring__value { font-size: clamp(48px, 12vw, 74px); }
+  .stats.idsc-stats-modern .stat-ring__label { font-size: clamp(17px, 4.9vw, 23px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .stats.idsc-stats-modern .idsc-stat-ring__progress { transition: none !important; }
+}

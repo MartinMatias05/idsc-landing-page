@@ -1,0 +1,108 @@
+/* IDSC restrained motion; no compact or floating navigation. */
+.site-header {
+  position: relative !important;
+  top: auto !important;
+}
+
+.idsc-floating-nav {
+  display: none !important;
+}
+
+/* Smooth anchor navigation */
+html,
+html:focus-within {
+  scroll-behavior: smooth;
+}
+
+/* Home page entrance only */
+body.idsc-home-page #main > :first-child {
+  animation: idsc-content-enter 240ms ease-out both !important;
+}
+
+@keyframes idsc-content-enter {
+  from {
+    opacity: .92;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+/* Home page scroll reveal */
+body.idsc-home-page #main > section.idsc-reveal-ready {
+  opacity: 0;
+  transform: translateY(14px);
+
+  transition:
+    opacity 320ms ease-in-out,
+    transform 210ms ease-in-out;
+}
+
+/* Smooth delayed fade-in */
+body.idsc-home-page #main > section.idsc-reveal-ready.idsc-reveal-visible {
+  opacity: .95;
+  transform: translateY(0);
+
+  transition:
+    opacity 1000ms cubic-bezier(.22, 1, .36, 1) 220ms,
+    transform 1000ms cubic-bezier(.22, 1, .36, 1) 250ms;
+}
+
+/* Keyboard accessibility */
+body.idsc-home-page #main > section.idsc-reveal-ready:focus-within {
+  opacity: 1;
+  transform: none;
+  transition: none;
+}
+
+/* News and Pulse hover effects */
+.idsc-news-card,
+.news-carousel__card,
+.pulse-showcase__feature,
+.pulse-showcase__mini {
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .idsc-news-card:hover,
+  .news-carousel__card:hover,
+  .pulse-showcase__feature:hover,
+  .pulse-showcase__mini:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 24px rgba(9, 47, 27, .12);
+  }
+}
+
+/* Reduced motion accessibility */
+@media (prefers-reduced-motion: reduce) {
+  html,
+  html:focus-within {
+    scroll-behavior: auto !important;
+  }
+
+  body.idsc-home-page #main > :first-child {
+    animation: none !important;
+  }
+
+  body.idsc-home-page #main > section.idsc-reveal-ready,
+  body.idsc-home-page #main > section.idsc-reveal-ready.idsc-reveal-visible {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .idsc-news-card,
+  .news-carousel__card,
+  .pulse-showcase__feature,
+  .pulse-showcase__mini {
+    transition: none !important;
+  }
+
+  .idsc-news-card:hover,
+  .news-carousel__card:hover,
+  .pulse-showcase__feature:hover,
+  .pulse-showcase__mini:hover {
+    transform: none !important;
+  }
+}
