@@ -124,7 +124,7 @@ function AdminInformationPreview({ editing, name, site, nav }) {
     <Footer site={site.data} navigation={nav.data}/>
     <AdminClinicPreview editing={editing}/>
     {editing && (!readOnlyInfoPages.has(activeName) || activeName === 'Estimated Tuition Fee') && <div className="adm-preview-footnote">Changes are saved through the Admin API and reflected on supported public pages.</div>}
-    {editing && !readOnlyInfoPages.has(activeName) && editOpen && <InlineEditor kind="page" record={{name:activeName}} onClose={()=>setEditOpen(false)}/>} 
+    {editing && !readOnlyInfoPages.has(activeName) && editOpen && <InlineEditor kind="page" record={{name:activeName}} onClose={()=>setEditOpen(false)}/>}
     {editing && !readOnlyInfoPages.has(activeName) && confirmRemove && <div className="adm-modal-backdrop" onMouseDown={()=>setConfirmRemove(false)}><div className="adm-modal" role="dialog" aria-modal="true" aria-labelledby="adm-info-remove-title" onMouseDown={e=>e.stopPropagation()}><h2 id="adm-info-remove-title">Clear {activeName} description?</h2><p>Only the editable page description will be cleared in this prototype. The page, image, and fee data remain in place. This action is recorded in Recent History.</p><div className="adm-modal-actions"><button type="button" className="adm-button adm-button--secondary" onClick={()=>setConfirmRemove(false)}>Cancel</button><button type="button" className="adm-button adm-button--danger" onClick={()=>{clearPageDescription(activeName);setConfirmRemove(false)}}>Clear description</button></div></div></div>}
   </div>;
 }
