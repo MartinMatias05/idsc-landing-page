@@ -51,7 +51,6 @@ Every screen also uses `GET /site` (header search, footer, contact) and `GET /na
 | `/about/hymn` | IDSC HYMN UI | `/about` (title only) |
 | `/facilities/laboratories` | LABORATORIES UI | `/facilities` (title only) |
 | `/facilities/academic-spaces` | ACADEMIC SPACE UI | `/facilities` (title only) |
-| `/facilities/clinic` | CLINIC UI | `/facilities` (title only) |
 | `/pre-registration` | REGISTER UI | `/enrollment`, `/admission/process` (information only) |
 
 `/news` and `/news/{id}` are available to the client; the Figma file has no dedicated news page frame, so the client reuses the home-page notice cards.

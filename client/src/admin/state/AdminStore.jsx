@@ -1,4 +1,5 @@
-import { createContext, useContext, useMemo, useState, useRef } from 'react';
+import { createContext, useContext, useMemo, useState, useRef, useEffect } from 'react';
+import {adminApi,adminSession} from '../../services/adminApi';
 
 const AdminContext = createContext(null);
 const examples = [
@@ -14,31 +15,41 @@ const initialLinks = {
   News: 'https://voxtemplari.idsc.edu.ph/',
   'IDSC Pulse': 'https://idscpulse.netlify.app/',
 };
-const pageNames = ['Home Page','Estimated Tuition Fee','Alternative Payment','Admission Requirements','College Programs','SHS Programs','About IDSC','IDSC Hymn','Vision, Mission & Core Values','Laboratories'];
+const pageNames = ['Home Page','Estimated Tuition Fee','Alternative Payment','Admission Requirements','College Programs','SHS Programs','About IDSC','IDSC Hymn','Vision, Mission & Core Values','Laboratories','Privacy Notice','Accessibility Statement'];
 
 export function AdminProvider({ children }) {
   const [posts, setPosts] = useState(examples);
+  const [changeVersion,setChangeVersion]=useState(0);
+  const [loadState,setLoadState]=useState('loading');
+  const [saveError,setSaveError]=useState('');
+  const [syncStatus,setSyncStatus]=useState('');
+  const pendingSaves=useRef(Promise.resolve());
   const [hiddenPreviews, setHiddenPreviews] = useState([]);
   const [hiddenHeroIds, setHiddenHeroIds] = useState([]);
   const seededKinds = useRef(new Set());
   const savingIds = useRef(new Map());
   const [history, setHistory] = useState([]);
+  const [toast,setToast] = useState(null);
+  const toastTimer=useRef(null);
+  useEffect(()=>()=>window.clearTimeout(toastTimer.current),[]);
   const [links, setLinks] = useState(initialLinks);
   const [pages, setPages] = useState(() => Object.fromEntries(pageNames.map(name => [name, { title: name, description: '', image: '' }])));
+  const [hiddenPages, setHiddenPages] = useState([]);
+  const [tuitionOverrides, setTuitionOverrides] = useState({ rows: {}, miscellaneous: {} });
   const [profile, setProfile] = useState({ name: 'Administrator', email: 'admin@idsc.edu.ph' });
   // Temporary overrides shared by View Page User and View Page Admin.
   const [enrollmentEdit, setEnrollmentEdit] = useState(null);
   const [enrollmentHidden, setEnrollmentHidden] = useState(false);
   const [ctaEdit, setCtaEdit] = useState(null);
   const [featuredPostId, setFeaturedPostId] = useState(null);
-  const log = (type, target) => setHistory(prev => [{ id: Date.now() + Math.random(), type, target, when: new Date().toLocaleString() }, ...prev]);
+  const log = (type, target) => {window.clearTimeout(toastTimer.current);setToast({type,target});toastTimer.current=window.setTimeout(()=>setToast(null),10000);setChangeVersion(v=>v+1);setHistory(prev => [{ id: Date.now() + Math.random(), type, target, when: new Date().toLocaleString() }, ...prev]);};
   function savePost(post, mode) {
     const id = post.id || `local-${crypto.randomUUID()}`;
     const key = `${post.kind}:${id}:${mode}`;
     // Debounce identical submissions; later edits to the same post remain allowed.
     if (Date.now() - (savingIds.current.get(key) || 0) < 750) return id;
     savingIds.current.set(key, Date.now());
-    const next = { ...post, id, status: mode === 'publish' ? 'Published' : 'Draft' };
+    const next = { ...post, id, prototypeOnly:false, status: mode === 'publish' ? 'Published' : 'Draft' };
     if (mode === 'publish' && next.kind === 'hero' && posts.filter(p => p.kind === 'hero' && p.status === 'Published' && p.id !== id).length >= 4) { savingIds.current.delete(key); return null; }
     const updated = posts.some(p => p.id === id && p.kind === next.kind)
       ? posts.map(p => p.id === id && p.kind === next.kind ? next : p)
@@ -84,6 +95,7 @@ export function AdminProvider({ children }) {
   }
   function hideHero(id, title) {
     setHiddenHeroIds(prev => prev.includes(id) ? prev : [...prev, id]);
+    setHiddenPreviews(prev => [...new Set([...prev,id])]);
     setFeaturedPostId(prev => prev === id ? null : prev);
     setPosts(prev => prev.filter(post => !(post.id === id && post.kind === 'hero')));
     log('Removed featured story', title);
@@ -98,12 +110,42 @@ export function AdminProvider({ children }) {
     const post = posts.find(p => p.id === id && (!kind || p.kind === kind));
     if (!post) return;
     setPosts(prev => prev.filter(p => !(p.id === id && p.kind === post.kind)));
+    setHiddenPreviews(prev => [...new Set([...prev,id])]);
     if (post.kind === 'hero') setHiddenHeroIds(prev => prev.includes(id) ? prev : [...prev, id]);
     log('Deleted', post.title);
   }
   function savePage(name, data) {
-    setPages(prev => ({ ...prev, [name]: data }));
-    log('Edited', `${name} page`);
+    // Non-Home page images are developer-maintained and cannot be changed here.
+    setPages(prev => ({ ...prev, [name]: name === 'Home Page' ? data : {
+      ...prev[name], description: data.description || '', descriptionRemoved: false,
+    } }));
+    log('Edited description', name);
+  }
+  function clearPageDescription(name) {
+    setPages(prev => ({ ...prev, [name]: { ...prev[name], description: '', descriptionRemoved: true } }));
+    log('Cleared description', name);
+  }
+  function saveTuitionRow(courseName, year, values) {
+    const fields = ['units','tuition','miscellaneous','laboratory','research'];
+    if (!fields.every(field => Number.isFinite(values[field]) && values[field] >= 0)) return false;
+    if (!Number.isInteger(values.units) || values.units > 80) return false;
+    setTuitionOverrides(prev => ({...prev, rows: {...prev.rows, [`${courseName}::${year}`]: {...values, total: values.tuition + values.miscellaneous + values.laboratory + values.research}} }));
+    log('Updated semester fees', `${courseName} — Year ${year}`);
+    return true;
+  }
+  function saveMiscellaneousFee(label, amount) {
+    if (!Number.isFinite(amount) || amount < 0) return false;
+    setTuitionOverrides(prev => ({...prev, miscellaneous: {...prev.miscellaneous, [label]: amount}}));
+    log('Updated miscellaneous fee', label);
+    return true;
+  }
+  function removePage(name) {
+    setHiddenPages(prev => prev.includes(name) ? prev : [...prev, name]);
+    log('Removed', `${name} page preview`);
+  }
+  function restorePage(name) {
+    setHiddenPages(prev => prev.filter(item => item !== name));
+    log('Restored', `${name} page preview`);
   }
   function saveEnrollment(hero) {
     const wasHidden = enrollmentHidden;
@@ -127,7 +169,41 @@ export function AdminProvider({ children }) {
     setLinks(prev => ({ ...prev, [name]: url }));
     log('Edited', `${name} destination`);
   }
-  const value = useMemo(() => ({posts, hiddenPreviews, hiddenHeroIds, hideHero, seedPublicPosts, history, links, pages, pageNames, siteKeys, profile, setProfile, savePost, hidePreview, removePost, savePage, saveLink, enrollmentEdit, enrollmentHidden, saveEnrollment, removeEnrollment, ctaEdit, saveCta, featuredPostId, featurePost, log}), [posts, hiddenPreviews, hiddenHeroIds, history, links, pages, profile, enrollmentEdit, enrollmentHidden, ctaEdit, featuredPostId]);
-  return <AdminContext.Provider value={value}>{children}</AdminContext.Provider>;
+
+  // Load authoritative data before allowing mutations to be saved. This is not browser localStorage.
+  useEffect(()=>{
+    if(!adminSession.token()){setLoadState('unauthorized');return;}
+    let active=true;
+    adminApi.getState().then(data=>{
+      if(!active)return;
+      setPosts(data.posts || []);setHiddenPreviews(data.hiddenPreviews || []);
+      setHiddenHeroIds(data.hiddenHeroIds || []);setHistory(data.history || []);
+      setLinks({...initialLinks,...(data.links || {})});
+      setPages({...Object.fromEntries(pageNames.map(name=>[name,{title:name,description:'',image:''}])),...(data.pages || {})});
+      setHiddenPages(data.hiddenPages || []);
+      setTuitionOverrides(data.tuitionOverrides || {rows:{},miscellaneous:{}});
+      setProfile(data.profile || {name:'Administrator',email:''});
+      setEnrollmentEdit(data.enrollmentEdit || null);setEnrollmentHidden(Boolean(data.enrollmentHidden));
+      setCtaEdit(data.ctaEdit || null);setFeaturedPostId(data.featuredPostId || null);
+      setLoadState('ready');
+    }).catch(error=>{if(active){setSaveError(error.message);setLoadState('error')}});
+    return()=>{active=false};
+  },[]);
+  useEffect(()=>{
+    if(loadState!=='ready' || changeVersion===0 || !adminSession.token())return;
+    const state={posts,hiddenPreviews,hiddenHeroIds,history,links,pages,hiddenPages,tuitionOverrides,profile,enrollmentEdit,enrollmentHidden,ctaEdit,featuredPostId};
+    setSyncStatus('Pending save…');
+    const timer=setTimeout(()=>{
+      setSyncStatus('Saving…');
+      pendingSaves.current=pendingSaves.current.catch(()=>{}).then(()=>adminApi.saveState(state));
+      pendingSaves.current.then(()=>{setSaveError('');setSyncStatus('Saved to backend')}).catch(error=>{setSyncStatus('Save failed');setSaveError(`Save failed: ${error.message}. Do not refresh until resolved.`)});
+    },500);
+    return()=>clearTimeout(timer);
+  },[changeVersion,posts,hiddenPreviews,hiddenHeroIds,history,links,pages,hiddenPages,tuitionOverrides,profile,enrollmentEdit,enrollmentHidden,ctaEdit,featuredPostId,loadState]);
+
+  const value = useMemo(() => ({posts, hiddenPreviews, hiddenHeroIds, hideHero, seedPublicPosts, history, links, pages, hiddenPages, removePage, restorePage, clearPageDescription, tuitionOverrides, saveTuitionRow, saveMiscellaneousFee, pageNames, siteKeys, profile, setProfile, savePost, hidePreview, removePost, savePage, saveLink, enrollmentEdit, enrollmentHidden, saveEnrollment, removeEnrollment, ctaEdit, saveCta, featuredPostId, featurePost, log}), [posts, hiddenPreviews, hiddenHeroIds, history, links, pages, hiddenPages, tuitionOverrides, profile, enrollmentEdit, enrollmentHidden, ctaEdit, featuredPostId]);
+  if(loadState==='loading')return <p role="status" style={{padding:24}}>Loading saved Admin content…</p>;
+  if(loadState==='error')return <p role="alert" style={{padding:24}}>Admin content unavailable: {saveError}. No changes will be saved.</p>;
+  return <AdminContext.Provider value={value}>{saveError && <div role="alert" style={{position:'fixed',bottom:16,right:16,zIndex:9999,background:'#7f1d1d',color:'white',padding:12,borderRadius:8,maxWidth:440}}>{saveError}</div>}{syncStatus && !saveError && <div role="status" style={{position:'fixed',bottom:12,right:12,zIndex:9998,background:'#143b26',color:'white',padding:'6px 12px',borderRadius:6,fontSize:12}}>{syncStatus}</div>}{toast && <div className="adm-activity-toast" role="status"><strong>{toast.type}</strong><span>{toast.target}</span><button type="button" onClick={()=>{window.clearTimeout(toastTimer.current);setToast(null)}} aria-label="Dismiss notification">×</button></div>}{children}</AdminContext.Provider>;
 }
 export function useAdmin() { const value = useContext(AdminContext); if (!value) throw new Error('AdminProvider missing'); return value; }

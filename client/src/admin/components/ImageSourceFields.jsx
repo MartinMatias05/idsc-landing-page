@@ -45,7 +45,7 @@ export default function ImageSourceFields({ image = '', onChange, compact = fals
       )}
       {!!image && <div className="adm-image-current"><img src={image} alt="Selected cover preview" onError={() => setError('Image could not be displayed. Check the URL or upload a file.')} /><span>Selected image preview</span></div>}
       {error && <p className="adm-error" role="alert">{error}</p>}
-      <p className="adm-image-fields__note">{uploadOnly ? (required ? "Upload a JPG, PNG or WebP cover before publishing. The article link is separate from its image." : "Upload a replacement cover if needed.") : "Article links do not automatically supply images in this prototype."}</p>
+      <p className="adm-image-fields__note">{uploadOnly ? (required ? "Upload a JPG, PNG or WebP cover before publishing. The article link is separate from its image." : "Upload a replacement cover if needed.") : "Use a direct HTTPS image address or upload an image. The article URL is separate."}</p>
     </div>
   );
 }

@@ -1,0 +1,187 @@
+/* IDSC Enrollment — balanced copy and cutout layout (CSS-only revision).
+   The heading, description and student cutout remain separate React content. */
+.enrollment.enrollment--refined {
+  --enroll-forest: #123525;
+  --enroll-gold: #e9bc32;
+  position: relative;
+  isolation: isolate;
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: minmax(0, 1.10fr) minmax(0, .90fr);
+  align-items: stretch;
+  gap: clamp(12px, 2vw, 38px);
+  min-height: clamp(435px, 34vw, 560px);
+  padding: 0 clamp(28px, 5.4vw, 94px);
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 8% 12%, rgba(163, 222, 103, .55), transparent 55%),
+    linear-gradient(105deg, #eff8e5 0%, #e8f5d7 49%, #c9e9a7 78%, #a8d675 100%);
+  color: var(--enroll-forest);
+}
+/* Soft rounded cream panel in the lower-left, from the user's green reference. */
+.enrollment.enrollment--refined::before {
+  content: '';
+  position: absolute;
+  left: -7%;
+  bottom: -43%;
+  width: 73%;
+  height: 59%;
+  border-radius: 50% 50% 0 0;
+  background: rgba(250, 253, 240, .73);
+  pointer-events: none;
+  z-index: 0;
+}
+/* Light-green upper-right shape: CSS decoration, not an image of text. */
+.enrollment.enrollment--refined::after {
+  content: '';
+  position: absolute;
+  top: -22%;
+  right: -13%;
+  width: 44%;
+  height: 69%;
+  border-radius: 0 0 0 40%;
+  background: rgba(225, 247, 202, .50);
+  pointer-events: none;
+  z-index: 0;
+}
+.enrollment--refined .enrollment-refined__copy {
+  position: relative;
+  display: flex;
+  align-items: center;
+  z-index: 2;
+  min-width: 0;
+  padding: clamp(34px, 3.5vw, 56px) 0;
+}
+.enrollment--refined .enrollment-refined__content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: clamp(14px, 1.3vw, 21px);
+  width: 100%;
+  max-width: 700px;
+}
+.enrollment--refined .enrollment-refined__eyebrow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.enrollment--refined .enrollment-refined__status {
+  display: inline-block;
+  background: #f6ca4c;
+  border-radius: 999px;
+  padding: 9px 16px;
+  color: #14321f;
+  font-size: clamp(11px, .88vw, 14px);
+  font-weight: 800;
+  text-transform: uppercase;
+}
+.enrollment--refined .enrollment-refined__audience {
+  font-size: clamp(12px, 1vw, 15px);
+  font-weight: 600;
+  color: #258230;
+}
+.enrollment--refined .enrollment-refined__title {
+  margin: 0;
+  max-width: 700px;
+  font-family: var(--font-display, inherit);
+  color: #123525;
+  font-size: clamp(42px, 4.55vw, 72px);
+  font-weight: 800;
+  line-height: 1.06;
+  letter-spacing: -.045em;
+  text-wrap: balance;
+}
+.enrollment--refined .enrollment-refined__dash {
+  display: block;
+  width: 70px;
+  height: 4px;
+  border-radius: 4px;
+  background: var(--enroll-gold);
+}
+.enrollment--refined .enrollment-refined__description {
+  margin: 0;
+  max-width: 600px;
+  color: #42604c;
+  font-size: clamp(16px, 1.14vw, 19px);
+  line-height: 1.60;
+}
+.enrollment--refined .enrollment-refined__visual {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  align-self: stretch;
+  min-width: 0;
+  z-index: 1;
+}
+/* Soft framed panel around student cutout, without shifting surrounding text. */
+.enrollment--refined .enrollment-refined__visual::before {
+  content: '';
+  position: absolute;
+  inset: 19% -7% 0 -5%;
+  border: 4px solid rgba(255, 255, 255, .85);
+  border-radius: 49% 18% 0 30%;
+  background: linear-gradient(125deg, rgba(216, 244, 192, .75), rgba(106, 176, 73, .35));
+  z-index: 0;
+  pointer-events: none;
+}
+/* Reference-inspired thin horizontal lime and gold accent lines. */
+.enrollment--refined .enrollment-refined__visual::after {
+  content: '';
+  position: absolute;
+  top: 27%;
+  right: -35%;
+  width: 90%;
+  height: 38%;
+  border-top: 6px solid rgba(247, 232, 95, .75);
+  border-bottom: 6px solid rgba(161, 210, 69, .56);
+  border-radius: 5px;
+  z-index: 0;
+  pointer-events: none;
+}
+.enrollment--refined .enrollment-refined__photo {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  max-width: 620px;
+  max-height: 555px;
+  height: auto;
+  object-fit: contain;
+  object-position: center bottom;
+  background: transparent;
+  filter: drop-shadow(0 8px 12px rgba(16, 57, 33, .12));
+}
+@media (max-width: 950px) {
+  .enrollment.enrollment--refined {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr);
+    padding: 0 clamp(22px, 4vw, 48px);
+    min-height: 430px;
+    gap: 8px;
+  }
+  .enrollment--refined .enrollment-refined__title { font-size: clamp(37px, 4.75vw, 54px); }
+  .enrollment--refined .enrollment-refined__photo { max-height: 440px; }
+}
+@media (max-width: 700px) {
+  .enrollment.enrollment--refined {
+    grid-template-columns: 1fr;
+    min-height: 0;
+    padding: 0 24px;
+    gap: 0;
+  }
+  .enrollment--refined .enrollment-refined__copy { padding: 36px 0 18px; }
+  .enrollment--refined .enrollment-refined__title { font-size: clamp(38px, 8vw, 54px); }
+  .enrollment--refined .enrollment-refined__description { font-size: 16px; }
+  .enrollment--refined .enrollment-refined__visual { min-height: 235px; max-height: 400px; }
+  .enrollment--refined .enrollment-refined__photo { width: min(100%, 440px); max-height: 400px; }
+  .enrollment--refined .enrollment-refined__visual::before { inset: 12% 2% 0; }
+  .enrollment--refined .enrollment-refined__visual::after { right: -10%; }
+}
+@media (max-width: 420px) {
+  .enrollment.enrollment--refined { padding: 0 18px; }
+  .enrollment--refined .enrollment-refined__copy { padding-top: 30px; }
+  .enrollment--refined .enrollment-refined__title { font-size: clamp(34px, 9vw, 42px); }
+  .enrollment--refined .enrollment-refined__visual { min-height: 200px; max-height: 310px; }
+  .enrollment--refined .enrollment-refined__photo { max-height: 310px; }
+}

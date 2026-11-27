@@ -95,12 +95,31 @@ paths:
         '500':
           $ref: '#/components/responses/InternalServerError'
 
+  /hero:
+    get:
+      tags: [News]
+      operationId: listHero
+      summary: List approved Homepage cover stories
+      description: Separate from the Vox News feed. Only explicitly published Homepage stories and the original featured cover are included.
+      responses:
+        '200':
+          description: Homepage featured stories.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NewsList'
+              examples:
+                default:
+                  $ref: '#/components/examples/NewsList'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
   /news:
     get:
       tags: [News]
       operationId: listNews
       summary: List news and announcements
-      description: Newest first. Exactly one item is marked featured and is used as the home-page hero.
+      description: Newest first. News posts remain separate from the Homepage hero feed.
       responses:
         '200':
           description: News list.
@@ -184,7 +203,7 @@ paths:
         Enrolled students, full-time faculty and site visitors.
         The student and faculty counts are **mock values** for the midterm; in production they come from
         the Registrar and Faculty modules. The site visitor count is the Landing Page's own counter and
-        grows with every `POST /visits` (in memory, so it resets when the server restarts).
+        grows with every `POST /visits` and persists to a local JSON file. For multi-instance deployments configure a shared transactional store.
       responses:
         '200':
           description: Statistics.
@@ -376,7 +395,7 @@ paths:
       tags: [Institution]
       operationId: listFacilities
       summary: List facilities
-      description: Laboratories, academic spaces and the clinic information page.
+      description: Laboratories and academic spaces. Clinic services are provided via a separate external website.
       responses:
         '200':
           description: Facilities.
@@ -742,6 +761,9 @@ components:
           format: date
         image:
           $ref: '#/components/schemas/ImageAsset'
+        url:
+          type: string
+          description: Optional external article URL for published IDSC Pulse posts; empty for posts without a link.
       additionalProperties: false
 
     Pulse:

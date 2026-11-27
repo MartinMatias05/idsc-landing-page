@@ -1,3 +1,4 @@
+import HomeSectionReveal from '../components/HomeSectionReveal';
 import { api } from '../services/api';
 import { useApi } from '../hooks/useApi';
 import { useVisitCounter } from '../hooks/useVisitCounter';
@@ -15,6 +16,7 @@ import StatisticsSection from '../sections/StatisticsSection';
  */
 export default function HomePage() {
   const news = useApi(api.getNews);
+  const hero = useApi(api.getHero);
   const enrollment = useApi(api.getEnrollment);
   const pulse = useApi(api.getPulse);
   const statistics = useApi(api.getStatistics);
@@ -22,12 +24,13 @@ export default function HomePage() {
 
   return (
     <>
-      <NewsHero state={news} />
+      <NewsHero state={hero} />
       <NewsSection state={news} />
       <EnrollmentSection state={enrollment} />
       <PulseSection state={pulse} />
       <StatisticsSection state={statistics} />
       <CtaSection state={enrollment} />
+      <HomeSectionReveal />
     </>
   );
 }

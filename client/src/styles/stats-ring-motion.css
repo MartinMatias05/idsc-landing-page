@@ -1,0 +1,20 @@
+@property --idsc-ring-draw {
+  syntax: '<percentage>';
+  inherits: false;
+  initial-value: 0%;
+}
+
+.stat-ring.idsc-stat-animated {
+  --idsc-ring-draw: 0%;
+}
+
+.stat-ring.idsc-stat-animated.idsc-stat-visible {
+  --idsc-ring-draw: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stat-ring.idsc-stat-animated {
+    --idsc-ring-draw: 100%;
+    transition: none;
+  }
+}

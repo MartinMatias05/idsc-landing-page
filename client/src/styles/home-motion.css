@@ -1,0 +1,72 @@
+/* IDSC Homepage micro-interactions. Visual-only: navigation is never delayed. */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: #fff;
+}
+.site-header .topbar {
+  max-height: 180px;
+  overflow: hidden;
+  transition: max-height 220ms ease, opacity 180ms ease, min-height 220ms ease;
+}
+.site-header.is-compact .topbar {
+  max-height: 0;
+  min-height: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+.site-header .navbar {
+  transition: min-height 200ms ease, box-shadow 200ms ease, padding 200ms ease;
+}
+.site-header.is-compact .navbar {
+  min-height: 45px;
+  box-shadow: 0 4px 14px rgba(8, 43, 25, .08);
+}
+.site-header .main-nav__trigger,
+.site-header .main-nav__link {
+  transition: color 140ms ease, background-color 140ms ease, transform 140ms ease;
+}
+.site-header .main-nav__trigger:active,
+.site-header .main-nav__link:active { transform: translateY(1px); }
+.site-header .main-nav__item.is-open > .main-nav__dropdown {
+  animation: idsc-nav-open 160ms ease-out both;
+}
+@keyframes idsc-nav-open {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+/* A quick visual arrival for navigated pages; no artificial route delay. */
+#main > :first-child { animation: idsc-page-enter 210ms ease-out both; }
+@keyframes idsc-page-enter {
+  from { opacity: .93; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.idsc-news-card,
+.pulse-showcase__feature,
+.pulse-showcase__mini {
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  .idsc-news-card:hover,
+  .pulse-showcase__feature:hover,
+  .pulse-showcase__mini:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 24px rgba(9, 47, 27, .12);
+  }
+}
+/* Ensure the public page has no animation when motion reduction is requested. */
+@media (prefers-reduced-motion: reduce) {
+  .site-header .topbar,
+  .site-header .navbar,
+  .site-header .main-nav__trigger,
+  .site-header .main-nav__link,
+  .idsc-news-card,
+  .pulse-showcase__feature,
+  .pulse-showcase__mini,
+  #main > .home-motion-pending { transition: none !important; }
+  .site-header .main-nav__item.is-open > .main-nav__dropdown,
+  #main > :first-child { animation: none !important; }
+  #main > .home-motion-pending { opacity: 1; transform: none; }
+}

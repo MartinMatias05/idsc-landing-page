@@ -288,3 +288,9 @@
   .pulse-card__image { height: 200px; flex-basis: 200px; }
   .pulse-card__footer { margin-top: 22px; }
 }
+
+/* IDSC Homepage shared light-gray backgrounds — 2026-11-26 */
+.news-section,
+.stats {
+  background-color: #FFFFFF !important;
+}

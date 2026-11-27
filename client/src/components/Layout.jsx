@@ -4,6 +4,7 @@ import { api } from '../services/api';
 import { useApi } from '../hooks/useApi';
 import Footer from './Footer';
 import Header from './Header';
+import ClinicFloatingLink from './ClinicFloatingLink';
 
 /** Shared shell. Site and navigation load once here; both are optional so the page survives API errors. */
 export default function Layout() {
@@ -26,6 +27,7 @@ export default function Layout() {
         <Outlet />
       </main>
       <Footer site={site.data} navigation={navigation.data} />
+      <ClinicFloatingLink />
     </>
   );
 }

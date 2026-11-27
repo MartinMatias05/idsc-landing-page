@@ -21,6 +21,7 @@ router.get('/health', (req, res) => res.json(site.getHealth()));
 router.get('/site', (req, res) => res.json(site.getSite()));
 router.get('/navigation', (req, res) => res.json(site.getNavigation()));
 
+router.get('/hero', (req, res) => res.json(news.listHero()));
 router.get('/news', (req, res) => res.json(news.listNews()));
 router.get('/news/:id', (req, res) => res.json(news.getNews(req.params.id)));
 

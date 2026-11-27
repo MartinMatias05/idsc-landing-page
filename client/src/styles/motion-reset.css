@@ -1,0 +1,46 @@
+/* IDSC STATIC BASELINE — intentionally disables visual motion.
+   Remove this import from main.jsx to restore original animation styles. */
+*,
+*::before,
+*::after {
+  animation: none !important;
+  transition: none !important;
+  scroll-behavior: auto !important;
+}
+
+/* Keep formerly scroll-revealed content permanently visible. */
+#main > .home-motion-pending,
+#main > .home-motion-pending.home-motion-visible,
+.home-motion-pending,
+.home-motion-visible {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
+}
+
+/* Disable all card-hover displacement while preserving hover/click functionality. */
+.idsc-news-card:hover,
+.pulse-showcase__feature:hover,
+.pulse-showcase__mini:hover,
+.news-card:hover,
+.news-carousel__card:hover {
+  transform: none !important;
+}
+
+/* Stop competing compact/floating nav and keep the original two-row header. */
+.site-header,
+.site-header.is-compact {
+  position: relative !important;
+  top: auto !important;
+  transform: none !important;
+}
+.site-header .topbar {
+  max-height: none !important;
+  opacity: 1 !important;
+  transform: none !important;
+  visibility: visible !important;
+}
+.idsc-floating-nav,
+.idsc-floating-nav.is-visible {
+  display: none !important;
+}

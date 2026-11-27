@@ -2,6 +2,7 @@ import { NavLink, Outlet, Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { LayoutDashboard, FileText, Files, ExternalLink, Settings, LogOut, ChevronRight, Menu, UserCircle2, Bell } from 'lucide-react';
 import { useAdmin } from '../state/AdminStore';
+import {adminApi,adminSession} from '../../services/adminApi';
 const links = [
   ['/admin/dashboard', 'Dashboard', LayoutDashboard],
   ['/admin/posts', 'Posts', FileText],
@@ -20,10 +21,10 @@ export default function AdminShell() {
       <button className="adm-expand" onClick={() => setExpanded(v => !v)} aria-label={expanded ? 'Collapse sidebar' : 'Expand sidebar'}><Menu size={18}/>{expanded && <span>Collapse menu</span>}</button>
       <nav>{links.map(([to,label,Icon]) => <NavLink key={to} to={to} title={label} className={({isActive}) => `adm-side-link ${isActive?'active':''}`}><Icon size={19} strokeWidth={1.8}/>{expanded && <span>{label}</span>}</NavLink>)}</nav>
       <div className="adm-side-bottom">
-        <button className="adm-side-link" onClick={() => navigate('/admin/login')}><LogOut size={19}/>{expanded && 'Log out'}</button></div>
+        <button className="adm-side-link" onClick={() => {adminApi.logout().catch(()=>{});adminSession.clear();navigate('/admin/login',{replace:true});}}><LogOut size={19}/>{expanded && 'Log out'}</button></div>
     </aside>
     <div className="adm-main">
-      <header className="adm-top"><div className="adm-user"><div><b>{profile.name || 'Administrator'}</b><small>Website admin</small></div><Link to="/admin/history" title="Recent history"><Bell size={19}/>{history.length>0&&<i className="adm-bell-dot"/>}</Link><Link to="/admin/settings" aria-label="Account Settings"><UserCircle2 size={27}/></Link></div></header>
+      <header className="adm-top"><div className="adm-user"><div><b>{profile.name || 'Administrator'}</b><small>Website admin</small></div><Link to="/admin/notifications" title="Notifications" aria-label="Notifications"><Bell size={19}/>{history.length>0&&<i className="adm-bell-dot"/>}</Link><Link to="/admin/settings" aria-label="Account Settings"><UserCircle2 size={27}/></Link></div></header>
       <main className="adm-workspace"><Outlet/></main>
     </div>
   </div>;

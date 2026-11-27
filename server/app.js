@@ -8,6 +8,8 @@ const swaggerUi = require('swagger-ui-express');
 const yaml = require('js-yaml');
 
 const routes = require('./routes');
+const adminRoutes = require('./routes/admin');
+const adminState = require('./services/admin-state.service');
 const { notFoundHandler, errorHandler } = require('./middleware/problem');
 
 const API_PREFIX = '/api/v1';
@@ -23,7 +25,7 @@ function createApp({ frontendUrl = 'http://localhost:5173' } = {}) {
 
   // Read-only API: allow only the known dev origins and GET/HEAD/OPTIONS (no wildcard).
   const allowedOrigins = [frontendUrl, frontendUrl.replace('localhost', '127.0.0.1')];
-  app.use(cors({ origin: allowedOrigins, methods: ['GET', 'HEAD', 'POST', 'OPTIONS'] }));
+  app.use(cors({ origin: allowedOrigins, methods: ['GET', 'HEAD', 'POST', 'PUT', 'OPTIONS'], allowedHeaders: ['Content-Type', 'Accept', 'Authorization'] }));
 
   // Swagger UI renders the very same file that is the API contract.
   const openapiDocument = yaml.load(fs.readFileSync(OPENAPI_PATH, 'utf8'));
@@ -33,6 +35,10 @@ function createApp({ frontendUrl = 'http://localhost:5173' } = {}) {
     swaggerUi.setup(openapiDocument, { customSiteTitle: 'IDSC Landing Page API' }),
   );
 
+  app.get('/api/public/content', (req,res,next) => {
+    try { const state=adminState.read(); res.json({pages:state.pages,tuitionOverrides:state.tuitionOverrides,links:state.links}); } catch(error) {next(error)}
+  });
+  app.use('/api/admin', express.json({ limit: '12mb' }), adminRoutes);
   app.use(API_PREFIX, routes);
   app.use(API_PREFIX, notFoundHandler);
   app.use(errorHandler);

@@ -1,0 +1,20 @@
+/* Policy pages use the existing shared public Header and Footer. */
+.idsc-policy { background: #fff; color:#143525; }
+.idsc-policy-wrap { width:min(100% - 40px, 1050px); margin-inline:auto; }
+.idsc-policy-hero { padding:clamp(48px,7vw,84px) 0; background:linear-gradient(115deg,#123e28,#0b2415);color:white; }
+.idsc-policy-kicker { color:#f8cf4c; font-size:.75rem; font-weight:800; letter-spacing:.1em; }
+.idsc-policy-hero h1 { margin:14px 0; font-size:clamp(2.1rem,4vw,3.2rem); line-height:1.15; color:#fff; }
+.idsc-policy-hero p { max-width:675px; margin:0; color:#e3eee4; line-height:1.7; }
+.idsc-policy-body { padding:clamp(32px,6vw,68px) 0 80px; }
+.idsc-policy-status { padding:16px 20px; border:1px solid #e9d595; border-radius:10px; background:#fffaf0; line-height:1.65; }
+.idsc-policy-topic { padding:20px 0; border-bottom:1px solid #dfe8df; }
+.idsc-policy-topic h2 { margin:6px 0 14px; font-size:1.32rem; line-height:1.35; color:#113824; }
+.idsc-policy-topic p,.idsc-policy-topic li { line-height:1.85; color:#3d5646; }
+.idsc-policy-topic p { margin:0 0 12px; }
+.idsc-policy-topic ul { padding-left:1.4rem; margin:0 0 12px; }
+.idsc-policy-topic li { margin:0 0 9px; }
+.idsc-policy a { color:#087d30; text-underline-offset:3px; }
+.idsc-policy a:hover { color:#045f24; }
+.idsc-policy a:focus-visible { outline:3px solid #f6c744;outline-offset:3px; }
+.idsc-policy-end { display:flex; gap:24px; flex-wrap:wrap; padding-top:28px;font-weight:700; }
+@media(max-width:600px) {.idsc-policy-wrap{width:min(100% - 30px,1050px);} .idsc-policy-body{padding-bottom:52px;} }

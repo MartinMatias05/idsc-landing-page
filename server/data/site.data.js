@@ -53,7 +53,6 @@ const navigation = {
       children: [
         { label: 'Laboratories', href: '/facilities/laboratories' },
         { label: 'Academic Spaces', href: '/facilities/academic-spaces' },
-        { label: 'Clinic', href: '/facilities/clinic' },
       ],
     },
     { id: 'news', label: 'News', href: '/news', children: [] },
@@ -65,7 +64,6 @@ const navigation = {
         { label: 'About IDSC', href: '/about' },
         { label: 'Vision, Mission and Core Values', href: '/about/vision-mission' },
         { label: 'IDSC Hymn', href: '/about/hymn' },
-        { label: 'Career', href: '/about/career' },
       ],
     },
   ],

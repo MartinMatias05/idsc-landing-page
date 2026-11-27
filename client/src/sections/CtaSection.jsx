@@ -1,3 +1,4 @@
+const REGISTRAR_APPLY_NOW_URL = 'https://registrar-frontend-s3mn.onrender.com/login';
 import AppLink from '../components/AppLink';
 import AsyncContent from '../components/AsyncContent';
 import Icon from '../components/Icon';
@@ -28,7 +29,7 @@ export default function CtaSection({ state }) {
                 {callToAction.actions.map((action, index) => (
                   <AppLink
                     key={action.href}
-                    href={action.href}
+                    href={action.label?.trim().toLowerCase() === 'apply now' ? REGISTRAR_APPLY_NOW_URL : action.href}
                     className={`btn btn--large ${index === 0 ? 'btn--yellow' : 'btn--white'}`}
                   >
                     {action.label}

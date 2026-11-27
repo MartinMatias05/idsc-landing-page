@@ -167,3 +167,15 @@
   .notice-grid, .pulse__grid { grid-template-columns: minmax(0, 1fr); }
   .news-hero { padding-block: 2rem; }
 }
+
+/* idsc-cta-height-v2: vertical spacing only */
+.cta {
+  min-height: 0;
+  padding-block: clamp(28px, 3vw, 48px);
+}
+.cta__content { gap: clamp(14px, 1.25vw, 20px); }
+.cta > .support-card {
+  padding-block: clamp(18px, 1.55vw, 26px);
+  gap: clamp(10px, 1vw, 15px);
+}
+.cta .support-card__header { margin-bottom: 0; }

@@ -28,6 +28,8 @@ export default function NewsHero({ state, articles, onActiveChange }) {
   const areaRef = useRef(null);
   const gestureRef = useRef(null);
   const busyRef = useRef(false);
+  const autoMoveRef = useRef(null);
+  const lastAdvanceRef = useRef(Date.now());
   const settleTimerRef = useRef(null);
   const suppressClickUntilRef = useRef(0);
 
@@ -35,6 +37,7 @@ export default function NewsHero({ state, articles, onActiveChange }) {
   useEffect(() => {
     window.clearTimeout(settleTimerRef.current);
     busyRef.current = false;
+    lastAdvanceRef.current = Date.now();
     gestureRef.current = null;
     setSettling(false);
     setDragX(0);
@@ -48,6 +51,7 @@ export default function NewsHero({ state, articles, onActiveChange }) {
     const width = areaRef.current?.clientWidth || 1;
     if (stories.length < 2) { setDragX(0); return; }
     busyRef.current = true;
+    lastAdvanceRef.current = Date.now();
     setSettling(true);
     // Positive drag moves content right (previous); negative moves left (next).
     setDragX(direction === 0 ? 0 : -direction * width);
@@ -62,6 +66,24 @@ export default function NewsHero({ state, articles, onActiveChange }) {
       onActiveChange?.(stories[next]);
     }, SNAP_MS);
   }
+
+  // idsc-hero-auto-9000: advance only after nine seconds of no slide change.
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      if (document.hidden || busyRef.current || gestureRef.current || storiesRef.current.length < 2) return;
+      if (Date.now() - lastAdvanceRef.current >= 9000) autoMoveRef.current?.();
+    }, 250);
+    const onVisibilityChange = () => {
+      if (!document.hidden) lastAdvanceRef.current = Date.now();
+    };
+    document.addEventListener('visibilitychange', onVisibilityChange);
+    return () => {
+      window.clearInterval(timer);
+      document.removeEventListener('visibilitychange', onVisibilityChange);
+    };
+  }, []);
+
+  autoMoveRef.current = () => move(1);
 
   function resetDrag() {
     if (busyRef.current) return;
